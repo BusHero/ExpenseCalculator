@@ -44,4 +44,15 @@ class Build : NukeBuild
                 .EnableNoLogo()
                 .SetConfiguration(Configuration));
         });
+
+    Target Start => _ => _
+        .DependsOn(Compile)
+        .Executes(() =>
+        {
+            DotNetRun(_ => _
+                .SetConfiguration(Configuration)
+                .EnableNoBuild()
+                .EnableNoRestore()
+                .SetProjectFile(RootDirectory / "ExpenseManager"));
+        });
 }

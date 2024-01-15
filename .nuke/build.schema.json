@@ -75,6 +75,7 @@
               "Clean",
               "Compile",
               "Restore",
+              "Start",
               "Test"
             ]
           }
@@ -88,6 +89,7 @@
               "Clean",
               "Compile",
               "Restore",
+              "Start",
               "Test"
             ]
           }
