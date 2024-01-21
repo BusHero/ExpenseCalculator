@@ -1,14 +1,20 @@
+using JetBrains.Annotations;
 using Nuke.Common;
 using Nuke.Common.Tools.DotNet;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
 class Build : NukeBuild
 {
-    public static int Main () => Execute<Build>(x => x.Compile);
+    public static int Main () 
+        => Execute<Build>(x => x.Compile);
 
-    [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
-    readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
+    [Parameter("Configuration to build - " +
+               "Default is 'Debug' (local) or 'Release' (server)")]
+    readonly Configuration Configuration = IsLocalBuild 
+        ? Configuration.Debug 
+        : Configuration.Release;
 
+    [UsedImplicitly]
     Target Clean => _ => _
         .Before(Restore)
         .Executes(() =>
@@ -34,6 +40,7 @@ class Build : NukeBuild
                 .SetConfiguration(Configuration));
         });
 
+    [UsedImplicitly]
     Target Test => _ => _
         .DependsOn(Compile)
         .Executes(() =>
@@ -45,6 +52,7 @@ class Build : NukeBuild
                 .SetConfiguration(Configuration));
         });
 
+    [UsedImplicitly]
     Target Start => _ => _
         .DependsOn(Compile)
         .Executes(() =>
@@ -53,6 +61,19 @@ class Build : NukeBuild
                 .SetConfiguration(Configuration)
                 .EnableNoBuild()
                 .EnableNoRestore()
-                .SetProjectFile(RootDirectory / "ExpenseManager"));
+                .SetProjectFile(RootDirectory / "ExpenseManager.Api"));
+        });
+
+    [UsedImplicitly]
+    Target Publish => _ => _
+        .DependsOn(Compile)
+        .Executes(() =>
+        {
+            DotNetPublish(_ => _
+                .EnableNoBuild()
+                .EnableNoRestore()
+                .SetConfiguration(Configuration)
+                .SetOutput(RootDirectory / "output" / "publish")
+                .SetProject(RootDirectory / "ExpenseManager.Api"));
         });
 }
