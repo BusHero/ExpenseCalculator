@@ -1,5 +1,10 @@
 name: build
 
+env:
+  AZURE_WEBAPP_NAME: foo
+  AZURE_WEBAPP_PACKAGE: '.'
+  DOTNET_VERSION: '8'
+
 on:
   push:
     branches: [master]
@@ -24,5 +29,35 @@ jobs:
       - name: 'Publish Artifact'
         uses: actions/upload-artifact@v3
         with:
-          name: artifact
+          name: .net-app
           path: output/publish
+
+  deploy:
+    runs-on: windows-latest
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      id-token: write #This is required for requesting the JWT
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: .net-app
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_A866E6BD222F4FD8BC6FA185B85799D3 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_6E0EF150841740B7B5D9919FBDEBE5D7 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_CFE6AFFB7AF246EBBD8737BCDDB66857 }}
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'bus1hero'
+          slot-name: 'Production'
+          package: .
