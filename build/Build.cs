@@ -1,5 +1,6 @@
 using JetBrains.Annotations;
 using Nuke.Common;
+using Nuke.Common.IO;
 using Nuke.Common.Tools.DotNet;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
@@ -14,6 +15,8 @@ class Build : NukeBuild
         ? Configuration.Debug 
         : Configuration.Release;
 
+    readonly AbsolutePath SolutionFile = RootDirectory / "ExpenseManager.sln";
+
     [UsedImplicitly]
     Target Clean => _ => _
         .Before(Restore)
@@ -21,13 +24,15 @@ class Build : NukeBuild
         {
             DotNetClean(_ => _
                 .EnableNoLogo()
+                .SetProject(SolutionFile)
                 .SetConfiguration(Configuration));
         });
 
     Target Restore => _ => _
         .Executes(() =>
         {
-            DotNetRestore();
+            DotNetRestore(_ => _
+                .SetProjectFile(SolutionFile));
         });
 
     Target Compile => _ => _
@@ -37,6 +42,7 @@ class Build : NukeBuild
             DotNetBuild(_ => _
                 .EnableNoRestore()
                 .EnableNoLogo()
+                .SetProjectFile(SolutionFile)
                 .SetConfiguration(Configuration));
         });
 
@@ -49,6 +55,7 @@ class Build : NukeBuild
                 .EnableNoBuild()
                 .EnableNoRestore()
                 .EnableNoLogo()
+                .SetProjectFile(SolutionFile)
                 .SetConfiguration(Configuration));
         });
 
