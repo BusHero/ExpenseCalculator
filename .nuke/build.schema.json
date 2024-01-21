@@ -76,6 +76,7 @@
               "Compile",
               "Publish",
               "Restore",
+              "RunAcceptanceTests",
               "Start",
               "Test"
             ]
@@ -91,6 +92,7 @@
               "Compile",
               "Publish",
               "Restore",
+              "RunAcceptanceTests",
               "Start",
               "Test"
             ]

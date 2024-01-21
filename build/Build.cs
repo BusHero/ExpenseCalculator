@@ -76,4 +76,13 @@ class Build : NukeBuild
                 .SetOutput(RootDirectory / "output" / "publish")
                 .SetProject(RootDirectory / "ExpenseManager.Api"));
         });
+
+    [UsedImplicitly]
+    Target RunAcceptanceTests => _ => _
+        .Executes(() =>
+        {
+            DotNetTest(_ => _
+                .SetConfiguration(Configuration)
+                .SetProjectFile(RootDirectory / "TestProject2"));
+        });
 }
