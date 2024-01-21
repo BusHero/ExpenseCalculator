@@ -90,6 +90,6 @@ class Build : NukeBuild
         {
             DotNetTest(_ => _
                 .SetConfiguration(Configuration)
-                .SetProjectFile(RootDirectory / "TestProject2"));
+                .SetProjectFile(RootDirectory / "ExpenseManager.AcceptanceTests"));
         });
 }
