@@ -87,7 +87,7 @@ class Build : NukeBuild
     [UsedImplicitly]
     Target RunAcceptanceTests => _ => _
         .Executes(() =>
-        {
+        {   
             DotNetTest(_ => _
                 .SetConfiguration(Configuration)
                 .SetProjectFile(RootDirectory / "ExpenseManager.AcceptanceTests"));
