@@ -4,13 +4,13 @@ public class ExpensesSpecifications
 {
     private readonly Expenses expenses = new Expenses();
 
-    [Fact] 
-    public async Task ShouldViewAddedExpenses()
+    [Theory, AutoData]
+    public async Task ShouldViewAddedExpenses(string expense, decimal amount)
     {
-        await expenses.AddExpense("Food", 123.12m);
+        await expenses.AddExpense(expense, amount);
         
         expenses.NavigateExpensesPage();
         
-        await expenses.AssertExpensesAreVisible("Food", 123.12m);
+        await expenses.AssertExpensesAreVisible(expense, amount);
     }
 }
