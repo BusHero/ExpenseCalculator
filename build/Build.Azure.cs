@@ -17,13 +17,13 @@ partial class Build
 
     
     [Parameter("The id of the application to deploy to"), Secret]
-    Guid ApplicationId { get; set; }
+    Guid AzureApplicationId { get; set; }
 
     [Parameter("Tenant Id"), Secret]
-    Guid TenantId { get; set; }
+    Guid AzureTenantId { get; set; }
 
     [Parameter, Secret]
-    string Password { get; set; }
+    string AzureDeploySecret { get; set; }
 
     [UsedImplicitly]
     Target LoginToAzure => _ => _
@@ -33,9 +33,9 @@ partial class Build
                 .WithArguments(args => args
                     .Add("login")
                     .Add("--service-principal")
-                    .Add("--user").Add(ApplicationId)
-                    .Add("--password").Add(Password)
-                    .Add("--tenant").Add(TenantId))
+                    .Add("--user").Add(AzureApplicationId)
+                    .Add("--password").Add(AzureDeploySecret)
+                    .Add("--tenant").Add(AzureTenantId))
                 .WithStandardOutputPipe(PipeTarget.ToDelegate(x => Log.Information("{MSG}", x)))
                 .WithStandardErrorPipe(PipeTarget.ToDelegate(x => Log.Debug("{MSG}", x)))
                 .ExecuteAsync();
