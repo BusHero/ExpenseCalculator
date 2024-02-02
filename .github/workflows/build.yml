@@ -43,25 +43,28 @@ jobs:
       id-token: write #This is required for requesting the JWT
 
     steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: 'Cache: .nuke/temp, ~/.nuget/packages'
+        uses: actions/cache@v3
+        with:
+          path: |
+            .nuke/temp
+            ~/.nuget/packages
+          key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj', '**/Directory.Packages.props') }}
+          
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
           name: .net-app
-
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-          client-id: ${{ secrets.CLIENT_ID }}
-          tenant-id: ${{ secrets.TENANT_ID }}
-          subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
-
+          
       - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: 'bus1hero'
-          slot-name: 'Production'
-          package: .
+        run: |
+          ./build.sh deploy-to-azure \
+            --application-id '${{ env.AZURE_APPLICATION_ID }}' \
+            --tenant-id '${{ env.AZURE_TENANT_ID }}' \
+            --password '${{ env.AZURE_DEPLOY_SECRET }}'
 
   run-acceptance-tests:
     name: Run Acceptance tests
@@ -78,5 +81,5 @@ jobs:
             .nuke/temp
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj', '**/Directory.Packages.props') }}
-      - name: 'Nuke'
+      - name: 'Run acceptance tests'
         run: ./build.sh RunAcceptanceTests

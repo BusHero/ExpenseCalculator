@@ -1,4 +1,7 @@
 {
   "$schema": "./build.schema.json",
-  "Solution": "ExpenseManager.sln"
+  "Solution": "ExpenseManager.sln",
+  "ApplicationId": "v1:pXiHzo7y4+rOmqwIHU+IYY4D49IiqAlC4g9bBEDGTpUyOK4/sAyQTeZnOkeTF24q",
+  "Password": "v1:KvY5yhPi2JsDlhtQEGHpXkMj2qmqyGH4RW3T/N+qFLuEdsjkcv1atQpi3xl5GJTm",
+  "TenantId": "v1:Oo+EKUWyKfPTYDUi7j5PpndLbYl2OfNld0xiAq/wuRSji+N/gZpHXRukmdFLXUVb"
 }
