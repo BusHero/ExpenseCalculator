@@ -26,7 +26,11 @@ jobs:
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj', '**/Directory.Packages.props') }}
       - name: 'Nuke'
-        run: ./build.sh Publish
+        run: |
+          ./build.sh Publish \
+            --application-id '${{ env.AZURE_APPLICATION_ID }}' \
+            --tenant-id '${{ env.AZURE_TENANT_ID }}' \
+            --password '${{ env.AZURE_DEPLOY_SECRET }}'
       - name: 'Publish Artifact'
         uses: actions/upload-artifact@v3
         with:
@@ -82,4 +86,8 @@ jobs:
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj', '**/Directory.Packages.props') }}
       - name: 'Run acceptance tests'
-        run: ./build.sh RunAcceptanceTests
+        run: |
+          ./build.sh RunAcceptanceTests \
+            --application-id '${{ env.AZURE_APPLICATION_ID }}' \
+            --tenant-id '${{ env.AZURE_TENANT_ID }}' \
+            --password '${{ env.AZURE_DEPLOY_SECRET }}'
