@@ -55,7 +55,7 @@ jobs:
           name: .net-app
           path: artifacts
           
-      - run: ls -la
+      - run: ls -la artifacts
           
       - name: Deploy to Azure Web App
         run: |
