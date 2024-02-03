@@ -60,6 +60,12 @@ jobs:
       - name: Deploy to Azure Web App
         run: |
           ./build.sh deploy-to-azure --artifacts-path artifacts
+        env:
+          NUKE_AZURE_DEPLOY_SECRET: ${{ env:AZURE_DEPLOY_SECRET }}
+          NUKE_AZURE_APPLICATION_ID: ${{ env:AZURE_APPLICATION_ID }}
+          NUKE_AZURE_TENANT_ID: ${{ env:AZURE_TENANT_ID }}
+          NUKE_APP_NAME: bus1hero
+          NUKE_RESOURCE_GROUP: bus1heroDevEnvSetup
 
   run-acceptance-tests:
     name: Run Acceptance tests
