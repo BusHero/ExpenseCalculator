@@ -59,7 +59,7 @@ jobs:
           
       - name: Deploy to Azure Web App
         run: |
-          ./build.sh Publish
+          ./build.sh deploy-to-azure --artifacts-path artifacts
 
   run-acceptance-tests:
     name: Run Acceptance tests
