@@ -24,6 +24,8 @@ partial class Build
 
     [Parameter, Secret]
     string AzureDeploySecret { get; set; }
+    
+    [Parameter] string Artifact { get; set; }
 
     [UsedImplicitly]
     Target LoginToAzure => _ => _
@@ -52,7 +54,7 @@ partial class Build
                     .Add("deploy")
                     .Add(["--resource-group", "bus1heroDevEnvSetup"])
                     .Add(["--name", "bus1hero"])
-                    .Add(["--src-path", RootDirectory / "publish.zip"])
+                    .Add(["--src-path", Artifact])
                 )
                 .WithStandardOutputPipe(PipeTarget.ToDelegate(x => Log.Information("{MSG}", x)))
                 .WithStandardErrorPipe(PipeTarget.ToDelegate(x => Log.Debug("{MSG}", x)))
