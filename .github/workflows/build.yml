@@ -62,7 +62,7 @@ jobs:
           
       - name: Deploy to Azure Web App
         run: |
-          ./build.sh deploy-to-azure 
+          ./build.sh deploy-to-azure  --artifact ./artifacts/.net-app.zip
 
   run-acceptance-tests:
     name: Run Acceptance tests
