@@ -1,10 +1,5 @@
 name: build
 
-env:
-  AZURE_WEBAPP_NAME: foo
-  AZURE_WEBAPP_PACKAGE: '.'
-  DOTNET_VERSION: '8'
-
 on:
   workflow_dispatch:
   push:
@@ -62,7 +57,7 @@ jobs:
           
       - name: Deploy to Azure Web App
         run: |
-          ./build.sh deploy-to-azure  --artifact ./artifacts/.net-app.zip
+          ./build.sh Publish
 
   run-acceptance-tests:
     name: Run Acceptance tests
@@ -81,7 +76,4 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj', '**/Directory.Packages.props') }}
       - name: 'Run acceptance tests'
         run: |
-          ./build.sh RunAcceptanceTests \
-            --application-id '${{ env.AZURE_APPLICATION_ID }}' \
-            --tenant-id '${{ env.AZURE_TENANT_ID }}' \
-            --password '${{ env.AZURE_DEPLOY_SECRET }}'
+          ./build.sh RunAcceptanceTests
