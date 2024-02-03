@@ -6,9 +6,18 @@
     "build": {
       "type": "object",
       "properties": {
-        "ApplicationId": {
+        "AzureApplicationId": {
           "type": "string",
           "description": "The id of the application to deploy to",
+          "default": "Secrets must be entered via 'nuke :secrets [profile]'"
+        },
+        "AzureDeploySecret": {
+          "type": "string",
+          "default": "Secrets must be entered via 'nuke :secrets [profile]'"
+        },
+        "AzureTenantId": {
+          "type": "string",
+          "description": "Tenant Id",
           "default": "Secrets must be entered via 'nuke :secrets [profile]'"
         },
         "Configuration": {
@@ -55,10 +64,6 @@
         "Partition": {
           "type": "string",
           "description": "Partition to use on CI"
-        },
-        "Password": {
-          "type": "string",
-          "default": "Secrets must be entered via 'nuke :secrets [profile]'"
         },
         "Plan": {
           "type": "boolean",
@@ -112,11 +117,6 @@
               "Test"
             ]
           }
-        },
-        "TenantId": {
-          "type": "string",
-          "description": "Tenant Id",
-          "default": "Secrets must be entered via 'nuke :secrets [profile]'"
         },
         "Verbosity": {
           "type": "string",
