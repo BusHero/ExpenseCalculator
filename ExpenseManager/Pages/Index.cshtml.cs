@@ -2,16 +2,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ExpenseManager.Pages;
 
-public class IndexModel : PageModel {
-    private readonly ILogger<IndexModel> _logger;
-
-    public IndexDto Data { get; private set; }
-
-    public IndexModel(ILogger<IndexModel> logger)
-    {
-        Data = null!;
-        _logger = logger;
-    }
+public class IndexModel : PageModel
+{
+    public IndexDto? Data { get; private set; }
 
     public void OnGet()
     {

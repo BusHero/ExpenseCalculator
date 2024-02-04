@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# 
+#
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseManager", "ExpenseManager\ExpenseManager.csproj", "{51F86398-10D6-4A66-9394-7568CC2B7A9C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{6401E52A-69C7-4FEB-A40E-A15C04B3B666}"
@@ -13,6 +13,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseManager.Api.IntegrationTests", "ExpenseManager.Api.IntegrationTests\ExpenseManager.Api.IntegrationTests.csproj", "{6F0A4ED7-84B9-43AD-83DC-950909F31AC0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseManager.Api", "ExpenseManager.Api\ExpenseManager.Api.csproj", "{C44B4EFB-3AC8-4277-AA72-742A8D535A95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseManager.IntegrationTests", "ExpenseManager.IntegrationTests\ExpenseManager.IntegrationTests.csproj", "{8D394711-A390-435F-880B-91C4A2FA0585}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,5 +36,9 @@ Global
 		{C44B4EFB-3AC8-4277-AA72-742A8D535A95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C44B4EFB-3AC8-4277-AA72-742A8D535A95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C44B4EFB-3AC8-4277-AA72-742A8D535A95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D394711-A390-435F-880B-91C4A2FA0585}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D394711-A390-435F-880B-91C4A2FA0585}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D394711-A390-435F-880B-91C4A2FA0585}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D394711-A390-435F-880B-91C4A2FA0585}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
