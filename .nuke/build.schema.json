@@ -6,6 +6,13 @@
     "build": {
       "type": "object",
       "properties": {
+        "AppName": {
+          "type": "string",
+          "default": "Secrets must be entered via 'nuke :secrets [profile]'"
+        },
+        "ArtifactsPath": {
+          "type": "string"
+        },
         "AzureApplicationId": {
           "type": "string",
           "description": "The id of the application to deploy to",
@@ -75,6 +82,10 @@
           "items": {
             "type": "string"
           }
+        },
+        "ResourceGroup": {
+          "type": "string",
+          "default": "Secrets must be entered via 'nuke :secrets [profile]'"
         },
         "Root": {
           "type": "string",

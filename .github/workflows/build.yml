@@ -1,12 +1,6 @@
 name: build
 
-env:
-  AZURE_WEBAPP_NAME: foo
-  AZURE_WEBAPP_PACKAGE: '.'
-  DOTNET_VERSION: '8'
-
 on:
-  workflow_dispatch:
   push:
     branches: [master]
 
@@ -25,12 +19,9 @@ jobs:
             .nuke/temp
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj', '**/Directory.Packages.props') }}
-      - name: 'Nuke'
+      - name: 'Build & Publish project'
         run: |
-          ./build.sh Publish \
-            --application-id '${{ env.AZURE_APPLICATION_ID }}' \
-            --tenant-id '${{ env.AZURE_TENANT_ID }}' \
-            --password '${{ env.AZURE_DEPLOY_SECRET }}'
+          ./build.sh Publish 
       - name: 'Publish Artifact'
         uses: actions/upload-artifact@v3
         with:
@@ -38,7 +29,7 @@ jobs:
           path: output/publish
 
   deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: build
     environment:
       name: 'Staging'
@@ -61,13 +52,17 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: .net-app
+          path: artifacts
           
       - name: Deploy to Azure Web App
         run: |
-          ./build.sh deploy-to-azure \
-            --application-id '${{ env.AZURE_APPLICATION_ID }}' \
-            --tenant-id '${{ env.AZURE_TENANT_ID }}' \
-            --password '${{ env.AZURE_DEPLOY_SECRET }}'
+          ./build.sh deploy-to-azure --artifacts-path artifacts
+        env:
+          NUKE_AZURE_DEPLOY_SECRET: ${{ secrets.AZURE_DEPLOY_SECRET }}
+          NUKE_AZURE_APPLICATION_ID: ${{ secrets.AZURE_APPLICATION_ID }}
+          NUKE_AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          NUKE_APP_NAME: bus1hero
+          NUKE_RESOURCE_GROUP: bus1heroDevEnvSetup
 
   run-acceptance-tests:
     name: Run Acceptance tests
@@ -86,7 +81,4 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj', '**/Directory.Packages.props') }}
       - name: 'Run acceptance tests'
         run: |
-          ./build.sh RunAcceptanceTests \
-            --application-id '${{ env.AZURE_APPLICATION_ID }}' \
-            --tenant-id '${{ env.AZURE_TENANT_ID }}' \
-            --password '${{ env.AZURE_DEPLOY_SECRET }}'
+          ./build.sh RunAcceptanceTests
