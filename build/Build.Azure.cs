@@ -3,20 +3,11 @@ using System.IO.Compression;
 using CliWrap;
 using JetBrains.Annotations;
 using Nuke.Common;
+using Nuke.Common.IO;
 using Serilog;
 
 partial class Build
 {
-    [UsedImplicitly]
-    Target Compress => _ => _
-        .DependsOn(Publish)
-        .Executes(() =>
-        {
-            ZipFile.CreateFromDirectory(RootDirectory / "output" / "publish", RootDirectory / "publish.zip"); 
-            Log.Information("Zip file created {Path}", RootDirectory / "publish.zip");
-        });
-
-    
     [Parameter("The id of the application to deploy to"), Secret]
     Guid? AzureApplicationId { get; set; }
 
@@ -25,7 +16,22 @@ partial class Build
 
     [Parameter, Secret] string AzureDeploySecret { get; set; }
     
-    [Parameter] string Artifact { get; set; }
+    [Parameter, Secret] string ResourceGroup { get; set; }
+    [Parameter, Secret] string AppName { get; set; }
+    
+    [Parameter] string ArtifactsPath { get; set; }
+    
+    AbsolutePath Artifact { get; set; }
+    
+    [UsedImplicitly]
+    Target Compress => _ => _
+        .Requires(() => ArtifactsPath)
+        .Executes(() =>
+        {
+            Artifact = TemporaryDirectory / $"{Guid.NewGuid()}.zip";
+            ZipFile.CreateFromDirectory(RootDirectory / ArtifactsPath, Artifact); 
+            Log.Information("Zip file created {Path}", Artifact);
+        });
 
     [UsedImplicitly]
     Target LoginToAzure => _ => _
@@ -48,18 +54,16 @@ partial class Build
     
     [UsedImplicitly]
     Target DeployToAzure => _ => _
-        .DependsOn(LoginToAzure)
-        .Requires(() => Artifact)
+        .DependsOn(LoginToAzure, Compress)
         .Executes(async () =>
         {
             await Cli.Wrap("az")
                 .WithArguments(args => args
                     .Add("webapp")
                     .Add("deploy")
-                    .Add(["--resource-group", "bus1heroDevEnvSetup"])
-                    .Add(["--name", "bus1hero"])
-                    .Add(["--src-path", Artifact])
-                )
+                    .Add("--resource-group").Add(ResourceGroup)
+                    .Add("--name").Add(AppName)
+                    .Add("--src-path").Add(Artifact.ToString()))
                 .WithStandardOutputPipe(PipeTarget.ToDelegate(x => Log.Information("{Msg}", x)))
                 .WithStandardErrorPipe(PipeTarget.ToDelegate(x => Log.Debug("{Msg}", x)))
                 .ExecuteAsync();
