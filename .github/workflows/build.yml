@@ -2,6 +2,7 @@ name: build
 
 on:
   workflow_dispatch:
+  pull_request:
   push:
     branches: [master]
 
@@ -61,9 +62,9 @@ jobs:
         run: |
           ./build.sh deploy-to-azure --artifacts-path artifacts
         env:
-          NUKE_AZURE_DEPLOY_SECRET: ${{ env:AZURE_DEPLOY_SECRET }}
-          NUKE_AZURE_APPLICATION_ID: ${{ env:AZURE_APPLICATION_ID }}
-          NUKE_AZURE_TENANT_ID: ${{ env:AZURE_TENANT_ID }}
+          NUKE_AZURE_DEPLOY_SECRET: ${{ secrets.AZURE_DEPLOY_SECRET }}
+          NUKE_AZURE_APPLICATION_ID: ${{ secrets.AZURE_APPLICATION_ID }}
+          NUKE_AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           NUKE_APP_NAME: bus1hero
           NUKE_RESOURCE_GROUP: bus1heroDevEnvSetup
 
