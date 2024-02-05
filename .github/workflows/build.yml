@@ -25,12 +25,12 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ExpenseManager
-          path: output/publish/ExpenseManager
+          path: output/ExpenseManager
       - name: 'Publish Artifact'
         uses: actions/upload-artifact@v4
         with:
           name: ExpenseManager.Api
-          path: output/publish/ExpenseManager.Api
+          path: output/ExpenseManager.Api
 
   deploy:
     runs-on: ubuntu-latest

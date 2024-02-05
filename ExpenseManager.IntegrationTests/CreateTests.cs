@@ -96,7 +96,6 @@ public class CreateTests
             .Be(HttpStatusCode.Redirect);
     }
 
-
     [Fact]
     public async Task Post_RedirectToIndex()
     {
@@ -121,6 +120,27 @@ public class CreateTests
             .OriginalString
             .Should()
             .Be("/");
+    }
+
+    [Fact]
+    public async Task Post_FailedValidationReturn400()
+    {
+        var initResponse = await client.GetAsync("/Create");
+        var antiForgeryValues = await AntiForgeryTokenExtractor.ExtractAntiForgeryValues(initResponse);
+        
+        var content = new FormUrlEncodedContent([
+            new(AntiForgeryTokenExtractor.AntiForgeryFieldName, antiForgeryValues.fieldValue),
+            new("Expense", null),
+            new("Amount", "123.123"),
+        ]);
+
+        var request = new HttpRequestMessage(HttpMethod.Post, "/Create");
+        request.Headers.Add("Cookie", new CookieHeaderValue(AntiForgeryTokenExtractor.AntiForgeryCookieName, antiForgeryValues.cookieValue).ToString());
+        request.Content = content;
+        
+        var response = await client.SendAsync(request);
+
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 }
 
