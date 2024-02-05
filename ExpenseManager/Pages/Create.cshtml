@@ -1,21 +1,9 @@
 @page
 @model ExpenseManager.Pages.Create
-
 @{
-    Layout = null;
+    ViewData["Title"] = "Create Expense";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-<div>
-    <form action="/Create" method="post">
-        <button type="submit">Submit</button>
-    </form>
-</div>
-</body>
-</html>
+<form asp-action="" method="post">
+    <button type="submit">Submit</button>
+</form>
