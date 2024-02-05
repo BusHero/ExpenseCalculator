@@ -1,4 +1,4 @@
-namespace ExpenseManager.Api;
+namespace ExpenseManager.Domain;
 
 public interface IExpenseStorage 
 {

@@ -1,5 +1,6 @@
 using System.Net.Http.Json;
 using AutoFixture.Xunit2;
+using ExpenseManager.Domain;
 using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace ExpenseManager.Api.IntegrationTests;

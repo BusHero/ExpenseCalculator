@@ -20,4 +20,9 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\ExpenseManager.Domain\ExpenseManager.Domain.csproj" />
+      <ProjectReference Include="..\ExpenseManager.LocalDevelopment\ExpenseManager.LocalDevelopment.csproj" />
+    </ItemGroup>
+
 </Project>

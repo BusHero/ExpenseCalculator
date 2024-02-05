@@ -1,6 +1,8 @@
-namespace ExpenseManager.Api;
+using ExpenseManager.Domain;
 
-internal class InMemoryExpensesStorage : IExpenseStorage 
+namespace ExpenseManager.LocalDevelopment;
+
+public class InMemoryExpensesStorage : IExpenseStorage 
 {
     private readonly List<Expense> expenses = [];
     
