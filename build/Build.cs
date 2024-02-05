@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using JetBrains.Annotations;
 using Nuke.Common;
 using Nuke.Common.IO;
@@ -71,17 +72,26 @@ partial class Build : NukeBuild
                 .SetProjectFile(RootDirectory / "ExpenseManager.Api"));
         });
 
+    List<string> PublishableProjects { get; set; } =
+    [
+        "ExpenseManager.Api",
+        "ExpenseManager",
+    ];
+    
     [UsedImplicitly]
     Target Publish => _ => _
         .DependsOn(Compile)
         .Executes(() =>
         {
-            DotNetPublish(_ => _
-                .EnableNoBuild()
-                .EnableNoRestore()
-                .SetConfiguration(Configuration)
-                .SetOutput(RootDirectory / "output" / "publish")
-                .SetProject(RootDirectory / "ExpenseManager.Api"));
+            foreach (var project in PublishableProjects)
+            {
+                DotNetPublish(_ => _
+                    .EnableNoBuild()
+                    .EnableNoRestore()
+                    .SetConfiguration(Configuration)
+                    .SetOutput(RootDirectory / "output" / project)
+                    .SetProject(RootDirectory / project));
+            }
         });
 
     [UsedImplicitly]

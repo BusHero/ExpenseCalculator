@@ -1,6 +1,11 @@
+using ExpenseManager.Domain;
+using ExpenseManager.LocalDevelopment;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
+
+builder.Services.AddSingleton<IExpenseStorage, InMemoryExpensesStorage>();
 
 var app = builder.Build();
 

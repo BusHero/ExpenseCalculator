@@ -1,3 +1,5 @@
+using ExpenseManager.Domain;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ExpenseManager.Pages;
@@ -6,9 +8,14 @@ public class IndexModel : PageModel
 {
     public IndexDto? Data { get; private set; }
 
-    public void OnGet()
+    public void OnGet(
+        [FromServices] IExpenseStorage expenseStorage)
     {
-        Data = new IndexDto([new ExpenseDto("Grocery", 123.12m)]);
+        Data = new IndexDto(
+            expenseStorage
+                .GetAll()
+                .Select(x => new ExpenseDto(x.Name, x.Amount))
+                .ToList());
     }
 }
 

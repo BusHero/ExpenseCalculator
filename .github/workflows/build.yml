@@ -24,8 +24,13 @@ jobs:
       - name: 'Publish Artifact'
         uses: actions/upload-artifact@v4
         with:
-          name: .net-app
-          path: output/publish
+          name: ExpenseManager
+          path: output/publish/ExpenseManager
+      - name: 'Publish Artifact'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ExpenseManager.Api
+          path: output/publish/ExpenseManager.Api
 
   deploy:
     runs-on: ubuntu-latest
@@ -49,7 +54,7 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: .net-app
+          name: ExpenseManager.Api
           path: artifacts
           
       - name: Deploy to Azure Web App
