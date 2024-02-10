@@ -21,12 +21,12 @@ jobs:
       - name: 'Build & Publish project'
         run: |
           ./build.sh Publish 
-      - name: 'Publish Artifact'
+      - name: 'Publish ExpenseManager'
         uses: actions/upload-artifact@v4
         with:
           name: ExpenseManager
           path: output/ExpenseManager
-      - name: 'Publish Artifact'
+      - name: 'Publish ExpenseManager.Api'
         uses: actions/upload-artifact@v4
         with:
           name: ExpenseManager.Api
