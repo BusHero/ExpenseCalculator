@@ -34,6 +34,7 @@
     <ItemGroup>
         <Using Include="Xunit"/>
         <Using Include="FluentAssertions"/>
+        <Using Include="AutoFixture.Xunit2"/>
     </ItemGroup>
 
 </Project>

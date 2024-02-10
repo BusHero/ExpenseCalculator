@@ -197,5 +197,4 @@ public static class AntiForgeryTokenExtractor
      
          throw new ArgumentException($"Anti forgery token '{AntiForgeryFieldName}' not found in HTML", nameof(htmlBody));
      }
-    
 }
