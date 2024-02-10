@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using JetBrains.Annotations;
 using Nuke.Common;
 using Nuke.Common.IO;

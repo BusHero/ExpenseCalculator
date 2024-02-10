@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO.Compression;
+﻿using System.IO.Compression;
 using CliWrap;
 using JetBrains.Annotations;
 using Nuke.Common;
@@ -14,15 +13,15 @@ partial class Build
     [Parameter("Tenant Id"), Secret]
     Guid? AzureTenantId { get; set; }
 
-    [Parameter, Secret] string AzureDeploySecret { get; set; }
-    
-    [Parameter, Secret] string ResourceGroup { get; set; }
-    [Parameter, Secret] string AppName { get; set; }
-    
-    [Parameter] string ArtifactsPath { get; set; }
-    
-    AbsolutePath Artifact { get; set; }
-    
+    [Parameter, Secret] string AzureDeploySecret { get; set; } = null!;
+
+    [Parameter, Secret] string ResourceGroup { get; set; } = null!;
+    [Parameter, Secret] string AppName { get; set; } = null!;
+
+    [Parameter] string ArtifactsPath { get; set; } = null!;
+
+    AbsolutePath? Artifact { get; set; }
+
     [UsedImplicitly]
     Target Compress => _ => _
         .Requires(() => ArtifactsPath)
@@ -63,7 +62,7 @@ partial class Build
                     .Add("deploy")
                     .Add("--resource-group").Add(ResourceGroup)
                     .Add("--name").Add(AppName)
-                    .Add("--src-path").Add(Artifact.ToString()))
+                    .Add("--src-path").Add(Artifact?.ToString() ?? ""))
                 .WithStandardOutputPipe(PipeTarget.ToDelegate(x => Log.Information("{Msg}", x)))
                 .WithStandardErrorPipe(PipeTarget.ToDelegate(x => Log.Debug("{Msg}", x)))
                 .ExecuteAsync();
