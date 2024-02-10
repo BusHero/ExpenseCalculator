@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestPlatform.TestHost;
 
 namespace ExpenseManager.IntegrationTests;
 
+[Trait("Category", "Integration")]
 public class IndexTests
     : IClassFixture<WebApplicationFactory<Program>>
 {

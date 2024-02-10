@@ -20,6 +20,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseManager.Domain", "Ex
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseManager.LocalDevelopment", "ExpenseManager.LocalDevelopment\ExpenseManager.LocalDevelopment.csproj", "{55262201-C3F9-4953-89E9-D9172DC80952}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcceptanceTests", "ExpenseManager.AcceptanceTests\AcceptanceTests.csproj", "{ECBA9AE3-682E-40AC-A7F7-625ACE89C4BE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{5F7E8268-1FE5-44AF-9831-0B40FAEC564B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,5 +56,14 @@ Global
 		{55262201-C3F9-4953-89E9-D9172DC80952}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55262201-C3F9-4953-89E9-D9172DC80952}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55262201-C3F9-4953-89E9-D9172DC80952}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECBA9AE3-682E-40AC-A7F7-625ACE89C4BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECBA9AE3-682E-40AC-A7F7-625ACE89C4BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECBA9AE3-682E-40AC-A7F7-625ACE89C4BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECBA9AE3-682E-40AC-A7F7-625ACE89C4BE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8D394711-A390-435F-880B-91C4A2FA0585} = {5F7E8268-1FE5-44AF-9831-0B40FAEC564B}
+		{6F0A4ED7-84B9-43AD-83DC-950909F31AC0} = {5F7E8268-1FE5-44AF-9831-0B40FAEC564B}
+		{ECBA9AE3-682E-40AC-A7F7-625ACE89C4BE} = {5F7E8268-1FE5-44AF-9831-0B40FAEC564B}
 	EndGlobalSection
 EndGlobal

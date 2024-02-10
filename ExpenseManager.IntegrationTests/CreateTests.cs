@@ -7,6 +7,7 @@ using Microsoft.Net.Http.Headers;
 
 namespace ExpenseManager.IntegrationTests;
 
+[Trait("Category", "Integration")]
 public class CreateTests
     : IClassFixture<MyWebFactory>
 {

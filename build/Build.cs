@@ -56,7 +56,7 @@ partial class Build : NukeBuild
                 .EnableNoBuild()
                 .EnableNoRestore()
                 .EnableNoLogo()
-                .SetProjectFile(SolutionFile)
+                .SetFilter("Category!=Acceptance")
                 .SetConfiguration(Configuration));
         });
 

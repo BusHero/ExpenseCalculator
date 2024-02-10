@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace ExpenseManager.Api.IntegrationTests;
 
+[Trait("Category", "Integration")]
 public class ExpenseControllerTests 
     : IClassFixture<WebApplicationFactory<Program>>
 {

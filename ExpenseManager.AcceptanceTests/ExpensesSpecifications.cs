@@ -1,5 +1,6 @@
 namespace AcceptanceTests;
 
+[Trait("Category", "Acceptance")]
 public class ExpensesSpecifications 
 {
     private readonly Expenses expenses = new Expenses();
