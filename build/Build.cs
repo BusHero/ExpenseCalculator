@@ -49,7 +49,7 @@ partial class Build : NukeBuild
 
     [UsedImplicitly]
     Target Test => _ => _
-        .DependsOn(Compile)
+        .TriggeredBy(Compile)
         .Executes(() =>
         {
             DotNetTest(_ => _
