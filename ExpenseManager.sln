@@ -5,6 +5,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseManager", "ExpenseMa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{6401E52A-69C7-4FEB-A40E-A15C04B3B666}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solutionFiles", "solutionFiles", "{B7242675-D4D7-428A-95CD-88392F411489}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build.yml = .github\workflows\build.yml
+	EndProjectSection
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseManager.Api.IntegrationTests", "ExpenseManager.Api.IntegrationTests\ExpenseManager.Api.IntegrationTests.csproj", "{6F0A4ED7-84B9-43AD-83DC-950909F31AC0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseManager.Api", "ExpenseManager.Api\ExpenseManager.Api.csproj", "{C44B4EFB-3AC8-4277-AA72-742A8D535A95}"
