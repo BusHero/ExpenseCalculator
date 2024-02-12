@@ -7,4 +7,6 @@ public interface IDriver
     Task<List<Expense>?> GetExpenses();
     
     void NavigateExpensesPage();
+
+    void Initialize();
 }

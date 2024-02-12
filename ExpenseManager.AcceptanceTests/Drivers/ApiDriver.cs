@@ -43,4 +43,8 @@ public class ApiDriver : IDriver
     public void NavigateExpensesPage()
     {
     }
+    public void Initialize()
+    {
+        throw new NotImplementedException();
+    }
 }

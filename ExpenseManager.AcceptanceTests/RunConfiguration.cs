@@ -11,8 +11,8 @@ public class RunConfiguration
     public RunConfiguration()
     {
         var configuration = new ConfigurationBuilder()
-            .AddEnvironmentVariables()
             .AddJsonFile("appsettings.json")
+            .AddEnvironmentVariables()
             .Build();
 
         var collection = new ServiceCollection();
