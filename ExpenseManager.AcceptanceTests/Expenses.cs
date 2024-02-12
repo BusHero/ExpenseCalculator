@@ -1,9 +1,16 @@
-﻿namespace AcceptanceTests;
+﻿using AcceptanceTests.Drivers;
+
+namespace AcceptanceTests;
 
 public class Expenses 
 {
-    private readonly ApiDriver driver = new ApiDriver();
-
+    private readonly IDriver driver;
+    
+    public Expenses(DriverProvider provider)
+    {
+        driver = provider.GetDriver();
+    }
+    
     public async Task AddExpense(string food, decimal amount)
     {
         await driver.AddExpense(new Expense(food, amount));
