@@ -3,16 +3,7 @@ using Microsoft.Extensions.Options;
 
 namespace AcceptanceTests.Drivers;
 
-public class ApiDriverOptions
-{
-    public const string Section = "ApiDriver";
-
- #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    public Uri Uri { get; set; }
- #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-}
-
-public class ApiDriver : IDriver
+public class ApiDriver : IExpenses
 {
     private readonly HttpClient client;
     
@@ -40,11 +31,23 @@ public class ApiDriver : IDriver
         return result;
     }
     
-    public void NavigateExpensesPage()
+    public async Task AddExpense(string name, decimal amount)
     {
+        await client.PostAsJsonAsync(
+            "/expense/create", 
+            new Expense(name, amount));
     }
-    public void Initialize()
+
+    public async Task AssertExpenseIsVisibleAsync(string name, decimal amount)
     {
-        throw new NotImplementedException();
+        var result = await client
+            .GetFromJsonAsync<List<Expense>>("/expense/all");
+
+        result.Should()
+            .ContainEquivalentOf(new Expense(name, amount));
     }
+
+    public Task InitializeAsync() => Task.CompletedTask;
+    
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 }

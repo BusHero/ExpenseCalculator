@@ -6,9 +6,14 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome Man</h1>
-    <ul>
-        @foreach (var item in Model.Data!.Expenses){
-            <li>@item.Expense - @item.Amount</li>
+    <ul id="expenses">
+        @foreach (var item in Model.Data!.Expenses)
+        {
+            <li class="expense">
+                <span class="name">@item.Expense</span>
+                -
+                <span class="amount">@item.Amount</span>
+            </li>
         }
     </ul>
 </div>

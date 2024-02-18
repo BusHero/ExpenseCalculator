@@ -3,7 +3,7 @@ namespace AcceptanceTests;
 [Trait("Category", "Acceptance")]
 public class ExpensesSpecifications : IClassFixture<RunConfiguration>
 {
-    private readonly Expenses expenses;
+    private readonly IExpenses expenses;
 
     public ExpensesSpecifications(RunConfiguration runConfiguration)
     {
@@ -15,8 +15,6 @@ public class ExpensesSpecifications : IClassFixture<RunConfiguration>
     {
         await expenses.AddExpense(expense, amount);
         
-        expenses.NavigateExpensesPage();
-        
-        await expenses.AssertExpensesAreVisible(expense, amount);
+        await expenses.AssertExpenseIsVisibleAsync(expense, amount);
     }
 }
