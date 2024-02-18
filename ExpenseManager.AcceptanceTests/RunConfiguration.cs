@@ -9,7 +9,7 @@ public class RunConfiguration : IAsyncLifetime
 {
     private readonly ServiceProvider services;
     public IExpenses Expenses { get; private set; } = null!;
-    
+
     public RunConfiguration()
     {
         var configuration = new ConfigurationBuilder()
@@ -17,26 +17,24 @@ public class RunConfiguration : IAsyncLifetime
             .AddEnvironmentVariables()
             .Build();
 
-        var collection = new ServiceCollection();
-
-        services = collection
+        services = new ServiceCollection()
             .Configure<DriverOptions>(configuration.GetSection(DriverOptions.Section))
             .Configure<WebDriverOptions>(configuration.GetSection(WebDriverOptions.Section))
             .Configure<ApiDriverOptions>(configuration.GetSection(ApiDriverOptions.Section))
-            .AddKeyedScoped<IExpenses, ApiDriver>(DriverOptions.Api)
+            .AddApiDriver(DriverOptions.Api)
             .AddKeyedScoped<IExpenses, WebDriver>(DriverOptions.Web)
-            .BuildServiceProvider();
+            .BuildServiceProvider(true);
     }
-    
+
     public async Task InitializeAsync()
     {
         var options = services.GetRequiredService<IOptions<DriverOptions>>();
-        
+
         Expenses = services.GetRequiredKeyedService<IExpenses>(options.Value.Driver);
-        
+
         await Expenses.InitializeAsync();
     }
 
-    public async Task DisposeAsync() 
+    public async Task DisposeAsync()
         => await services.DisposeAsync();
 }

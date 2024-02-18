@@ -1,5 +1,4 @@
 ﻿using System.Net.Http.Json;
-using Microsoft.Extensions.Options;
 
 namespace AcceptanceTests.Drivers;
 
@@ -7,13 +6,9 @@ public class ApiDriver : IExpenses
 {
     private readonly HttpClient client;
     
-    public ApiDriver(IOptions<ApiDriverOptions> apiDriverOptions)
+    public ApiDriver(HttpClient client)
     {
-        var uri = apiDriverOptions.Value.Uri;
-        
-        client = new HttpClient();
-        
-        client.BaseAddress = uri;
+        this.client = client;
     }
     
     public async Task AddExpense(Expense expense)
