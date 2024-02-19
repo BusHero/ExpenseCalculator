@@ -15,6 +15,9 @@ partial class Build : NukeBuild
         ? Configuration.Debug 
         : Configuration.Release;
 
+    [Parameter("Driver for running acceptance tests")]
+    readonly Driver Driver = Driver.Api;
+
     readonly AbsolutePath SolutionFile = RootDirectory / "ExpenseManager.sln";
 
     [UsedImplicitly]
@@ -95,6 +98,7 @@ partial class Build : NukeBuild
 
     [UsedImplicitly]
     Target RunAcceptanceTests => _ => _
+        .Requires(() => Driver)
         .Executes(() =>
         {   
             DotNetTest(_ => _

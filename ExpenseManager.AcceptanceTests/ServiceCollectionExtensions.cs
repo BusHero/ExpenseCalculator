@@ -31,7 +31,7 @@ public static class ServiceCollectionExtensions
         this IServiceCollection services, 
         string key)
         => services
-            .AddKeyedScoped<IExpenses, ApiDriver>(
+            .AddKeyedTransient<IExpenses, ApiDriver>(
                 key,
                 (provider, _) =>
                 {

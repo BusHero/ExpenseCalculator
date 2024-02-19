@@ -39,6 +39,14 @@
           "type": "boolean",
           "description": "Indicates to continue a previously failed build attempt"
         },
+        "Driver": {
+          "type": "string",
+          "description": "Driver for running acceptance tests",
+          "enum": [
+            "Api",
+            "Web"
+          ]
+        },
         "Help": {
           "type": "boolean",
           "description": "Shows the help text for this build assembly"
