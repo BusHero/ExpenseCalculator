@@ -486,3 +486,6 @@ $RECYCLE.BIN/
 
 # Nuke files
 .nuke/temp/
+
+*.db
+*.db-*
