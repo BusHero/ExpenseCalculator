@@ -1,6 +1,6 @@
 namespace AcceptanceTests;
 
-public interface IExpenses : IAsyncDisposable
+public interface IExpenses 
 {
     Task AddExpense(string userId, string expenseId);
     

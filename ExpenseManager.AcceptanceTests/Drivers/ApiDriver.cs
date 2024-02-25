@@ -6,7 +6,7 @@ namespace AcceptanceTests.Drivers;
 public class ApiDriver : IExpenses
 {
     private readonly HttpClient client;
-    private Dictionary<string, Expense> expenses = new Dictionary<string, Expense>();
+    private readonly Dictionary<string, Expense> expenses = new Dictionary<string, Expense>();
     private readonly Fixture fixture;
 
     public ApiDriver(HttpClient client)
@@ -75,6 +75,4 @@ public class ApiDriver : IExpenses
         result.Should()
             .NotContainEquivalentOf(expense);
     }
-
-    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 }

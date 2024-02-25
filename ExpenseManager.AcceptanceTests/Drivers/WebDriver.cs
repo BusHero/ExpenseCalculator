@@ -5,7 +5,7 @@ using Microsoft.Playwright;
 
 namespace AcceptanceTests.Drivers;
 
-public class WebDriver : IExpenses
+public class WebDriver : IExpenses, IAsyncDisposable
 {
     private IPlaywright playwright = null!;
     private IBrowser browser = null!;
