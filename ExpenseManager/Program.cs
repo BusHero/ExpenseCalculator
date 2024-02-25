@@ -2,6 +2,7 @@ using ExpenseManager;
 using ExpenseManager.Domain;
 using ExpenseManager.LocalDevelopment;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 

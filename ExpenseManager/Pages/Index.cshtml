@@ -1,9 +1,16 @@
 ﻿@page
+@using System.Security.Claims
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
 }
 
+<div>
+    FullName -
+    <span>
+        @User.FindFirstValue("FullName")
+    </span>
+</div>
 <div class="text-center">
     <h1 class="display-4">Welcome Man</h1>
     <ul id="expenses">
