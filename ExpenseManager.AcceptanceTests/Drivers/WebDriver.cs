@@ -61,12 +61,23 @@ public class WebDriver : IExpenses
     public async Task RegisterUserAsync(string email, string password)
     {
         var navBar = new NavBar(page);
+        var registerPage = new RegisterPage(page);
+        var registerConfirm = new RegisterConfirmPage(page);
         
         await navBar.NavigateRegisterPage();
+
+        await registerPage.RegisterUser(
+            new User(
+                email,
+                password,
+                "foo"));
+
+        await registerConfirm.ConfirmAccount();
     }
 
     public async ValueTask DisposeAsync()
     {
+        GC.SuppressFinalize(this);
         playwright.Dispose();
         await browser.DisposeAsync();
     }
