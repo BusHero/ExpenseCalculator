@@ -44,5 +44,8 @@ public class ApiDriver : IExpenses
 
     public Task InitializeAsync() => Task.CompletedTask;
     
+    public Task RegisterUserAsync(string email, string password) 
+        => Task.CompletedTask;
+
     public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 }

@@ -22,7 +22,7 @@ public class RunConfiguration : IAsyncLifetime
             .Configure<WebDriverOptions>(configuration.GetSection(WebDriverOptions.Section))
             .Configure<ApiDriverOptions>(configuration.GetSection(ApiDriverOptions.Section))
             .AddApiDriver(DriverOptions.Api)
-            .AddKeyedScoped<IExpenses, WebDriver>(DriverOptions.Web)
+            .AddKeyedTransient<IExpenses, WebDriver>(DriverOptions.Web)
             .BuildServiceProvider(true);
     }
 
@@ -37,4 +37,37 @@ public class RunConfiguration : IAsyncLifetime
 
     public async Task DisposeAsync()
         => await services.DisposeAsync();
+    
+    public FixtureBuilder NewBuilder()
+    {
+        return new FixtureBuilder();
+    }
+}
+
+public class FixtureBuilder
+{
+    public FixtureBuilder WithUser(string userId)
+    {
+        return this;
+    }
+    
+    public FixtureBuilder WithExpense(string userId, string expense, decimal amount)
+    {
+        return this;
+    }
+    
+    public Task<ProcessFixture> BuildAsync()
+    {
+        return Task.FromResult(new ProcessFixture());
+    }
+}
+
+public class ProcessFixture
+{
+    public void AssertExpenseIsVisibleAsync(
+        string userId, 
+        string expense, 
+        decimal amount)
+    {
+    }
 }

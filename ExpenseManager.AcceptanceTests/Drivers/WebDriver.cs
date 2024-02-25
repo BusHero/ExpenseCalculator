@@ -1,4 +1,3 @@
-using System.Globalization;
 using Microsoft.Extensions.Options;
 using Microsoft.Playwright;
 
@@ -20,25 +19,23 @@ public class WebDriver : IExpenses
     
     public async Task AddExpense(string name, decimal amount)
     {
-        await page.Locator("#create").ClickAsync();
+        var navBar = new NavBar(page);
+        var createPage = new CreatePage(page);
         
-        await page.Locator("#Data1_Expense").FillAsync(name);
-        
-        await page.Locator("#Data1_Amount").FillAsync(amount.ToString(CultureInfo.InvariantCulture));
-        
-        await page.Locator("button[type='submit']").ClickAsync();
+        await navBar.NavigateCreatePage();
+
+        await createPage.CreateExpense(name, amount);
     }
     
     public async Task AssertExpenseIsVisibleAsync(string name, decimal amount)
     {
-        await page.Locator("#home").ClickAsync();
+        var navBar = new NavBar(page);
         
-        var expenses2 = (await page.Locator("#expenses .expense").AllAsync())
-            .Select(async x => new Expense(
-                await x.Locator(".name").InnerTextAsync(),
-                decimal.Parse(await x.Locator(".amount").InnerTextAsync())))
-            .ToArray();
-        var result = await Task.WhenAll(expenses2);
+        var homePage = new HomePage(page);
+
+        await navBar.NavigateHome();
+        
+        var result = await homePage.GetExpenses();
         
         result
             .Should()
@@ -60,6 +57,13 @@ public class WebDriver : IExpenses
         await page.GotoAsync(websiteUrl.ToString());
     }
     
+    public async Task RegisterUserAsync(string email, string password)
+    {
+        var navBar = new NavBar(page);
+        
+        await navBar.NavigateRegisterPage();
+    }
+
     public async ValueTask DisposeAsync()
     {
         playwright.Dispose();

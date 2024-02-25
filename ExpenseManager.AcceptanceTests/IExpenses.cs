@@ -7,4 +7,6 @@ public interface IExpenses : IAsyncDisposable
     Task AssertExpenseIsVisibleAsync(string name, decimal amount);
     
     Task InitializeAsync();
+    
+    Task RegisterUserAsync(string email, string password);
 }
