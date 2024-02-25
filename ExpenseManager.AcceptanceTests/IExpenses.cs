@@ -2,11 +2,13 @@ namespace AcceptanceTests;
 
 public interface IExpenses : IAsyncDisposable
 {
-    Task AddExpense(string name, decimal amount);
+    Task AddExpense(string userId, string expenseId);
     
-    Task AssertExpenseIsVisibleAsync(string name, decimal amount);
+    Task AssertExpenseIsVisibleAsync(string userId, string expenseId);
     
     Task InitializeAsync();
     
-    Task RegisterUserAsync(string email, string password);
+    Task RegisterUserAsync(string userId);
+    
+    Task AssertExpenseIsNotVisibleAsync(string userId, string expenseId);
 }

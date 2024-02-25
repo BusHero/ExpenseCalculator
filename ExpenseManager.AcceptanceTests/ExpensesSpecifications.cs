@@ -3,18 +3,36 @@ namespace AcceptanceTests;
 [Trait("Category", "Acceptance")]
 public class ExpensesSpecifications : IClassFixture<RunConfiguration>
 {
-    private readonly IExpenses expenses;
+    private readonly RunConfiguration runConfiguration;
 
     public ExpensesSpecifications(RunConfiguration runConfiguration)
     {
-        expenses = runConfiguration.Expenses;
+        this.runConfiguration = runConfiguration;
     }
     
-    [Theory, AutoData]
-    public async Task ShouldViewAddedExpenses(string expense, decimal amount)
+    [Fact]
+    public async Task UserCanSeeHisExpenses()
     {
-        await expenses.AddExpense(expense, amount);
-        
-        await expenses.AssertExpenseIsVisibleAsync(expense, amount);
+        var fixture = await runConfiguration
+            .NewBuilder()
+            .WithUser("John")
+            .WithUser("Andrew")
+            .WithExpense("John", "expense")
+            .BuildAsync();
+
+        await fixture.AssertExpenseIsVisibleAsync("John", "expense");
+    }
+    
+    [Fact]
+    public async Task UserCannotSeeExpensesOfSomeoneElse()
+    {
+        var fixture = await runConfiguration
+            .NewBuilder()
+            .WithUser("John")
+            .WithUser("Andrew")
+            .WithExpense("John", "expense")
+            .BuildAsync();
+
+        await fixture.AssertExpenseIsNotVisibleAsync("Andrew", "expense");
     }
 }

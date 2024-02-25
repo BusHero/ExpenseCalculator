@@ -1,14 +1,14 @@
 using AcceptanceTests.Drivers;
+using AutoFixture;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 namespace AcceptanceTests;
 
-public class RunConfiguration : IAsyncLifetime
+public class RunConfiguration : IDisposable
 {
     private readonly ServiceProvider services;
-    public IExpenses Expenses { get; private set; } = null!;
 
     public RunConfiguration()
     {
@@ -25,49 +25,20 @@ public class RunConfiguration : IAsyncLifetime
             .AddKeyedTransient<IExpenses, WebDriver>(DriverOptions.Web)
             .BuildServiceProvider(true);
     }
-
-    public async Task InitializeAsync()
-    {
-        var options = services.GetRequiredService<IOptions<DriverOptions>>();
-
-        Expenses = services.GetRequiredKeyedService<IExpenses>(options.Value.Driver);
-
-        await Expenses.InitializeAsync();
-    }
-
-    public async Task DisposeAsync()
-        => await services.DisposeAsync();
     
     public FixtureBuilder NewBuilder()
     {
-        return new FixtureBuilder();
-    }
-}
+        return new FixtureBuilder(
+            new Fixture(),
+            () =>
+            {
+                var options = services.GetRequiredService<IOptions<DriverOptions>>();
 
-public class FixtureBuilder
-{
-    public FixtureBuilder WithUser(string userId)
-    {
-        return this;
+                var service = services.GetRequiredKeyedService<IExpenses>(options.Value.Driver);
+
+                return service;
+            });
     }
     
-    public FixtureBuilder WithExpense(string userId, string expense, decimal amount)
-    {
-        return this;
-    }
-    
-    public Task<ProcessFixture> BuildAsync()
-    {
-        return Task.FromResult(new ProcessFixture());
-    }
-}
-
-public class ProcessFixture
-{
-    public void AssertExpenseIsVisibleAsync(
-        string userId, 
-        string expense, 
-        decimal amount)
-    {
-    }
+    public void Dispose() => services.Dispose();
 }
