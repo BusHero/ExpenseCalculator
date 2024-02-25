@@ -1,7 +1,7 @@
 using System.Globalization;
 using Microsoft.Playwright;
 
-namespace AcceptanceTests.Drivers;
+namespace AcceptanceTests.Drivers.Pages;
 
 public class CreatePage: PageBase
 {

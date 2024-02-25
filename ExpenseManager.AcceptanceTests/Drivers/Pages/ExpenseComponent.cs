@@ -1,6 +1,6 @@
 using Microsoft.Playwright;
 
-namespace AcceptanceTests.Drivers;
+namespace AcceptanceTests.Drivers.Pages;
 
 public class ExpenseComponent
 {
