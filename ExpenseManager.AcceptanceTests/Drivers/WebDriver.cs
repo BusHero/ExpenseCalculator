@@ -41,30 +41,40 @@ public class WebDriver : IExpenses, IAsyncDisposable
     
     public async Task AddExpense(string userId, string expenseId)
     {
+        var user = users[userId];
+        
         var name = fixture.Create<string>();
         var amount = fixture.Create<decimal>();
-        expenses[expenseId] = new Expense(
+        var expense = new Expense(
             name, 
             amount);
+        expenses[expenseId] = expense;
 
-        await PerformAddExpense(name, amount);
+        await PerformAddExpense(user, expense);
     }
     
-    private async Task PerformAddExpense(string name, decimal amount)
+    private async Task PerformAddExpense(
+        User user,
+        Expense expense)
     {
         var navBar = new NavBar(page);
         var createPage = new CreatePage(page);
+        var action = new EnsureUserLogInAction(page);
+
+        await action.LogInUser(user);
         
         await navBar.NavigateCreatePage();
 
-        await createPage.CreateExpense(name, amount);
+        await createPage.CreateExpense(expense.Name, expense.Amount);
     }
     
     public async Task AssertExpenseIsVisibleAsync(string userId, string expenseId)
     {
+        var user = users[userId];
+        
         var expense = expenses[expenseId];
         
-        var result = await GetExpenses();
+        var result = await GetExpenses(user);
         
         result
             .Should()
@@ -73,19 +83,24 @@ public class WebDriver : IExpenses, IAsyncDisposable
     
     public async Task AssertExpenseIsNotVisibleAsync(string userId, string expenseId)
     {
+        var user = users[userId];
+        
         var expense = expenses[expenseId];
         
-        var result = await GetExpenses();
+        var result = await GetExpenses(user);
 
         result.Should().NotContainEquivalentOf(expense);
     }
 
-    private async Task<Expense[]> GetExpenses()
+    private async Task<Expense[]> GetExpenses(User user)
     {
         var navBar = new NavBar(page);
         
         var homePage = new HomePage(page);
+        var action = new EnsureUserLogInAction(page);
 
+        await action.LogInUser(user);
+        
         await navBar.NavigateHome();
         
         var result = await homePage.GetExpenses();

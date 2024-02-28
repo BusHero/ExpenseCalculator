@@ -11,7 +11,7 @@ public class CreatePage: PageBase
 
     private ILocator Amount => Base.Locator("#Data1_Amount");
 
-    private ILocator Submit => Base.Locator("button[type='submit']");
+    private ILocator Submit => Base.Locator("#submit-expense");
     
     public async Task CreateExpense(string name, decimal amount)
     {

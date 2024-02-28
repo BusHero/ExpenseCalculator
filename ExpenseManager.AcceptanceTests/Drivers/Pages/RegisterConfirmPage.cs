@@ -8,8 +8,5 @@ public class RegisterConfirmPage: PageBase
 
     private ILocator ConfirmLink => Base.Locator("#confirm-link");
     
-    public async Task ConfirmAccount()
-    {
-        await ConfirmLink.ClickAsync();
-    }
+    public async Task ConfirmAccount() => await ConfirmLink.ClickAsync();
 }

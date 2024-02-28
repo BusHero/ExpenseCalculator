@@ -2,17 +2,14 @@ using Microsoft.Playwright;
 
 namespace AcceptanceTests.Drivers.Pages;
 
-public class ExpenseComponent
+public class ExpenseComponent : PageBase
 {
-    private readonly ILocator baseLocator;
-    public ExpenseComponent(ILocator baseLocator)
-    {
-        this.baseLocator = baseLocator;
-    }
+    public ExpenseComponent(ILocator baseLocator) : base(baseLocator)
+    { }
 
-    private ILocator Name => baseLocator.Locator(".name");
+    private ILocator Name => Base.Locator(".name");
 
-    private ILocator Amount => baseLocator.Locator(".amount");
+    private ILocator Amount => Base.Locator(".amount");
 
     public async Task<Expense> GetExpense()
     {

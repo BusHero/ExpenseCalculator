@@ -11,19 +11,34 @@ public class NavBar : PageBase
     private ILocator Create => Base.Locator("#create");
 
     private ILocator Register => Base.Locator("#register");
+    
+    private ILocator Login => Base.Locator("#login");
 
-    public async Task NavigateHome()
+    private ILocator Username => Base.Locator("#logged-in-user");
+    
+    private ILocator Logout => Base.Locator("#logout");
+
+    public async Task NavigateHome() 
+        => await Home.ClickAsync();
+
+    public async Task NavigateCreatePage() 
+        => await Create.ClickAsync();
+
+    public async Task NavigateRegisterPage() 
+        => await Register.ClickAsync();
+
+    public async Task NavigateLoginPage() 
+        => await Login.ClickAsync();
+
+    public async Task<string?> GetLoggedInUser()
     {
-        await Home.ClickAsync();
+        return await Username.CountAsync() switch
+        {
+            1 => await Username.InnerTextAsync(),
+            _ => null,
+        };
     }
 
-    public async Task NavigateCreatePage()
-    {
-        await Create.ClickAsync();
-    }
-
-    public async Task NavigateRegisterPage()
-    {
-        await Register.ClickAsync();
-    }
+    public async Task LogoutUser() 
+        => await Logout.ClickAsync();
 }
