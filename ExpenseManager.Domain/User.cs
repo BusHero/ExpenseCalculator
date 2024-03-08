@@ -6,15 +6,13 @@ public sealed class User
 
     public List<Expense> Expenses { get; private set; } = [];
 
-    private User() {}
-
-    public User(UserId id)
-    {
-        Id = id;
-    }
-
     public void AddExpense(Expense expense)
     {
         Expenses.Add(expense);
     }
+}
+
+public sealed class User2
+{
+    public int Id { get; set; }
 }

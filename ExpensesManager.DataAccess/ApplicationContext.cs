@@ -11,18 +11,18 @@ public class ApplicationContext : IdentityDbContext<ApplicationUser>
     {
     }
 
-    public DbSet<Expense2> Expenses { get; init; } = null!;
-
     public DbSet<User> Users2 { get; init; } = null!;
+    public DbSet<User2> Users3 { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
         builder.Entity<User>(b =>
         {
-            b.HasKey(x => x.Id);
+            b.HasKey(x => x.Id) ;
 
             b.Property(x => x.Id)
+                .ValueGeneratedOnAdd()
                 .HasConversion(x => x.Id, x => UserId.FromInt(x));
 
             b.OwnsMany(x => x.Expenses,

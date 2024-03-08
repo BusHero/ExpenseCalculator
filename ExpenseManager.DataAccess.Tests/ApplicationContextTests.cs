@@ -1,4 +1,3 @@
-using AutoFixture;
 using AutoFixture.Xunit2;
 using ExpenseManager.Domain;
 using ExpensesManager.DataAccess;
@@ -31,25 +30,6 @@ public class ApplicationContextTests
         return context;
     }
 
-    private readonly IFixture fixture = new Fixture();
-
-    private Expense2 CreateExpense() => fixture.Create<Expense2>();
-
-    [Fact]
-    public void AddExpense()
-    {
-        using var context = CreateContext();
-        var ogExpense = this.CreateExpense();
-        context.Expenses.Add(ogExpense);
-
-        context.SaveChanges();
-
-        var expense = context.Expenses
-            .Single(x => x.Id == ogExpense.Id);
-
-        expense.Should().Be(ogExpense);
-    }
-
     [Theory, AutoData]
     public void AddUser(ApplicationUser user)
     {
@@ -65,39 +45,49 @@ public class ApplicationContextTests
     }
 
     [Theory, AutoData]
-    public void AddUserWithExpense(
-        ApplicationUser user,
-        Expense2 expense)
+    public void UserWithExpenses(
+        User user,
+        Expense expense
+        )
     {
-        using var context = CreateContext();
-        user.Expenses = [ expense ];
-        context.Users.Add(user);
-
-        context.SaveChanges();
-
-        var dbExpense = context.Expenses
-            .First();
-
-        dbExpense.Should().Be(dbExpense);
-    }
-
-    [Fact]
-    public void UserWithExpenses()
-    {
-        var user = new User(
-            UserId.FromInt(123));
-        
-        var expense = new Expense
-        {
-            Name = ExpenseName.FromString("foo"),
-            Amount = Money.FromDecimal(123.123m),
-        };
-        
         user.AddExpense(expense);
         
         using var context = CreateContext();
 
         context.Users2.Add(user);
         context.SaveChanges();
+    }
+    
+    [Theory, AutoData]
+    public void ApplicationUserUserLink(
+        ApplicationUser user1,
+        User user2)
+    {
+        user1.User = user2;
+        using var context = CreateContext();
+
+        context.Users.Add(user1);
+        
+        context.SaveChanges();
+
+        context.Users2
+            .SingleOrDefault(x => x.Id == user2.Id)
+            .Should()
+            .NotBeNull();
+    }
+
+    [Fact]
+    public void UserIdGetsAutoincrement()
+    {
+        var user1 = new User();
+        var user2 = new User();
+
+        var context = CreateContext();
+
+        context.Users2.AddRange(user1, user2);
+
+        context.SaveChanges();
+
+        user1.Id.Should().NotBe(user2.Id);
     }
 }
