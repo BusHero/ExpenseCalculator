@@ -25,6 +25,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpensesManager.DataAccess", "ExpensesManager.DataAccess\ExpensesManager.DataAccess.csproj", "{6D261FD7-DE48-438A-AF5A-221FED069E10}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseManager.DataAccess.Tests", "ExpenseManager.DataAccess.Tests\ExpenseManager.DataAccess.Tests.csproj", "{07180985-F49A-4BB0-A803-DDE81DA6B181}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,10 +65,19 @@ Global
 		{ECBA9AE3-682E-40AC-A7F7-625ACE89C4BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ECBA9AE3-682E-40AC-A7F7-625ACE89C4BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ECBA9AE3-682E-40AC-A7F7-625ACE89C4BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D261FD7-DE48-438A-AF5A-221FED069E10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D261FD7-DE48-438A-AF5A-221FED069E10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D261FD7-DE48-438A-AF5A-221FED069E10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D261FD7-DE48-438A-AF5A-221FED069E10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07180985-F49A-4BB0-A803-DDE81DA6B181}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07180985-F49A-4BB0-A803-DDE81DA6B181}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07180985-F49A-4BB0-A803-DDE81DA6B181}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07180985-F49A-4BB0-A803-DDE81DA6B181}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{8D394711-A390-435F-880B-91C4A2FA0585} = {5F7E8268-1FE5-44AF-9831-0B40FAEC564B}
 		{6F0A4ED7-84B9-43AD-83DC-950909F31AC0} = {5F7E8268-1FE5-44AF-9831-0B40FAEC564B}
 		{ECBA9AE3-682E-40AC-A7F7-625ACE89C4BE} = {5F7E8268-1FE5-44AF-9831-0B40FAEC564B}
+		{07180985-F49A-4BB0-A803-DDE81DA6B181} = {5F7E8268-1FE5-44AF-9831-0B40FAEC564B}
 	EndGlobalSection
 EndGlobal

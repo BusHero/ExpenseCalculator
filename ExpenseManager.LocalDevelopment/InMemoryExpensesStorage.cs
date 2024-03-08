@@ -15,4 +15,16 @@ public class InMemoryExpensesStorage : IExpenseStorage
 
     public IEnumerable<Expense> GetAll() 
         => expenses;
+
+    private List<User> users = new List<User>();
+    
+    public void Save(User user)
+    {
+        users.Add(user);
+    }
+    
+    public User? GetUser(UserId userId)
+    {
+        return users.FirstOrDefault(x => x.Id == userId);
+    }
 }
