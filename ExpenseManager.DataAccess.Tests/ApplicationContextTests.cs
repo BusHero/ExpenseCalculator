@@ -1,5 +1,6 @@
 using AutoFixture;
 using AutoFixture.Xunit2;
+using ExpenseManager.Domain;
 using ExpensesManager.DataAccess;
 using FluentAssertions;
 using Microsoft.Data.Sqlite;
@@ -78,5 +79,25 @@ public class ApplicationContextTests
             .First();
 
         dbExpense.Should().Be(dbExpense);
+    }
+
+    [Fact]
+    public void UserWithExpenses()
+    {
+        var user = new User(
+            UserId.FromInt(123));
+        
+        var expense = new Expense
+        {
+            Name = ExpenseName.FromString("foo"),
+            Amount = Money.FromDecimal(123.123m),
+        };
+        
+        user.AddExpense(expense);
+        
+        using var context = CreateContext();
+
+        context.Users2.Add(user);
+        context.SaveChanges();
     }
 }

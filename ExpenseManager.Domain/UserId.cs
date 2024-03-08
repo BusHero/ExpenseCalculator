@@ -7,4 +7,6 @@ public record struct UserId
     private UserId(int id) => this.Id = id;
 
     public static UserId FromInt(int id) => new UserId(id);
+
+    public static implicit operator int(UserId userId) => userId.Id;
 }

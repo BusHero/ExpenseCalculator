@@ -22,7 +22,11 @@ public class Create : PageModel
             return BadRequest();
         }
         
-        storage.Add(new Expense(Data1.Expense, Data1.Amount));
+        storage.Add(new Expense
+        {
+            Name= ExpenseName.FromString(Data1.Expense),
+            Amount    = Money.FromDecimal(Data1.Amount),
+        });
         
         return Redirect("/");
     }

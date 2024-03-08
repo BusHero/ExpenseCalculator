@@ -1,3 +1,8 @@
 namespace ExpenseManager.Domain;
 
-public record Expense(string Name, decimal Amount);
+public sealed record Expense
+{
+    public required ExpenseName Name { get; init; }
+    
+    public required Money Amount { get; init; }
+}

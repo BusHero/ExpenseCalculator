@@ -14,7 +14,7 @@ public class IndexModel : PageModel
         Data = new IndexDto(
             expenseStorage
                 .GetAll()
-                .Select(x => new ExpenseDto(x.Name, x.Amount))
+                .Select(x => new ExpenseDto(x.Name.Value, x.Amount.Value))
                 .ToList());
     }
 }
