@@ -1,8 +1,8 @@
 using ExpenseManager;
 using ExpenseManager.Domain;
 using ExpenseManager.LocalDevelopment;
+using ExpensesManager.DataAccess;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,12 +10,12 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddSingleton<IExpenseStorage, InMemoryExpensesStorage>();
 
-builder.Services.AddDbContext<AppDbContext>(options =>
+builder.Services.AddDbContext<ApplicationContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<AppDbContext>();
+    .AddEntityFrameworkStores<ApplicationContext>();
 
 var app = builder.Build();
 

@@ -1,4 +1,5 @@
 using AutoFixture;
+using AutoFixture.Xunit2;
 using ExpensesManager.DataAccess;
 using FluentAssertions;
 using Microsoft.Data.Sqlite;
@@ -6,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseManager.DataAccess.Tests;
 
-public class Expenses
+public class ApplicationContextTests
 {
     private static DbContextOptions<ApplicationContext> GetSqLiteInMemoryOptions()
     {
@@ -46,5 +47,36 @@ public class Expenses
             .Single(x => x.Id == ogExpense.Id);
 
         expense.Should().Be(ogExpense);
+    }
+
+    [Theory, AutoData]
+    public void AddUser(ApplicationUser user)
+    {
+        using var context = CreateContext();
+        context.Users.Add(user);
+
+        context.SaveChanges();
+
+        var dbUser = context.Users
+            .Single(x => x.Id == user.Id);
+
+        dbUser.Should().Be(dbUser);
+    }
+
+    [Theory, AutoData]
+    public void AddUserWithExpense(
+        ApplicationUser user,
+        Expense2 expense)
+    {
+        using var context = CreateContext();
+        user.Expenses = [ expense ];
+        context.Users.Add(user);
+
+        context.SaveChanges();
+
+        var dbExpense = context.Expenses
+            .First();
+
+        dbExpense.Should().Be(dbExpense);
     }
 }
