@@ -1,4 +1,3 @@
-using ExpenseManager;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,5 +10,5 @@ public class ApplicationContext : IdentityDbContext<ApplicationUser>
     {
     }
 
-    public DbSet<Expense2> Expenses { get; set; } = null!;
+    public DbSet<Expense2> Expenses { get; init; } = null!;
 }

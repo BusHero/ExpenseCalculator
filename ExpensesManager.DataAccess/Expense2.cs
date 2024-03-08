@@ -1,10 +1,14 @@
+// ReSharper disable PropertyCanBeMadeInitOnly.Global
+using System.ComponentModel.DataAnnotations;
+
 namespace ExpensesManager.DataAccess;
 
 public class Expense2
 {
     public int Id { get; set; }
 
-    public string Description { get; set; } = null!;
+    [MaxLength(100)]
+    public required string Description { get; set; } = null!;
     
-    public decimal Amount { get; set; }
+    public required decimal Amount { get; set; }
 }
