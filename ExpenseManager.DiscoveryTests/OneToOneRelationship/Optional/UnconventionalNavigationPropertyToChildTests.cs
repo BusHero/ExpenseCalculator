@@ -1,9 +1,25 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace ExpenseManager.DiscoveryTests.OneToOneRelationship.Required;
+namespace ExpenseManager.DiscoveryTests.OneToOneRelationship.Optional;
 
-public sealed class UnconventionalNavigationPropertyToParentTests
+public sealed class UnconventionalNavigationPropertyToChildTests
 {
+    [Fact]
+    public void NoConfiguration_CanAddChildToParent()
+    {
+        var context = ContextFactory.CreateContext<Context>(_ => {});
+
+        AssertCanAddChildToParent(context);
+    }
+    
+    [Fact]
+    public void NoConfiguration_CanAddParentToChild()
+    {
+        var context = ContextFactory.CreateContext<Context>(_ => {});
+
+        AssertCanAddParentToChild(context);
+    }
+    
     [Fact]
     public void NoConfigurationIsNotThrowing()
     {
@@ -18,10 +34,10 @@ public sealed class UnconventionalNavigationPropertyToParentTests
         using var context = ContextFactory.CreateContext<Context>(builder =>
         {
             builder.Entity<Parent>()
-                .HasOne(x => x.Child)
-                .WithOne(x => x.UnconventionalProperty)
+                .HasOne(x => x.UnconventionalProperty)
+                .WithOne(x => x.Parent)
                 .HasForeignKey<Child>(x => x.ParentId)
-                .IsRequired();
+                .IsRequired(false);
         });
         
         AssertCanAddChildToParent(context);
@@ -33,10 +49,10 @@ public sealed class UnconventionalNavigationPropertyToParentTests
         using var context = ContextFactory.CreateContext<Context>(builder =>
         {
             builder.Entity<Child>()
-                .HasOne(x => x.UnconventionalProperty)
-                .WithOne(x => x.Child)
+                .HasOne(x => x.Parent)
+                .WithOne(x => x.UnconventionalProperty)
                 .HasForeignKey<Child>(x => x.ParentId)
-                .IsRequired();
+                .IsRequired(false);
         });
     
         AssertCanAddChildToParent(context);
@@ -47,13 +63,27 @@ public sealed class UnconventionalNavigationPropertyToParentTests
         var parent = new Parent();
         var child = new Child();
     
-        parent.Child = child;
+        parent.UnconventionalProperty = child;
     
         context.Parent1.Add(parent);
     
         context.SaveChanges();
     
-        child.UnconventionalProperty.Should().NotBeNull();
+        child.Parent.Should().NotBeNull();
+    }
+    
+    private void AssertCanAddParentToChild(Context context)
+    {
+        var parent = new Parent();
+        var child = new Child();
+
+        child.Parent = parent;
+    
+        context.Child1.Add(child);
+    
+        context.SaveChanges();
+
+        parent.UnconventionalProperty.Should().NotBeNull();
     }
     
     public class Context: RelayContext<Context>, ITestContext<Context>
@@ -75,7 +105,7 @@ public sealed class UnconventionalNavigationPropertyToParentTests
     {
         public int ParentId { get; set; }
         
-        public Child? Child { get; set; }
+        public Child? UnconventionalProperty { get; set; }
     }
     
     public class Child
@@ -84,6 +114,6 @@ public sealed class UnconventionalNavigationPropertyToParentTests
         
         public int ParentId { get; set; }
         
-        public Parent UnconventionalProperty { get; set; } = null!;
+        public Parent? Parent { get; set; }
     }
 }

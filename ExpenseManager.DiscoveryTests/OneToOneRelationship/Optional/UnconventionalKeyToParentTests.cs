@@ -1,31 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace ExpenseManager.DiscoveryTests.OneToOneRelationship.Required;
+namespace ExpenseManager.DiscoveryTests.OneToOneRelationship.Optional;
 
-public sealed class UnconventionalNavigationPropertyToChildTests
+public sealed class UnconventionalKeyToParentTests
 {
     [Fact]
-    public void NoConfiguration_CanAddChildToParent()
+    public void NoConfigurationIsThrowing()
     {
-        var context = ContextFactory.CreateContext<Context>(_ => {});
-
-        AssertCanAddChildToParent(context);
-    }
-    
-    [Fact]
-    public void NoConfiguration_CanAddParentToChild()
-    {
-        var context = ContextFactory.CreateContext<Context>(_ => {});
-
-        AssertCanAddParentToChild(context);
-    }
-    
-    [Fact]
-    public void NoConfigurationIsNotThrowing()
-    {
-        var context = ContextFactory.CreateContext<Context>(_ => {});
-
-        AssertCanAddChildToParent(context);
+        var action = () => ContextFactory.CreateContext<Context>(_ => {});
+        
+        action.Should().Throw<Exception>();
     }
     
     [Fact]
@@ -34,10 +18,10 @@ public sealed class UnconventionalNavigationPropertyToChildTests
         using var context = ContextFactory.CreateContext<Context>(builder =>
         {
             builder.Entity<Parent>()
-                .HasOne(x => x.UnconventionalProperty)
+                .HasOne(x => x.Child)
                 .WithOne(x => x.Parent)
-                .HasForeignKey<Child>(x => x.ParentId)
-                .IsRequired();
+                .HasForeignKey<Child>(x => x.TotallyUnconventionalKey)
+                .IsRequired(false);
         });
         
         AssertCanAddChildToParent(context);
@@ -50,11 +34,11 @@ public sealed class UnconventionalNavigationPropertyToChildTests
         {
             builder.Entity<Child>()
                 .HasOne(x => x.Parent)
-                .WithOne(x => x.UnconventionalProperty)
-                .HasForeignKey<Child>(x => x.ParentId)
+                .WithOne(x => x.Child)
+                .HasForeignKey<Child>(x => x.TotallyUnconventionalKey)
                 .IsRequired();
         });
-    
+
         AssertCanAddChildToParent(context);
     }
 
@@ -63,27 +47,13 @@ public sealed class UnconventionalNavigationPropertyToChildTests
         var parent = new Parent();
         var child = new Child();
     
-        parent.UnconventionalProperty = child;
+        parent.Child = child;
     
         context.Parent1.Add(parent);
     
         context.SaveChanges();
     
         child.Parent.Should().NotBeNull();
-    }
-    
-    private void AssertCanAddParentToChild(Context context)
-    {
-        var parent = new Parent();
-        var child = new Child();
-
-        child.Parent = parent;
-    
-        context.Child1.Add(child);
-    
-        context.SaveChanges();
-
-        parent.UnconventionalProperty.Should().NotBeNull();
     }
     
     public class Context: RelayContext<Context>, ITestContext<Context>
@@ -105,15 +75,15 @@ public sealed class UnconventionalNavigationPropertyToChildTests
     {
         public int ParentId { get; set; }
         
-        public Child? UnconventionalProperty { get; set; }
+        public Child? Child { get; set; }
     }
     
     public class Child
     {
         public int ChildId { get; set; }
         
-        public int ParentId { get; set; }
+        public int TotallyUnconventionalKey { get; set; }
         
-        public Parent Parent { get; set; } = null!;
+        public Parent? Parent { get; set; }
     }
 }
