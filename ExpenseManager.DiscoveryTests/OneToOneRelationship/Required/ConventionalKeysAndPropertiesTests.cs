@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseManager.DiscoveryTests;
 
-public sealed class RequiredOneToOneTests : IDisposable
+public sealed class ConventionalKeysAndPropertiesTests : IDisposable
 {
     private readonly Context context 
         = ContextFactory.CreateContext<Context>();
