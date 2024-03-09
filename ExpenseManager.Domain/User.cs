@@ -11,8 +11,3 @@ public sealed class User
         Expenses.Add(expense);
     }
 }
-
-public sealed class User2
-{
-    public int Id { get; set; }
-}

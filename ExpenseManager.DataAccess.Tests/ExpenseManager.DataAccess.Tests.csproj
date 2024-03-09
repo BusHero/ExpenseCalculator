@@ -24,6 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\ExpenseManager.LocalDevelopment\ExpenseManager.LocalDevelopment.csproj" />
       <ProjectReference Include="..\ExpensesManager.DataAccess\ExpensesManager.DataAccess.csproj" />
     </ItemGroup>
 

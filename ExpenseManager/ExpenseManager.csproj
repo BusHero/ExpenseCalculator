@@ -18,18 +18,22 @@
       <ProjectReference Include="..\ExpenseManager.Domain\ExpenseManager.Domain.csproj" />
       <ProjectReference Include="..\ExpenseManager.LocalDevelopment\ExpenseManager.LocalDevelopment.csproj" />
       <ProjectReference Include="..\ExpensesManager.DataAccess\ExpensesManager.DataAccess.csproj" />
+      <ProjectReference Include="..\ExpenseManager.DataAccess.Migrations\ExpenseManager.DataAccess.Migrations.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.2" />
       <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.2" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.2">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
       <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.2" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.2" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.2">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
-      <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.1" />
     </ItemGroup>
 
 </Project>

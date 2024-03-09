@@ -11,10 +11,17 @@ builder.Services.AddRazorPages();
 builder.Services.AddSingleton<IExpenseStorage, InMemoryExpensesStorage>();
 
 builder.Services.AddDbContext<ApplicationContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+{
+    options.UseSqlite(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        x => x.MigrationsAssembly("ExpenseManager.DataAccess.Migrations"));
+});
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
-    options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<ApplicationUser>(
+        options =>
+        {
+            options.SignIn.RequireConfirmedAccount = true;
+        })
     .AddEntityFrameworkStores<ApplicationContext>();
 
 var app = builder.Build();

@@ -12,7 +12,6 @@ public class ApplicationContext : IdentityDbContext<ApplicationUser>
     }
 
     public DbSet<User> Users2 { get; init; } = null!;
-    public DbSet<User2> Users3 { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
