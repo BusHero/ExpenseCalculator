@@ -25,12 +25,7 @@ public static class ContextFactory
     public static T CreateContext<T>(Action<ModelBuilder> onContextCreating) 
         where T : RelayContext<T>, ITestContext<T>
     {
-        var builder = new SqliteConnectionStringBuilder()
-        {
-            DataSource = Path.GetTempFileName(),
-        };
-        var connectionString = builder.ToString();
-        var connection = new SqliteConnection(connectionString);
+        var connection = new SqliteConnection("Filename=:memory:");
         connection.Open();
         
         var options = new DbContextOptionsBuilder<T>()
