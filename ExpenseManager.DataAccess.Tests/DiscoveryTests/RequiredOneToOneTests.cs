@@ -58,7 +58,7 @@ public class RequiredOneToOneTests : IDisposable
         public Context(DbContextOptions<Context> options) : base(options)
         { }
         
-        public static Context CreateContext(DbContextOptions<Context> options) 
+        public static Context Create(DbContextOptions<Context> options) 
             => new Context(options);
     }
 
