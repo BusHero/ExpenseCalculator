@@ -1,9 +1,8 @@
-using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 
-namespace ExpenseManager.DataAccess.Tests.DiscoveryTests;
+namespace ExpenseManager.DiscoveryTests;
 
-public class RequiredOneToOneTests : IDisposable
+public sealed class RequiredOneToOneTests : IDisposable
 {
     private readonly Context context 
         = ContextFactory.CreateContext<Context>();

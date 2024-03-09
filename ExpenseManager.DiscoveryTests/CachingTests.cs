@@ -1,10 +1,8 @@
-using FluentAssertions;
-using FluentAssertions.Execution;
 using Microsoft.EntityFrameworkCore;
 
-namespace ExpenseManager.DataAccess.Tests.DiscoveryTests;
+namespace ExpenseManager.DiscoveryTests;
 
-public class CachingTests
+public sealed class CachingTests
 {
     [Fact]
     public void ModelIsCachedByDefault()

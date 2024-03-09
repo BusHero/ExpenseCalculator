@@ -1,7 +1,6 @@
-using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 
-namespace ExpenseManager.DataAccess.Tests.DiscoveryTests;
+namespace ExpenseManager.DiscoveryTests;
 
 public sealed class UnconventionalNavigationPropertyToParentTests
 {

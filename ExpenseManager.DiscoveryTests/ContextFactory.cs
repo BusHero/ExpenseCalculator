@@ -1,8 +1,7 @@
-using ExpenseManager.DataAccess.Tests.DiscoveryTests;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
-namespace ExpenseManager.DataAccess.Tests;
+namespace ExpenseManager.DiscoveryTests;
 
 public static class ContextFactory
 {
@@ -38,21 +37,5 @@ public static class ContextFactory
         context.Database.EnsureCreated();
 
         return context;
-    }
-}
-
-
-public class RelayModelCreatingContext<T> : DbContext
-    where T: DbContext, ITestContext2<T>
-{
-    public RelayModelCreatingContext( DbContextOptions<T> options )
-        : base(options)
-    { }
-
-    public Action<ModelBuilder> ModelCreatingDelegate { get; set; } = null!;
-    
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        ModelCreatingDelegate(modelBuilder);
     }
 }

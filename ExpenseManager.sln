@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseManager.DataAccess.T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseManager.DataAccess.Migrations", "ExpenseManager.DataAccess.Migrations\ExpenseManager.DataAccess.Migrations.csproj", "{FFB8C2D3-B4C3-40C7-81D7-797070C5926C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseManager.DiscoveryTests", "ExpenseManager.DiscoveryTests\ExpenseManager.DiscoveryTests.csproj", "{E8D3680F-F92C-49B1-B166-1E6EB50BEF1D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,11 +81,16 @@ Global
 		{FFB8C2D3-B4C3-40C7-81D7-797070C5926C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFB8C2D3-B4C3-40C7-81D7-797070C5926C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFB8C2D3-B4C3-40C7-81D7-797070C5926C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8D3680F-F92C-49B1-B166-1E6EB50BEF1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8D3680F-F92C-49B1-B166-1E6EB50BEF1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8D3680F-F92C-49B1-B166-1E6EB50BEF1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8D3680F-F92C-49B1-B166-1E6EB50BEF1D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{8D394711-A390-435F-880B-91C4A2FA0585} = {5F7E8268-1FE5-44AF-9831-0B40FAEC564B}
 		{6F0A4ED7-84B9-43AD-83DC-950909F31AC0} = {5F7E8268-1FE5-44AF-9831-0B40FAEC564B}
 		{ECBA9AE3-682E-40AC-A7F7-625ACE89C4BE} = {5F7E8268-1FE5-44AF-9831-0B40FAEC564B}
 		{07180985-F49A-4BB0-A803-DDE81DA6B181} = {5F7E8268-1FE5-44AF-9831-0B40FAEC564B}
+		{E8D3680F-F92C-49B1-B166-1E6EB50BEF1D} = {5F7E8268-1FE5-44AF-9831-0B40FAEC564B}
 	EndGlobalSection
 EndGlobal

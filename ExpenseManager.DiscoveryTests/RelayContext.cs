@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace ExpenseManager.DataAccess.Tests.DiscoveryTests;
+namespace ExpenseManager.DiscoveryTests;
 
-public class RelayContext<T>: DbContext
+public abstract class RelayContext<T>: DbContext
     where T: DbContext
 {
-    public RelayContext(DbContextOptions<T> options) : base(options)
+    protected RelayContext(DbContextOptions<T> options) : base(options)
     { }
 
     protected bool CacheModel { get; set; } = false;
