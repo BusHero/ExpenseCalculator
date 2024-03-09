@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseManager.DataAccess.Tests.DiscoveryTests;
 
-public sealed class UnconventionalNavigationalPropertyToParentTests
+public sealed class UnconventionalNavigationPropertyToParentTests
 {
     [Fact]
     public void NoConfigurationIsNotThrowing()
