@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace ExpenseManager.DiscoveryTests;
+namespace ExpenseManager.DiscoveryTests.OneToOneRelationship.Required;
 
 public sealed class ConventionalKeysAndPropertiesTests : IDisposable
 {
