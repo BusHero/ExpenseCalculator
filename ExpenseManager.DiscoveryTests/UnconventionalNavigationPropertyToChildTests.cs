@@ -1,4 +1,3 @@
-using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseManager.DiscoveryTests;

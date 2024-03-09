@@ -17,7 +17,7 @@ public sealed class RequiredOneToOneTests : IDisposable
 
         parent.Child = child;
 
-        context.Parent.Add(parent);
+        context.Parent1.Add(parent);
 
         context.SaveChanges();
 
@@ -29,7 +29,7 @@ public sealed class RequiredOneToOneTests : IDisposable
     {
         var parent = new Parent();
 
-        context.Parent.Add(parent);
+        context.Parent1.Add(parent);
 
         context.Invoking(x => x.SaveChanges())
             .Should()
@@ -41,7 +41,7 @@ public sealed class RequiredOneToOneTests : IDisposable
     {
         var child = new Child();
 
-        context.Child.Add(child);
+        context.Child1.Add(child);
 
         context.Invoking(x => x.SaveChanges())
             .Should()
@@ -50,9 +50,9 @@ public sealed class RequiredOneToOneTests : IDisposable
     
     public class Context: DbContext, ITestContext<Context>
     {
-        public DbSet<Parent> Parent { get; set; } = null!;
+        public DbSet<Parent> Parent1 { get; set; } = null!;
         
-        public DbSet<Child> Child { get; set; } = null!;
+        public DbSet<Child> Child1 { get; set; } = null!;
 
         public Context(DbContextOptions<Context> options) : base(options)
         { }

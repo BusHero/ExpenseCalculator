@@ -10,8 +10,8 @@ public sealed class CachingTests
         var invocations1 = 0;
         var invocations2 = 0;
         
-        using var c1= ContextFactory.CreateContext<Context>(x => { invocations1++; });
-        using var c2 = ContextFactory.CreateContext<Context>(x => { invocations2++; });
+        using var c1= ContextFactory.CreateContext<Context>(_ => { invocations1++; });
+        using var c2 = ContextFactory.CreateContext<Context>(_ => { invocations2++; });
         
         using var _ = new AssertionScope();
         invocations1.Should().Be(2);

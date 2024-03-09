@@ -9,7 +9,7 @@ public abstract class RelayContext<T>: DbContext
     protected RelayContext(DbContextOptions<T> options) : base(options)
     { }
 
-    protected bool CacheModel { get; set; } = false;
+    protected bool CacheModel { get; set; }
 
     public Action<ModelBuilder> ModelCreatingDelegate { get; set; } = null!;
 
