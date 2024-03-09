@@ -7,8 +7,9 @@ public class RelayContext<T>: DbContext
     where T: DbContext
 {
     public RelayContext(DbContextOptions<T> options) : base(options)
-    {
-    }
+    { }
+
+    protected bool CacheModel { get; set; } = false;
 
     public Action<ModelBuilder> ModelCreatingDelegate { get; set; } = null!;
 
@@ -20,7 +21,12 @@ public class RelayContext<T>: DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
-    
-        optionsBuilder.ReplaceService<IModelCacheKeyFactory, NoCacheModelCacheKeyFactory>();
+        
+        if (!CacheModel)
+        {
+            optionsBuilder.ReplaceService<
+                IModelCacheKeyFactory, 
+                NoCacheModelCacheKeyFactory>();
+        }
     }
 }
