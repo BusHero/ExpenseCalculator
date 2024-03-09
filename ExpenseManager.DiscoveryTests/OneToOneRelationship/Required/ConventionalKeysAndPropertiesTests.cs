@@ -33,7 +33,7 @@ public sealed class ConventionalKeysAndPropertiesTests : IDisposable
 
         context.Invoking(x => x.SaveChanges())
             .Should()
-            .NotThrow<Exception>();
+            .NotThrow();
     }
     
     [Fact]
