@@ -5,5 +5,5 @@ namespace ExpensesManager.DataAccess;
 
 public class ApplicationUser: IdentityUser
 {
-    public User User { get; set; }
+    public User User { get; set; } = null!;
 }
