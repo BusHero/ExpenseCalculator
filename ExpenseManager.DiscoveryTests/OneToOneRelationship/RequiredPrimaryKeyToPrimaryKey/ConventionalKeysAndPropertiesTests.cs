@@ -40,6 +40,59 @@ public sealed class ConventionalKeysAndPropertiesTests
 
         AssertChildAndParentHaveSameKey(context);
     }
+    
+    [Fact]
+    public void ParentToChildRelationshipIsOptional()
+    {
+        using var context = ContextFactory.CreateContext<Context>(builder =>
+        {
+            builder.Entity<Child>()
+                .HasOne(x => x.Parent)
+                .WithOne(x => x.Child)
+                .HasForeignKey<Child>();
+        });
+        var parent = new Parent();
+
+        context.Parent1.Add(parent);
+
+        context.Invoking(x => x.SaveChanges())
+            .Should()
+            .NotThrow();
+    }
+    
+    [Fact]
+    public void ChildToParentRelationshipIsMandatory()
+    {
+        using var context = ContextFactory.CreateContext<Context>(builder =>
+        {
+            builder.Entity<Child>()
+                .HasOne(x => x.Parent)
+                .WithOne(x => x.Child)
+                .HasForeignKey<Child>();
+        });
+        var child = new Child();
+
+        context.Child1.Add(child);
+
+        context.Invoking(x => x.SaveChanges())
+            .Should()
+            .Throw<Exception>();
+    }
+    
+    [Fact]
+    public void ChildIsMandatory()
+    {
+        using var context = ContextFactory.CreateContext<Context>(builder =>
+        {
+            builder.Entity<Child>()
+                .HasOne(x => x.Parent)
+                .WithOne(x => x.Child)
+                .HasForeignKey<Child>();
+        });
+
+        AssertChildAndParentHaveSameKey(context);
+    }
+    
 
     private void AssertChildAndParentHaveSameKey(Context context)
     {
