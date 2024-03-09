@@ -3,14 +3,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseManager.DataAccess.Tests.DiscoveryTests;
 
-public sealed class UnconventionalKeyToParentTests
+public sealed class UnconventionalNavigationalPropertyToParentTests
 {
     [Fact]
-    public void NoConfigurationIsThrowing()
+    public void NoConfigurationIsNotThrowing()
     {
-        var action = () => ContextFactory.CreateContext<Context>(_ => {});
-        
-        action.Should().Throw<Exception>();
+        var context = ContextFactory.CreateContext<Context>(_ => {});
+
+        AssertCanAddChildToParent(context);
     }
     
     [Fact]
@@ -20,8 +20,8 @@ public sealed class UnconventionalKeyToParentTests
         {
             builder.Entity<Parent>()
                 .HasOne(x => x.Child)
-                .WithOne(x => x.Parent)
-                .HasForeignKey<Child>(x => x.TotallyUnconventionalKey)
+                .WithOne(x => x.UnconventionalProperty)
+                .HasForeignKey<Child>(x => x.ParentId)
                 .IsRequired();
         });
         
@@ -34,12 +34,12 @@ public sealed class UnconventionalKeyToParentTests
         using var context = ContextFactory.CreateContext<Context>(builder =>
         {
             builder.Entity<Child>()
-                .HasOne(x => x.Parent)
+                .HasOne(x => x.UnconventionalProperty)
                 .WithOne(x => x.Child)
-                .HasForeignKey<Child>(x => x.TotallyUnconventionalKey)
+                .HasForeignKey<Child>(x => x.ParentId)
                 .IsRequired();
         });
-
+    
         AssertCanAddChildToParent(context);
     }
 
@@ -54,7 +54,7 @@ public sealed class UnconventionalKeyToParentTests
     
         context.SaveChanges();
     
-        child.Parent.Should().NotBeNull();
+        child.UnconventionalProperty.Should().NotBeNull();
     }
     
     public class Context: RelayContext<Context>, ITestContext<Context>
@@ -85,8 +85,8 @@ public sealed class UnconventionalKeyToParentTests
     {
         public int ChildId { get; set; }
         
-        public int TotallyUnconventionalKey { get; set; }
+        public int ParentId { get; set; }
         
-        public Parent Parent { get; set; } = null!;
+        public Parent UnconventionalProperty { get; set; } = null!;
     }
 }
