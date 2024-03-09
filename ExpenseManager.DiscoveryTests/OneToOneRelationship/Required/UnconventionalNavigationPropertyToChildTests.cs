@@ -65,7 +65,7 @@ public sealed class UnconventionalNavigationPropertyToChildTests
     
         parent.UnconventionalProperty = child;
     
-        context.Parent.Add(parent);
+        context.Parent1.Add(parent);
     
         context.SaveChanges();
     
@@ -79,7 +79,7 @@ public sealed class UnconventionalNavigationPropertyToChildTests
 
         child.Parent = parent;
     
-        context.Child.Add(child);
+        context.Child1.Add(child);
     
         context.SaveChanges();
 
@@ -88,11 +88,9 @@ public sealed class UnconventionalNavigationPropertyToChildTests
     
     public class Context: RelayContext<Context>, ITestContext<Context>
     {
-        // ReSharper disable once MemberHidesStaticFromOuterClass
-        public DbSet<Parent> Parent { get; init; } = null!;
+        public DbSet<Parent> Parent1 { get; init; } = null!;
         
-        // ReSharper disable once MemberHidesStaticFromOuterClass
-        public DbSet<Child> Child { get; init; } = null!;
+        public DbSet<Child> Child1 { get; init; } = null!;
 
         public Context(DbContextOptions<Context> options) : base(options)
         { }
