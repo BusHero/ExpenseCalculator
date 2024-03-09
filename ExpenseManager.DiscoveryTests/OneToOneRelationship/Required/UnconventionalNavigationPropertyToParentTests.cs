@@ -56,7 +56,7 @@ public sealed class UnconventionalNavigationPropertyToParentTests
         child.UnconventionalProperty.Should().NotBeNull();
     }
     
-    public class Context: RelayContext<Context>, ITestContext<Context>
+    private class Context: RelayContext<Context>, ITestContext<Context>
     {
         public DbSet<Parent> Parent1 { get; init; } = null!;
         
@@ -71,14 +71,14 @@ public sealed class UnconventionalNavigationPropertyToParentTests
     }
     
 
-    public class Parent
+    private class Parent
     {
         public int ParentId { get; set; }
         
         public Child? Child { get; set; }
     }
     
-    public class Child
+    private class Child
     {
         public int ChildId { get; set; }
         

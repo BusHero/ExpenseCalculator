@@ -48,7 +48,7 @@ public sealed class ConventionalKeysAndPropertiesTests : IDisposable
             .Throw<Exception>();
     }
     
-    public class Context: DbContext, ITestContext<Context>
+    private class Context: DbContext, ITestContext<Context>
     {
         public DbSet<Parent> Parent1 { get; set; } = null!;
         
@@ -61,14 +61,14 @@ public sealed class ConventionalKeysAndPropertiesTests : IDisposable
             => new Context(options);
     }
 
-    public class Parent
+    private class Parent
     {
         public int Id { get; set; }
         
         public Child? Child { get; set; }
     }
     
-    public class Child
+    private class Child
     {
         public int Id { get; set; }
         
