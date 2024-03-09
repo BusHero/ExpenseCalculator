@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace ExpenseManager.DiscoveryTests.OneToOneRelationship.Optional;
+namespace ExpenseManager.DiscoveryTests.OneToOneRelationship.Required;
 
 public sealed class UnconventionalKeyToParentTests
 {
@@ -83,7 +83,7 @@ public sealed class UnconventionalKeyToParentTests
         public int ChildId { get; set; }
         
         public int TotallyUnconventionalKey { get; set; }
-        
-        public Parent? Parent { get; set; }
+
+        public Parent Parent { get; set; } = null!;
     }
 }
