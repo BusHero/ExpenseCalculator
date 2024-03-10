@@ -11,7 +11,7 @@ public abstract class RelayContext<T>: DbContext
 
     protected bool CacheModel { get; set; }
 
-    public Action<ModelBuilder> ModelCreatingDelegate { get; set; } = null!;
+    public Action<ModelBuilder> ModelCreatingDelegate { get; set; } = _ => {};
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
