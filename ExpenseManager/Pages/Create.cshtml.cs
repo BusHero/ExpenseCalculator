@@ -17,7 +17,7 @@ public class Create : PageModel
     {}
 
     public IActionResult OnPost(
-        [FromServices] UserManager<ApplicationUser> userManager,
+        [FromServices] ApplicationService applicationService,
         [FromServices] ApplicationContext context,
         [FromServices] IExpenseStorage storage)
     {
@@ -26,14 +26,16 @@ public class Create : PageModel
             return BadRequest();
         }
 
-        var name = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        storage.Add(new Expense
-        {
-            Name = ExpenseName.FromString(Data1.Expense),
-            Amount = Money.FromDecimal(Data1.Amount),
-        });
-
+        applicationService.AddExpenseToLoggedInUser(
+            LoggedInUserId.FromString(userId),
+            new()
+            {
+                Name = ExpenseName.FromString(Data1.Expense),
+                Amount = Money.FromDecimal(Data1.Amount),
+            });
+        
         return Redirect("/");
     }
 

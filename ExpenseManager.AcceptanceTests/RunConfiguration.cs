@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 
 namespace AcceptanceTests;
 
-public class RunConfiguration : IDisposable
+public class RunConfiguration : IAsyncLifetime
 {
     private readonly ServiceProvider services;
 
@@ -39,6 +39,8 @@ public class RunConfiguration : IDisposable
                 return service;
             });
     }
-    
-    public void Dispose() => services.Dispose();
+
+    public Task InitializeAsync() => Task.CompletedTask;
+
+    async Task IAsyncLifetime.DisposeAsync() => await services.DisposeAsync();
 }

@@ -1,14 +1,14 @@
-using AutoFixture.Xunit2;
 using ExpenseManager.Domain;
 using ExpensesManager.DataAccess;
-using FluentAssertions;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseManager.DataAccess.Tests;
 
-public class ApplicationContextTests
+public sealed class ApplicationContextTests
 {
+    private readonly IFixture fixture = new Fixture();
+    
     private static DbContextOptions<ApplicationContext> GetSqLiteInMemoryOptions()
     {
         var connection = new SqliteConnection("Filename=:memory:");
@@ -31,6 +31,25 @@ public class ApplicationContextTests
     }
 
     [Theory, AutoData]
+    public void UserHasShadowPropertyEqualToApplicationId()
+    {
+        var context = CreateContext();
+
+        var applicationUser = fixture.Create<ApplicationUser>();
+
+        context.Users.Add(applicationUser);
+
+        context.SaveChanges();
+
+        context!
+            .Entry(applicationUser.User)
+            .Property("ApplicationUserId")
+            .CurrentValue
+            .Should()
+            .Be(applicationUser.Id);
+    }
+    
+    [Theory, AutoData]
     public void AddUser(ApplicationUser user)
     {
         using var context = CreateContext();
@@ -38,40 +57,39 @@ public class ApplicationContextTests
 
         context.SaveChanges();
 
-        var dbUser = context.Users
+        var savedUser = context.Users
             .Single(x => x.Id == user.Id);
 
-        dbUser.Should().Be(dbUser);
+        savedUser.Should().Be(savedUser);
     }
 
     [Theory, AutoData]
     public void UserWithExpenses(
         User user,
-        Expense expense
-        )
+        Expense expense)
     {
         user.AddExpense(expense);
         
         using var context = CreateContext();
 
-        context.Users2.Add(user);
+        context.DomainUsers.Add(user);
         context.SaveChanges();
     }
     
     [Theory, AutoData]
     public void ApplicationUserUserLink(
-        ApplicationUser user1,
-        User user2)
+        ApplicationUser applicationUser,
+        User domainUser)
     {
-        user1.User = user2;
+        applicationUser.User = domainUser;
         using var context = CreateContext();
-
-        context.Users.Add(user1);
+    
+        context.Users.Add(applicationUser);
         
         context.SaveChanges();
-
-        context.Users2
-            .SingleOrDefault(x => x.Id == user2.Id)
+    
+        context.DomainUsers
+            .SingleOrDefault(x => x.Id == domainUser.Id)
             .Should()
             .NotBeNull();
     }
@@ -84,7 +102,7 @@ public class ApplicationContextTests
 
         var context = CreateContext();
 
-        context.Users2.AddRange(user1, user2);
+        context.DomainUsers.AddRange(user1, user2);
 
         context.SaveChanges();
 
