@@ -12,7 +12,7 @@ public class ConventionalTests
     {
         using var context1 = ContextFactory.CreateContext<Context>();
 
-        var parent = new Parent { Id = fixture.Create<int>() };
+        var parent = new Parent { Id = fixture.Create<int>(), };
         var child = new Child();
         parent.Child = child;
 
