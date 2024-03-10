@@ -22,9 +22,12 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" id="home" asp-page="/Index">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" id="create" asp-page="/Create">Create</a>
-                    </li>
+                    @if (User.Identity?.IsAuthenticated ?? false)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" id="create" asp-page="/Create">Create</a>
+                        </li>
+                    }
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" id="privacy" asp-page="/Privacy">Privacy</a>
                     </li>
