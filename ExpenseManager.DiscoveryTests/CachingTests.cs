@@ -18,7 +18,7 @@ public sealed class CachingTests
         invocations2.Should().Be(0);
     }
     
-    public class Context: RelayContext<Context>, ITestContext<Context>
+    private class Context: RelayContext<Context>, ITestContext<Context>
     {
         public DbSet<Entity> Entity1 { get; set; } = null!;
 
@@ -34,5 +34,5 @@ public sealed class CachingTests
             };
     }
 
-    public class Entity { public int Id { get; set; } }
+    private class Entity { public int Id { get; set; } }
 }
