@@ -21,6 +21,9 @@
 
     <ItemGroup>
         <Using Include="Xunit"/>
+        <Using Include="FluentAssertions"/>
+        <Using Include="AutoFixture"/>
+        <Using Include="AutoFixture.Xunit2"/>
     </ItemGroup>
 
     <ItemGroup>

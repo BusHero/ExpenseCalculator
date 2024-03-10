@@ -4,18 +4,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ExpensesManager.DataAccess;
 
-public class ApplicationContext : IdentityDbContext<ApplicationUser>
+public sealed class ApplicationContext : IdentityDbContext<ApplicationUser>
 {
     public ApplicationContext(DbContextOptions<ApplicationContext> options) 
         : base(options)
     {
     }
 
-    public DbSet<User> Users2 { get; init; } = null!;
+    public DbSet<User> DomainUsers { get; init; } = null!;
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+
+        builder.Entity<ApplicationUser>()
+            .HasOne(x => x.User)
+            .WithOne()
+            .HasForeignKey<User>("ApplicationUserId");
+        
         builder.Entity<User>(b =>
         {
             b.HasKey(x => x.Id) ;
