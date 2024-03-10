@@ -30,7 +30,7 @@ public sealed class ApplicationContextTests
         return context;
     }
 
-    [Theory, AutoData]
+    [Fact]
     public void UserHasShadowPropertyEqualToApplicationId()
     {
         var context = CreateContext();
@@ -41,8 +41,8 @@ public sealed class ApplicationContextTests
 
         context.SaveChanges();
 
-        context!
-            .Entry(applicationUser.User)
+        context
+            .Entry(applicationUser.User!)
             .Property("ApplicationUserId")
             .CurrentValue
             .Should()
