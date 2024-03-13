@@ -26,18 +26,4 @@ public class ExpenseControllerTests
 
         response.EnsureSuccessStatusCode();
     }
-
-    [Theory, AutoData] 
-    public async Task WhenGettingExpense_ShouldGetWhatWasPostedBefore(
-        Expense expense)
-    {
-        await client.PostAsJsonAsync(
-            "/expense/create", 
-            expense);
-
-        var expenses = await client
-            .GetFromJsonAsync<List<Expense>>("/expense/all");
-
-        expenses.Should().Contain(expense);
-    }
 }

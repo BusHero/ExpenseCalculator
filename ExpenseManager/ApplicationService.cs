@@ -4,7 +4,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseManager;
 
-public class ApplicationService
+public interface IApplicationService
+{
+    void AddExpenseToLoggedInUser(
+        LoggedInUserId loggedInUserId,
+        Expense expense);
+    
+    IEnumerable<Expense> GetExpensesLoggedInUser(LoggedInUserId loggedInUserId);
+}
+
+public class ApplicationService : IApplicationService
 {
     private readonly ApplicationContext context;
     

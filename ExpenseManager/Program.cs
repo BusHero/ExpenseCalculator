@@ -17,7 +17,7 @@ builder.Services.AddDbContext<ApplicationContext>(options =>
         x => x.MigrationsAssembly("ExpenseManager.DataAccess.Migrations"));
 });
 
-builder.Services.AddTransient<ApplicationService>();
+builder.Services.AddTransient<IApplicationService, ApplicationService>();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(
         options =>

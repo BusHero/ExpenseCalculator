@@ -10,7 +10,7 @@ public class IndexModel : PageModel
     public IndexDto? Data { get; private set; }
 
     public void OnGet(
-        [FromServices] ApplicationService applicationService,
+        [FromServices] IApplicationService applicationService,
         [FromServices] IExpenseStorage expenseStorage)
     {
         if (User.Identity?.IsAuthenticated ?? false)

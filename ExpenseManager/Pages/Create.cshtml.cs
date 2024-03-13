@@ -2,12 +2,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using ExpenseManager.Domain;
 using ExpensesManager.DataAccess;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ExpenseManager.Pages;
 
+[Authorize]
 public class Create : PageModel
 {
     [ModelBinder]
@@ -17,7 +18,7 @@ public class Create : PageModel
     {}
 
     public IActionResult OnPost(
-        [FromServices] ApplicationService applicationService,
+        [FromServices] IApplicationService applicationService,
         [FromServices] ApplicationContext context,
         [FromServices] IExpenseStorage storage)
     {

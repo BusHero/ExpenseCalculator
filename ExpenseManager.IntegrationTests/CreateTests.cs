@@ -1,5 +1,4 @@
 using System.Net;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Net.Http.Headers;
 
 namespace ExpenseManager.IntegrationTests;
@@ -8,11 +7,13 @@ namespace ExpenseManager.IntegrationTests;
 public class CreateTests
     : IClassFixture<MyWebFactory>
 {
+    private readonly MyWebFactory factory;
     private readonly HttpClient client;
 
     public CreateTests(MyWebFactory factory)
     {
-        client = factory.CreateClient(new WebApplicationFactoryClientOptions
+        this.factory = factory;
+        client = factory.CreateClient(new()
         {
             AllowAutoRedirect = false,
         });
@@ -21,15 +22,28 @@ public class CreateTests
     [Fact]
     public async Task Get_Returns200()
     {
+        factory.WithUserAuthenticationStatus(true);
         var status = await client.GetAsync("/Create");
 
         status.EnsureSuccessStatusCode();
+    }
+
+    [Fact]
+    public async Task Post_UnauthenticatedUser_Returns401()
+    {
+        factory.WithUserAuthenticationStatus(false);
+        var response = await client.GetAsync("/Create");
+
+        response.StatusCode
+            .Should()
+            .Be(HttpStatusCode.Unauthorized);
     }
     
     // This is unexpected
     [Fact]
     public async Task Post_NoAntiForgeryCookie_Returns302()
     {
+        factory.WithUserAuthenticationStatus(true);
         var initResponse = await client.GetAsync("/Create");
         var antiForgeryValues = await AntiForgeryTokenExtractor.ExtractAntiForgeryValues(initResponse);
         
@@ -52,6 +66,7 @@ public class CreateTests
     [Fact]
     public async Task Post_NoAntiForgeryField_Returns400()
     {
+        factory.WithUserAuthenticationStatus(true);
         var initResponse = await client.GetAsync("/Create");
         var antiForgeryValues = await AntiForgeryTokenExtractor.ExtractAntiForgeryValues(initResponse);
         
@@ -74,6 +89,7 @@ public class CreateTests
     [Fact]
     public async Task Post_ReturnRedirect()
     {
+        factory.WithUserAuthenticationStatus(true);
         var initResponse = await client.GetAsync("/Create");
         var antiForgeryValues = await AntiForgeryTokenExtractor.ExtractAntiForgeryValues(initResponse);
         
@@ -97,6 +113,7 @@ public class CreateTests
     [Fact]
     public async Task Post_RedirectToIndex()
     {
+        factory.WithUserAuthenticationStatus(true);
         var initResponse = await client.GetAsync("/Create");
         var antiForgeryValues = await AntiForgeryTokenExtractor.ExtractAntiForgeryValues(initResponse);
         
@@ -123,6 +140,7 @@ public class CreateTests
     [Fact]
     public async Task Post_FailedValidationReturn400()
     {
+        factory.WithUserAuthenticationStatus(true);
         var initResponse = await client.GetAsync("/Create");
         var antiForgeryValues = await AntiForgeryTokenExtractor.ExtractAntiForgeryValues(initResponse);
         
