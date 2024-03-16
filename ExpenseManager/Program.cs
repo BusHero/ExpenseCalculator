@@ -2,6 +2,7 @@ using ExpenseManager;
 using ExpenseManager.Domain;
 using ExpenseManager.LocalDevelopment;
 using ExpensesManager.DataAccess;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,7 +25,10 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(
         {
             options.SignIn.RequireConfirmedAccount = true;
         })
+    
     .AddEntityFrameworkStores<ApplicationContext>();
+
+builder.Services.AddTransient<UserManager<ApplicationUser>>();
 
 var app = builder
     .Build();
