@@ -31,9 +31,7 @@ public class ApplicationService : IApplicationService
             .Include(x => x.User)
             .Single(x => x.Id == loggedInUserId.Value);
 
-        user.User ??= new();
-
-        user.User.AddExpense(expense);
+        user.User!.AddExpense(expense);
         
         context.SaveChanges();
     }

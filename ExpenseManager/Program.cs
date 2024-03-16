@@ -19,13 +19,16 @@ builder.Services.AddDbContext<ApplicationContext>(options =>
 });
 
 builder.Services.AddTransient<IApplicationService, ApplicationService>();
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    options.SetDefaultCulture("en-US");
+});
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(
         options =>
         {
             options.SignIn.RequireConfirmedAccount = true;
         })
-    
     .AddEntityFrameworkStores<ApplicationContext>();
 
 builder.Services.AddTransient<UserManager<ApplicationUser>>();
@@ -56,6 +59,8 @@ app.UseRouting();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseRequestLocalization();
 
 app.MapRazorPages();
 

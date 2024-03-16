@@ -24,23 +24,6 @@ public class ApplicationServiceTests
         fixture.AssertDomainUserHasExpense(applicationId, expense);
     }
     
-    [Theory, AutoData]
-    public void AddExpenseToLoggedInUser_NonExistingDomainUserCreatesUser(Expense expense)
-    {
-        using var fixture = builder
-            .Build()
-            .WithApplication(
-                x => x.User = null,
-                out var applicationId);
-
-        fixture.ApplicationService
-            .AddExpenseToLoggedInUser(
-                LoggedInUserId.FromString(applicationId),
-                expense);
-
-        fixture.AssertDomainUserHasExpense(applicationId, expense);
-    }
-    
     [Fact]
     public void GetExpensesLoggedInUser_NonExistingUser_ReturnsEmptyList()
     {
