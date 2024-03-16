@@ -121,6 +121,7 @@ jobs:
         env: 
           HOME: /root
           WebDriver__Headless: true
+          WebDriver__Uri: 'https://expensemanager2.azurewebsites.net/'
         run: |
           ./build.sh RunAcceptanceTests --driver Web
           
