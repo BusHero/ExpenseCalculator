@@ -120,6 +120,7 @@ jobs:
       - name: 'Run acceptance tests'
         env: 
           HOME: /root
+          WebDriver__Headless: true
         run: |
           ./build.sh RunAcceptanceTests --driver Web
           
