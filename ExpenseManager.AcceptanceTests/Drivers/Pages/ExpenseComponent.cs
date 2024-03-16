@@ -1,3 +1,4 @@
+using System.Globalization;
 using Microsoft.Playwright;
 
 namespace AcceptanceTests.Drivers.Pages;
@@ -18,6 +19,6 @@ public class ExpenseComponent : PageBase
 
         return new Expense(
             name, 
-            decimal.Parse(amount));
+            decimal.Parse(amount, new CultureInfo("en-US")));
     }
 }
