@@ -26,10 +26,17 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(
         })
     .AddEntityFrameworkStores<ApplicationContext>();
 
-var app = builder.Build();
+var app = builder
+    .Build();
 
-app.UseExceptionHandler("/Error");
-app.UseHsts();
+if (!app.Environment.IsDevelopment()){
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
+}
+else
+{
+    app.UseDeveloperExceptionPage();
+}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
