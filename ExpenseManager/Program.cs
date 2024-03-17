@@ -1,5 +1,6 @@
 using ExpenseManager;
 using ExpensesManager.DataAccess;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,7 +12,14 @@ builder.Services.AddDbContext<ApplicationContext>(options =>
 {
     options.UseSqlite(
         builder.Configuration.GetConnectionString("DefaultConnection"),
-        x => x.MigrationsAssembly("ExpenseManager.DataAccess.Migrations"));
+        x =>
+        {
+            var assemblyName = typeof(ExpenseManager.DataAccess.Migrations.Marker)
+                .Assembly
+                .GetName()
+                .Name;
+            x.MigrationsAssembly(assemblyName);
+        });
 });
 
 builder.Services.AddTransient<IApplicationService, ApplicationService>();
