@@ -10,28 +10,21 @@ public class IndexModel : PageModel
     public IndexDto? Data { get; private set; }
 
     public void OnGet(
-        [FromServices] IApplicationService applicationService,
-        [FromServices] IExpenseStorage expenseStorage)
+        [FromServices] IApplicationService applicationService)
     {
-        if (User.Identity?.IsAuthenticated ?? false)
+        if (!(User.Identity?.IsAuthenticated ?? false))
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var expenses = applicationService
-                .GetExpensesLoggedInUser(LoggedInUserId.FromString(userId))
-                .Select(x => new ExpenseDto(x.Name.Value, x.Amount.Value))
-                .ToList();
-
-            Data = new IndexDto(expenses);
+            return;
         }
-        else
-        {
-            Data = new IndexDto(
-                expenseStorage
-                    .GetAll()
-                    .Select(x => new ExpenseDto(x.Name.Value, x.Amount.Value))
-                    .ToList());
-        }
+        
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        var expenses = applicationService
+            .GetExpensesLoggedInUser(LoggedInUserId.FromString(userId))
+            .Select(x => new ExpenseDto(x.Name.Value, x.Amount.Value))
+            .ToList();
+
+        Data = new(expenses);
     }
 }
 

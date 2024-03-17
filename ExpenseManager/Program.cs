@@ -1,6 +1,4 @@
 using ExpenseManager;
-using ExpenseManager.Domain;
-using ExpenseManager.LocalDevelopment;
 using ExpensesManager.DataAccess;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -8,8 +6,6 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
-
-builder.Services.AddSingleton<IExpenseStorage, InMemoryExpensesStorage>();
 
 builder.Services.AddDbContext<ApplicationContext>(options =>
 {

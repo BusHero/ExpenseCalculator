@@ -19,8 +19,7 @@ public class Create : PageModel
 
     public IActionResult OnPost(
         [FromServices] IApplicationService applicationService,
-        [FromServices] ApplicationContext context,
-        [FromServices] IExpenseStorage storage)
+        [FromServices] ApplicationContext context)
     {
         if (!ModelState.IsValid)
         {
