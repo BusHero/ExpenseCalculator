@@ -1,3 +1,6 @@
+using Duende.IdentityServer;
+using IdentityServer.Pages;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
 namespace IdentityServer;
@@ -7,7 +10,7 @@ internal static class HostingExtensions
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
         // uncomment if you want to add a UI
-        //builder.Services.AddRazorPages();
+        builder.Services.AddRazorPages();
 
         builder.Services.AddIdentityServer(options =>
             {
@@ -16,7 +19,38 @@ internal static class HostingExtensions
             })
             .AddInMemoryIdentityResources(Config.IdentityResources)
             .AddInMemoryApiScopes(Config.ApiScopes)
-            .AddInMemoryClients(Config.Clients);
+            .AddInMemoryClients(Config.Clients)
+            .AddTestUsers(TestUsers.Users);
+
+        builder.Services
+            .AddAuthentication()
+            .AddOpenIdConnect("oidc",
+                "Demo IdentityServer",
+                options =>
+                {
+                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+                    options.SignOutScheme = IdentityServerConstants.SignoutScheme;
+                    options.SaveTokens = true;
+
+                    options.Authority = "https://demo.duendesoftware.com";
+                    options.ClientId = "interactive.confidential";
+                    options.ClientSecret = "secret";
+                    options.ResponseType = "code";
+
+                    options.TokenValidationParameters = new()
+                    {
+                        NameClaimType = "name",
+                        RoleClaimType = "role",
+                    };
+                })
+            .AddGoogle("Google",
+                options =>
+                {
+                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+
+                    options.ClientId = builder.Configuration["Authentication:Google:ClientId"]!;
+                    options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
+                });
 
         return builder.Build();
     }
@@ -31,14 +65,14 @@ internal static class HostingExtensions
         }
 
         // uncomment if you want to add a UI
-        //app.UseStaticFiles();
-        //app.UseRouting();
+        app.UseStaticFiles();
+        app.UseRouting();
 
         app.UseIdentityServer();
 
         // uncomment if you want to add a UI
-        //app.UseAuthorization();
-        //app.MapRazorPages().RequireAuthorization();
+        app.UseAuthorization();
+        app.MapRazorPages().RequireAuthorization();
 
         return app;
     }
