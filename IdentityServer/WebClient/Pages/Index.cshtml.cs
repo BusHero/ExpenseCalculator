@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -12,6 +13,5 @@ public class IndexModel : PageModel
         _logger = logger;
     }
 
-    public void OnGet()
-    {}
+    public async Task OnGet() {}
 }

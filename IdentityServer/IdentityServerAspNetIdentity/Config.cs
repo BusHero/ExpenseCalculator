@@ -7,70 +7,64 @@ namespace IdentityServerAspNetIdentity;
 public static class Config
 {
     public static IEnumerable<IdentityResource> IdentityResources =>
-        new IdentityResource[]
+    [
+        new IdentityResources.OpenId(),
+        new IdentityResources.Profile(),
+        new()
         {
-            new IdentityResources.OpenId(),
-            new IdentityResources.Profile(),
-            new IdentityResource()
+            Name = "verification",
+            UserClaims = new List<string>
             {
-                Name = "verification",
-                UserClaims = new List<string>
-                {
-                    JwtClaimTypes.Email,
-                    JwtClaimTypes.EmailVerified,
-                }
+                JwtClaimTypes.Email,
+                JwtClaimTypes.EmailVerified,
             },
-            new IdentityResource("color", new[] { "favorite_color" }),
-        };
+        },
+        new("color", ["favorite_color",]),
+    ];
 
     public static IEnumerable<ApiScope> ApiScopes =>
-        new ApiScope[]
-        {
-            new ApiScope(name: "api1", displayName: "My API")
-        };
+    [
+        new(name: "api1", displayName: "My API"),
+    ];
 
     public static IEnumerable<Client> Clients =>
-        new Client[]
+    [
+        new()
         {
-            new Client
+            ClientId = "client",
+
+            AllowedGrantTypes = GrantTypes.ClientCredentials,
+
+            ClientSecrets =
             {
-                ClientId = "client",
-
-                AllowedGrantTypes = GrantTypes.ClientCredentials,
-
-                // secret for authentication
-                ClientSecrets =
-                {
-                    new Secret("secret".Sha256())
-                },
-
-                // scopes that client has access to
-                AllowedScopes = { "api1" }
+                new Secret("secret".Sha256()),
             },
-            // interactive ASP.NET Core Web App
-            new Client
+
+            AllowedScopes = { "api1", },
+        },
+        new()
+        {
+            ClientId = "web",
+            ClientSecrets = { new Secret("secret".Sha256()) },
+
+            AllowedGrantTypes = GrantTypes.Code,
+
+            // where to redirect to after login
+            RedirectUris = { "https://localhost:5002/signin-oidc", },
+
+            // where to redirect to after logout
+            PostLogoutRedirectUris = { "https://localhost:5002/signout-callback-oidc", },
+
+            AllowOfflineAccess = true,
+
+            AllowedScopes =
             {
-                ClientId = "web",
-                ClientSecrets = { new Secret("secret".Sha256()) },
-
-                AllowedGrantTypes = GrantTypes.Code,
-
-                // where to redirect to after login
-                RedirectUris = { "https://localhost:5002/signin-oidc" },
-
-                // where to redirect to after logout
-                PostLogoutRedirectUris = { "https://localhost:5002/signout-callback-oidc" },
-
-                AllowOfflineAccess = true,
-
-                AllowedScopes =
-                {
-                    IdentityServerConstants.StandardScopes.OpenId,
-                    IdentityServerConstants.StandardScopes.Profile,
-                    "verification",
-                    "api1",
-                    "color",
-                }
-            }
-        };
+                IdentityServerConstants.StandardScopes.OpenId,
+                IdentityServerConstants.StandardScopes.Profile,
+                "verification",
+                "api1",
+                "color",
+            },
+        },
+    ];
 }

@@ -1,5 +1,6 @@
 using ExpenseManager;
 using ExpensesManager.DataAccess;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -22,20 +23,43 @@ builder.Services.AddDbContext<ApplicationContext>(options =>
         });
 });
 
+builder.Services.AddAuthentication(
+        x =>
+        {
+            x.DefaultScheme = "Cookies";
+            x.DefaultChallengeScheme = "oidc";
+        })
+    .AddCookie("Cookies")
+    .AddOpenIdConnect(
+        "oidc", 
+        options =>
+        {
+            options.Authority = "https://localhost:5001";
+
+            options.ClientId = "web";
+            options.ClientSecret = "secret";
+            options.ResponseType = "code";
+
+            options.Scope.Clear();
+            options.Scope.Add("openid");
+            options.Scope.Add("profile");
+            options.Scope.Add("offline_access");
+            options.Scope.Add("verification");
+            options.ClaimActions.MapJsonKey("email_verified", "email_verified");
+            options.ClaimActions.MapUniqueJsonKey("favorite_color", "favorite_color");
+            options.GetClaimsFromUserInfoEndpoint = true;
+
+            options.MapInboundClaims = false;// Don't rename claim types
+
+            options.SaveTokens = true;
+        })
+    ;
+
 builder.Services.AddTransient<IApplicationService, ApplicationService>();
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
     options.SetDefaultCulture("en-US");
 });
-
-builder.Services.AddDefaultIdentity<ApplicationUser>(
-        options =>
-        {
-            options.SignIn.RequireConfirmedAccount = true;
-        })
-    .AddEntityFrameworkStores<ApplicationContext>();
-
-builder.Services.AddTransient<UserManager<ApplicationUser>>();
 
 var app = builder
     .Build();
@@ -66,7 +90,7 @@ app.UseAuthorization();
 
 app.UseRequestLocalization();
 
-app.MapRazorPages();
+app.MapRazorPages().RequireAuthorization();
 
 app.Run();
 

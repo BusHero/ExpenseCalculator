@@ -5,16 +5,29 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome Man</h1>
-    <ul id="expenses">
-        @foreach (var item in Model.Data!.Expenses)
-        {
-            <li class="expense">
-                <span class="name">@item.Expense</span>
-                -
-                <span class="amount">@item.Amount</span>
-            </li>
-        }
-    </ul>
+<h2>Claims</h2>
+
+<div>
+    Name is <span></span>
 </div>
+
+<dl>
+    @foreach (var claim in User.Claims)
+    {
+        <dt>@claim.Type</dt>
+        <dd>@claim.Value</dd>
+    }
+</dl>
+@* <div class="text-center"> *@
+@*     <h1 class="display-4">Welcome Man</h1> *@
+@*     <ul id="expenses"> *@
+@*         @foreach (var item in Model.Data!.Expenses) *@
+@*         { *@
+@*             <li class="expense"> *@
+@*                 <span class="name">@item.Expense</span> *@
+@*                 - *@
+@*                 <span class="amount">@item.Amount</span> *@
+@*             </li> *@
+@*         } *@
+@*     </ul> *@
+@* </div> *@

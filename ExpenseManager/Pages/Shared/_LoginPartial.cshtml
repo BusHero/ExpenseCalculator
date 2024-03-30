@@ -1,38 +1,21 @@
-@using Microsoft.AspNetCore.Identity
-@using ExpensesManager.DataAccess
-@inject SignInManager<ApplicationUser> SignInManager 
 <ul class="navbar-nav">
-    @if (SignInManager.IsSignedIn(User))
+    @if (User.Identity?.IsAuthenticated ?? false)
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity"
-               asp-page="/Account/Manage/Index" title="Manage">
-                Hello <span id="logged-in-user">@User.Identity?.Name</span>!
+            <a class="nav-link text-dark" asp-page="/Account/Manage/Index" title="Manage">
+                Hello <span id="logged-in-user">@User.FindFirst("email")?.Value</span>!
             </a>
         </li>
         <li class="nav-item">
-            <form class="form-inline" asp-page="/Account/Logout"
-                  asp-route-returnUrl="@Url.Page("/", new { area = "" })"
-                  asp-area="Identity" method="post">
-                <button class="nav-link btn btn-link text-dark" 
-                        id="logout" 
-                        type="submit">
-                    Logout
-                </button>
-            </form>
+            <a id="logout" class="nav-link text-dark" asp-page="Signout">
+                Signout
+            </a>
         </li>
     }
     else
     {
         <li class="nav-item">
-            <a id="register" class="nav-link text-dark" asp-area="Identity"
-               asp-page="/Account/Register">
-                Register
-            </a>
-        </li>
-        <li class="nav-item">
-            <a id="login" class="nav-link text-dark" asp-area="Identity"
-               asp-page="/Account/Login">
+            <a id="login" class="nav-link text-dark" asp-page="Login">
                 Login
             </a>
         </li>
