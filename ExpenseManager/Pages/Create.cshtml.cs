@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using ExpenseManager.Domain;
 using ExpensesManager.DataAccess;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -17,7 +18,7 @@ public class Create : PageModel
     public void OnGet()
     {}
 
-    public IActionResult OnPost(
+    public async Task<IActionResult> OnPost(
         [FromServices] IApplicationService applicationService,
         [FromServices] ApplicationContext context)
     {
@@ -25,11 +26,18 @@ public class Create : PageModel
         {
             return BadRequest();
         }
+        
+        var result = await HttpContext.AuthenticateAsync();
 
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (!result.Succeeded || (result.Principal.Identity?.IsAuthenticated ?? false))
+        {
+            return Forbid();
+        }
+        
+        var userId = User.FindFirstValue("sub") ?? string.Empty;
 
         applicationService.AddExpenseToLoggedInUser(
-            LoggedInUserId.FromString(userId),
+            ExternalUserId.FromString(userId),
             new()
             {
                 Name = ExpenseName.FromString(Data1.Expense),

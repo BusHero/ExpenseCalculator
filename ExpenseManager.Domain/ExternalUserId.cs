@@ -1,14 +1,14 @@
-namespace ExpenseManager;
+namespace ExpenseManager.Domain;
 
-public record struct LoggedInUserId
+public record struct ExternalUserId
 {
     public required string Value { get; init; }
     
-    public static LoggedInUserId FromString(string? value)
+    public static ExternalUserId FromString(string? value)
     {
         ArgumentException.ThrowIfNullOrEmpty(value);
         
-        return new LoggedInUserId()
+        return new()
         {
             Value = value,
         };

@@ -72,10 +72,12 @@ public class MyWebFactory : WebApplicationFactory<Program>
 
 public class FakeApplicationService : IApplicationService
 {
-    public void AddExpenseToLoggedInUser(LoggedInUserId loggedInUserId, Expense expense)
+    public void AddExpenseToLoggedInUser(ExternalUserId externalUserId, Expense expense)
     {
     }
     
-    public IEnumerable<Expense> GetExpensesLoggedInUser(LoggedInUserId loggedInUserId) 
+    public IEnumerable<Expense> GetExpensesLoggedInUser(ExternalUserId externalUserId) 
         => [];
+    
+    public Task CreateNewUser(ExternalUserId id) => Task.CompletedTask;
 }

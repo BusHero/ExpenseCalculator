@@ -15,19 +15,19 @@ public class IndexModel : PageModel
     public void OnGet(
         [FromServices] IApplicationService applicationService)
     {
-        // if (!(User.Identity?.IsAuthenticated ?? false))
-        // {
-        //     return;
-        // }
-        //
-        // var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //
-        // var expenses = applicationService
-        //     .GetExpensesLoggedInUser(LoggedInUserId.FromString(userId))
-        //     .Select(x => new ExpenseDto(x.Name.Value, x.Amount.Value))
-        //     .ToList();
-        //
-        // Data = new(expenses);
+        if (!(User.Identity?.IsAuthenticated ?? false))
+        {
+            return;
+        }
+        
+        var userId = User.FindFirstValue("sub");
+        
+        var expenses = applicationService
+            .GetExpensesLoggedInUser(ExternalUserId.FromString(userId))
+            .Select(x => new ExpenseDto(x.Name.Value, x.Amount.Value))
+            .ToList();
+        
+        Data = new(expenses);
     }
 }
 

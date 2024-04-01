@@ -7,8 +7,6 @@ namespace ExpenseManager.DataAccess.Tests;
 
 public sealed class ApplicationContextTests
 {
-    private readonly IFixture fixture = new Fixture();
-    
     private static DbContextOptions<ApplicationContext> GetSqLiteInMemoryOptions()
     {
         var connection = new SqliteConnection("Filename=:memory:");
@@ -30,44 +28,12 @@ public sealed class ApplicationContextTests
         return context;
     }
 
-    [Fact]
-    public void UserHasShadowPropertyEqualToApplicationId()
-    {
-        var context = CreateContext();
-
-        var applicationUser = fixture.Create<ApplicationUser>();
-
-        context.Users.Add(applicationUser);
-
-        context.SaveChanges();
-
-        context
-            .Entry(applicationUser.User!)
-            .Property("ApplicationUserId")
-            .CurrentValue
-            .Should()
-            .Be(applicationUser.Id);
-    }
-    
-    [Theory, AutoData]
-    public void AddUser(ApplicationUser user)
-    {
-        using var context = CreateContext();
-        context.Users.Add(user);
-
-        context.SaveChanges();
-
-        var savedUser = context.Users
-            .Single(x => x.Id == user.Id);
-
-        savedUser.Should().Be(savedUser);
-    }
-
     [Theory, AutoData]
     public void UserWithExpenses(
-        User user,
+        string id,
         Expense expense)
     {
+        var user = User.CreateNew(ExternalUserId.FromString(id));
         user.AddExpense(expense);
         
         using var context = CreateContext();
@@ -75,30 +41,12 @@ public sealed class ApplicationContextTests
         context.DomainUsers.Add(user);
         context.SaveChanges();
     }
-    
-    [Theory, AutoData]
-    public void ApplicationUserUserLink(
-        ApplicationUser applicationUser,
-        User domainUser)
-    {
-        applicationUser.User = domainUser;
-        using var context = CreateContext();
-    
-        context.Users.Add(applicationUser);
-        
-        context.SaveChanges();
-    
-        context.DomainUsers
-            .SingleOrDefault(x => x.Id == domainUser.Id)
-            .Should()
-            .NotBeNull();
-    }
 
     [Fact]
     public void UserIdGetsAutoincrement()
     {
-        var user1 = new User();
-        var user2 = new User();
+        var user1 = User.CreateNew(ExternalUserId.FromString("foo"));
+        var user2 = User.CreateNew(ExternalUserId.FromString("bar"));
 
         var context = CreateContext();
 

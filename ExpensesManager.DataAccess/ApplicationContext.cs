@@ -1,10 +1,9 @@
 using ExpenseManager.Domain;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ExpensesManager.DataAccess;
 
-public sealed class ApplicationContext : IdentityDbContext<ApplicationUser>
+public sealed class ApplicationContext : DbContext
 {
     public ApplicationContext(DbContextOptions<ApplicationContext> options) 
         : base(options)
@@ -17,11 +16,6 @@ public sealed class ApplicationContext : IdentityDbContext<ApplicationUser>
     {
         base.OnModelCreating(builder);
 
-        builder.Entity<ApplicationUser>()
-            .HasOne(x => x.User)
-            .WithOne()
-            .HasForeignKey<User>("ApplicationUserId");
-        
         builder.Entity<User>(b =>
         {
             b.HasKey(x => x.Id) ;
@@ -29,6 +23,13 @@ public sealed class ApplicationContext : IdentityDbContext<ApplicationUser>
             b.Property(x => x.Id)
                 .ValueGeneratedOnAdd()
                 .HasConversion(x => x.Id, x => UserId.FromInt(x));
+
+            b.Property(x => x.ExternalId)
+                .HasConversion(x => x.Value, x => ExternalUserId.FromString(x))
+                .IsRequired();
+
+            b.HasIndex(x => x.ExternalId)
+                .IsUnique();
 
             b.OwnsMany(x => x.Expenses,
                 b1 =>

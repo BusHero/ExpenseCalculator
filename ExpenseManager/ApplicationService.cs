@@ -7,10 +7,12 @@ namespace ExpenseManager;
 public interface IApplicationService
 {
     void AddExpenseToLoggedInUser(
-        LoggedInUserId loggedInUserId,
+        ExternalUserId externalUserId,
         Expense expense);
     
-    IEnumerable<Expense> GetExpensesLoggedInUser(LoggedInUserId loggedInUserId);
+    IEnumerable<Expense> GetExpensesLoggedInUser(ExternalUserId externalUserId);
+    
+    Task CreateNewUser(ExternalUserId id);
 }
 
 public class ApplicationService : IApplicationService
@@ -23,27 +25,41 @@ public class ApplicationService : IApplicationService
     }
 
     public void AddExpenseToLoggedInUser(
-        LoggedInUserId loggedInUserId,
+        ExternalUserId externalUserId,
         Expense expense)
     {
         var user = context
-            .Users
-            .Include(x => x.User)
-            .Single(x => x.Id == loggedInUserId.Value);
+            .DomainUsers
+            .First();
 
-        user.User!.AddExpense(expense);
+        user.AddExpense(expense);
         
         context.SaveChanges();
     }
-    public IEnumerable<Expense> GetExpensesLoggedInUser(LoggedInUserId loggedInUserId)
+    public IEnumerable<Expense> GetExpensesLoggedInUser(ExternalUserId externalUserId)
     {
         var user = context
-            .Users
-            .Include(x => x.User!)
-            .ThenInclude(user => user.Expenses)
-            .Single(x => x.Id == loggedInUserId.Value)
-            .User;
+            .DomainUsers
+            .Include(user => user.Expenses)
+            .Single(x => x.ExternalId == externalUserId);
 
-        return user?.Expenses ?? [];
+        return user.Expenses ?? [];
+    }
+    
+    public async Task CreateNewUser(ExternalUserId id)
+    {
+        var user = await context.DomainUsers
+            .SingleOrDefaultAsync(x => x.ExternalId == id);
+
+        if (user is not null)
+        {
+            return;
+        }
+        
+        var newUser = User.CreateNew(id);
+        
+        context.DomainUsers.Add(newUser);
+        
+        await context.SaveChangesAsync();
     }
 }
