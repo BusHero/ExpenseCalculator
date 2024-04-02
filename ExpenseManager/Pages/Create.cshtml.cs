@@ -29,10 +29,14 @@ public class Create : PageModel
         
         var result = await HttpContext.AuthenticateAsync();
 
-        if (!result.Succeeded || (result.Principal.Identity?.IsAuthenticated ?? false))
+        if (!(result.Succeeded && (result.Principal.Identity?.IsAuthenticated ?? false)))
         {
             return Forbid();
         }
+        // if (!result.Succeeded || !(result.Principal.Identity?.IsAuthenticated ?? false))
+        // {
+        //     return Forbid();
+        // }
         
         var userId = User.FindFirstValue("sub") ?? string.Empty;
 

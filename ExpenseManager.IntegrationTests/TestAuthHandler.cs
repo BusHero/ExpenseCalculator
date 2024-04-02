@@ -25,7 +25,7 @@ public class TestAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions
     {
         if (!authStatus)
         {
-            return AuthenticateResult.NoResult();
+            return AuthenticateResult.Fail(new Exception());
         }
         
         var claims = new[]
@@ -34,6 +34,7 @@ public class TestAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions
             new Claim(ClaimTypes.NameIdentifier, "123"),
             new Claim(ClaimTypes.Email, "test@example.com"),
             new Claim(ClaimTypes.Role, "admin"),
+            new Claim("sub", "123456789"),
         };
         var identity = new ClaimsIdentity(claims, "Test");
         var principal = new ClaimsPrincipal(identity);
