@@ -49,10 +49,11 @@ public class MyWebFactory : WebApplicationFactory<Program>
             {
                 services.RemoveAll<IApplicationService>();
                 services.AddTransient<IApplicationService, FakeApplicationService>();
-                services.AddAuthentication(defaultScheme: "TestScheme")
+                services.AddAuthentication(defaultScheme: "Test")
                     .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>(
                         "TestScheme",
                         options => {});
+                services.AddTransient<IAuthenticationSchemeProvider, MockSchemeProvider>();
             })
             .ConfigureServices(x =>
             {

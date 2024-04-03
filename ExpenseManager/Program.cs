@@ -33,11 +33,11 @@ builder.Services.AddAuthentication(
         options =>
         {
             options.Authority = "https://localhost:5001";
-
+    
             options.ClientId = "web";
             options.ClientSecret = "secret";
             options.ResponseType = "code";
-
+    
             options.Scope.Clear();
             options.Scope.Add("openid");
             options.Scope.Add("profile");
@@ -46,12 +46,11 @@ builder.Services.AddAuthentication(
             options.ClaimActions.MapJsonKey("email_verified", "email_verified");
             options.ClaimActions.MapUniqueJsonKey("favorite_color", "favorite_color");
             options.GetClaimsFromUserInfoEndpoint = true;
-
+    
             options.MapInboundClaims = false;// Don't rename claim types
-
+    
             options.SaveTokens = true;
-        })
-    ;
+        });
 
 builder.Services.AddTransient<IApplicationService, ApplicationService>();
 builder.Services.Configure<RequestLocalizationOptions>(options =>
