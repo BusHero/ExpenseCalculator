@@ -7,7 +7,7 @@ public class LoginPage : PageBase
     public LoginPage(IPage page) : base(page)
     {}
 
-    private ILocator Email => Base.Locator("#Input_Email");
+    private ILocator Email => Base.Locator("#Input_Username");
 
     private ILocator Password => Base.Locator("#Input_Password");
 

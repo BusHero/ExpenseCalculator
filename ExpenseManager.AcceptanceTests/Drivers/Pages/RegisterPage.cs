@@ -19,7 +19,7 @@ public class RegisterPage: PageBase
     public async Task RegisterUser(User user)
     {
         await Email.FillAsync(user.Email);
-        await Name.FillAsync(user.Name);
+        // await Name.FillAsync(user.Name);
         await Password.FillAsync(user.Password);
         await ConfirmPassword.FillAsync(user.Password);
         await Register.ClickAsync();

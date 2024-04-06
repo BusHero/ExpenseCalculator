@@ -15,28 +15,25 @@ public class IndexModel : PageModel
 {
     public BackchannelUserLoginRequest LoginRequest { get; set; } = default!;
 
-    private readonly IBackchannelAuthenticationInteractionService _backchannelAuthenticationInteraction;
-    private readonly ILogger<IndexModel> _logger;
+    private readonly IBackchannelAuthenticationInteractionService backchannelAuthenticationInteraction;
+    private readonly ILogger<IndexModel> logger;
 
     public IndexModel(IBackchannelAuthenticationInteractionService backchannelAuthenticationInteractionService, ILogger<IndexModel> logger)
     {
-        _backchannelAuthenticationInteraction = backchannelAuthenticationInteractionService;
-        _logger = logger;
+        backchannelAuthenticationInteraction = backchannelAuthenticationInteractionService;
+        this.logger = logger;
     }
 
     public async Task<IActionResult> OnGet(string id)
     {
-        var result = await _backchannelAuthenticationInteraction.GetLoginRequestByInternalIdAsync(id);
+        var result = await backchannelAuthenticationInteraction.GetLoginRequestByInternalIdAsync(id);
         if (result == null)
         {
-            _logger.InvalidBackchannelLoginId(id);
+            logger.InvalidBackchannelLoginId(id);
             return RedirectToPage("/Home/Error/Index");
         }
-        else
-        {
-            LoginRequest = result;
-        }
-        
+        LoginRequest = result;
+
         return Page();
     }
 }

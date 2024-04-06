@@ -14,15 +14,15 @@ public class AllModel : PageModel
 {
     public IEnumerable<BackchannelUserLoginRequest> Logins { get; set; } = default!;
 
-    private readonly IBackchannelAuthenticationInteractionService _backchannelAuthenticationInteraction;
+    private readonly IBackchannelAuthenticationInteractionService backchannelAuthenticationInteraction;
 
     public AllModel(IBackchannelAuthenticationInteractionService backchannelAuthenticationInteractionService)
     {
-        _backchannelAuthenticationInteraction = backchannelAuthenticationInteractionService;
+        backchannelAuthenticationInteraction = backchannelAuthenticationInteractionService;
     }
 
     public async Task OnGet()
     {
-        Logins = await _backchannelAuthenticationInteraction.GetPendingLoginRequestsForCurrentUserAsync();
+        Logins = await backchannelAuthenticationInteraction.GetPendingLoginRequestsForCurrentUserAsync();
     }
 }

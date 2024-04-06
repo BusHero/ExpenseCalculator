@@ -133,7 +133,7 @@ public class WebDriver : IExpenses, IAsyncDisposable
                 password,
                 name));
 
-        await registerConfirm.ConfirmAccount();
+        // await registerConfirm.ConfirmAccount();
     }
 
     public async ValueTask DisposeAsync()

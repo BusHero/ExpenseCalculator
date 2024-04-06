@@ -27,6 +27,19 @@ public class EnsureUserLogInAction
 
         await navBar.NavigateLoginPage();
         
+        loggedInUser = await navBar.GetLoggedInUser();
+        
+        if (loggedInUser == user.Email)
+        {
+            return;
+        }
+        if (loggedInUser is not null)
+        {
+            await navBar.LogoutUser();
+        }
+
+        await navBar.NavigateLoginPage();
+
         var loginPage = new LoginPage(page);
 
         await loginPage.LogIn(user.Email, user.Password);

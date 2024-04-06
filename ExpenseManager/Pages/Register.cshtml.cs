@@ -7,5 +7,5 @@ namespace ExpenseManager.Pages;
 [AllowAnonymous]
 public class Register : PageModel
 {
-    public IActionResult OnGet() => RedirectToPage("Login");
+    public IActionResult OnGet() => Redirect("/");
 }

@@ -61,15 +61,11 @@ public class Callback : PageModel
                           ?? throw new InvalidOperationException("Unknown userid");
 
         var provider = result.Properties.Items["scheme"]
-                       ?? throw new InvalidOperationException("Null scheme in authentiation properties");
+                       ?? throw new InvalidOperationException("Null scheme in authentication properties");
         var providerUserId = userIdClaim.Value;
 
         var user = await userManager
-            .FindByLoginAsync(provider, providerUserId);
-        if (user == null)
-        {
-            user = await AutoProvisionUserAsync(provider, providerUserId, externalUser.Claims);
-        }
+            .FindByLoginAsync(provider, providerUserId) ?? await AutoProvisionUserAsync(provider, providerUserId, externalUser.Claims);
 
         var additionalLocalClaims = new List<Claim>();
         var localSignInProps = new AuthenticationProperties();
@@ -90,7 +86,7 @@ public class Callback : PageModel
                 user.UserName,
                 true,
                 context?.Client.ClientId));
-        Telemetry.Metrics.UserLogin(context?.Client.ClientId, provider!);
+        Telemetry.Metrics.UserLogin(context?.Client.ClientId, provider);
 
         if (context == null)
         {
@@ -120,8 +116,9 @@ public class Callback : PageModel
         };
 
         // email
-        var email = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.Email)?.Value ??
-                    claims.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+        var enumerable = claims as Claim[] ?? claims.ToArray();
+        var email = enumerable.FirstOrDefault(x => x.Type == JwtClaimTypes.Email)?.Value ??
+                    enumerable.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
         if (email != null)
         {
             user.Email = email;
@@ -131,18 +128,18 @@ public class Callback : PageModel
         var filtered = new List<Claim>();
 
         // user's display name
-        var name = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.Name)?.Value ??
-                   claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+        var name = enumerable.FirstOrDefault(x => x.Type == JwtClaimTypes.Name)?.Value ??
+                   enumerable.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
         if (name != null)
         {
             filtered.Add(new Claim(JwtClaimTypes.Name, name));
         }
         else
         {
-            var first = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.GivenName)?.Value ??
-                        claims.FirstOrDefault(x => x.Type == ClaimTypes.GivenName)?.Value;
-            var last = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.FamilyName)?.Value ??
-                       claims.FirstOrDefault(x => x.Type == ClaimTypes.Surname)?.Value;
+            var first = enumerable.FirstOrDefault(x => x.Type == JwtClaimTypes.GivenName)?.Value ??
+                        enumerable.FirstOrDefault(x => x.Type == ClaimTypes.GivenName)?.Value;
+            var last = enumerable.FirstOrDefault(x => x.Type == JwtClaimTypes.FamilyName)?.Value ??
+                       enumerable.FirstOrDefault(x => x.Type == ClaimTypes.Surname)?.Value;
             if (first != null && last != null)
             {
                 filtered.Add(new Claim(JwtClaimTypes.Name, first + " " + last));
@@ -210,7 +207,7 @@ public class Callback : PageModel
             localClaims.Add(new(JwtClaimTypes.SessionId, sid.Value));
         }
 
-        // if the external provider issued an id_token, we'll keep it for signout
+        // if the external provider issued an id_token, we'll keep it for sign out
         var idToken = externalResult.Properties?.GetTokenValue("id_token");
         if (idToken != null)
         {
