@@ -7,8 +7,5 @@ namespace ExpenseManager.Pages;
 [AllowAnonymous]
 public class Register : PageModel
 {
-    public IActionResult OnGet()
-    {
-        return Redirect("https://localhost:5001/Identity/Account/Register");
-    }
+    public IActionResult OnGet() => RedirectToPage("Login");
 }
