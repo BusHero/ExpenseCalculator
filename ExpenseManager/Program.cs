@@ -32,10 +32,10 @@ builder.Services.AddAuthentication(
         "oidc", 
         options =>
         {
-            options.Authority = "https://localhost:5001";
+            options.Authority = builder.Configuration["IdentityServer:Authority"];
     
-            options.ClientId = "web";
-            options.ClientSecret = "secret";
+            options.ClientId = builder.Configuration["IdentityServer:ClientId"];
+            options.ClientSecret = builder.Configuration["IdentityServer:ClientSecret"];
             options.ResponseType = "code";
     
             options.Scope.Clear();
