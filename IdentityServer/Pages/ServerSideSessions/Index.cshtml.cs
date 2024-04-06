@@ -7,15 +7,15 @@ using Duende.IdentityServer.Stores;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace IdentityServer.Pages.ServerSideSessions
+namespace IdentityServerAspNetIdentity.Pages.ServerSideSessions
 {
     public class IndexModel : PageModel
     {
-        private readonly ISessionManagementService? _sessionManagementService;
+        private readonly ISessionManagementService? sessionManagementService;
 
         public IndexModel(ISessionManagementService? sessionManagementService = null)
         {
-            _sessionManagementService = sessionManagementService;
+            this.sessionManagementService = sessionManagementService;
         }
 
         public QueryResult<UserSession>? UserSessions { get; set; }
@@ -37,9 +37,9 @@ namespace IdentityServer.Pages.ServerSideSessions
 
         public async Task OnGet()
         {
-            if (_sessionManagementService != null)
+            if (sessionManagementService != null)
             {
-                UserSessions = await _sessionManagementService.QuerySessionsAsync(new SessionQuery
+                UserSessions = await sessionManagementService.QuerySessionsAsync(new SessionQuery
                 {
                     ResultsToken = Token,
                     RequestPriorResults = Prev == "true",
@@ -55,9 +55,9 @@ namespace IdentityServer.Pages.ServerSideSessions
 
         public async Task<IActionResult> OnPost()
         {
-            ArgumentNullException.ThrowIfNull(_sessionManagementService);
+            ArgumentNullException.ThrowIfNull(sessionManagementService);
 
-            await _sessionManagementService.RemoveSessionsAsync(new RemoveSessionsContext { 
+            await sessionManagementService.RemoveSessionsAsync(new RemoveSessionsContext { 
                 SessionId = SessionId,
             });
             return RedirectToPage("/ServerSideSessions/Index", new { Token, DisplayNameFilter, SessionIdFilter, SubjectIdFilter, Prev });

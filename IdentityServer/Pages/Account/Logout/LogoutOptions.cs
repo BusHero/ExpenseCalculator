@@ -2,10 +2,10 @@
 // See LICENSE in the project root for license information.
 
 
-namespace IdentityServer.Pages.Logout;
+namespace IdentityServerAspNetIdentity.Pages.Account.Logout;
 
 public static class LogoutOptions
 {
-    public static readonly bool ShowLogoutPrompt = true;
-    public static readonly bool AutomaticRedirectAfterSignOut = false;
+    public const bool ShowLogoutPrompt = true;
+    public const bool AutomaticRedirectAfterSignOut = true;
 }

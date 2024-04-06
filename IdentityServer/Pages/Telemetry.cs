@@ -3,7 +3,7 @@
 
 using System.Diagnostics.Metrics;
 
-namespace IdentityServer.Pages;
+namespace IdentityServerAspNetIdentity.Pages;
 
 #pragma warning disable CA1034 // Nested types should not be visible
 #pragma warning disable CA1724 // Type names should not match namespaces
@@ -13,12 +13,12 @@ namespace IdentityServer.Pages;
 /// </summary>
 public static class Telemetry
 {
-    private static readonly string ServiceVersion = typeof(Telemetry).Assembly.GetName().Version!.ToString();
+    private readonly static string ServiceVersion = typeof(Telemetry).Assembly.GetName().Version!.ToString();
     
     /// <summary>
     /// Service name for telemetry.
     /// </summary>
-    public static readonly string ServiceName = typeof(Telemetry).Assembly.GetName().Name!;
+    public readonly static string ServiceName = typeof(Telemetry).Assembly.GetName().Name!;
 
     /// <summary>
     /// Metrics configuration
@@ -30,7 +30,7 @@ public static class Telemetry
         /// <summary>
         /// Name of Counters
         /// </summary>
-        public static class Counters
+        private static class Counters
         {
             public const string Consent = "tokenservice.consent";
             public const string GrantsRevoked = "tokenservice.grants_revoked";
@@ -41,7 +41,7 @@ public static class Telemetry
         /// <summary>
         /// Name of tags
         /// </summary>
-        public static class Tags
+        private static class Tags
         {
             public const string Client = "client";
             public const string Error = "error";
@@ -54,7 +54,7 @@ public static class Telemetry
         /// <summary>
         /// Values of tags
         /// </summary>
-        public static class TagValues
+        private static class TagValues
         {
             public const string Granted = "granted";
             public const string Denied = "denied";
@@ -65,7 +65,7 @@ public static class Telemetry
         /// <summary>
         /// Meter for the IdentityServer host project
         /// </summary>
-        private static readonly Meter Meter = new Meter(ServiceName, ServiceVersion);
+        private readonly static Meter Meter = new Meter(ServiceName, ServiceVersion);
 
         private static Counter<long> ConsentCounter = Meter.CreateCounter<long>(Counters.Consent);
 
@@ -104,7 +104,7 @@ public static class Telemetry
             }
         }
 
-        private static Counter<long> GrantsRevokedCounter = Meter.CreateCounter<long>(Counters.GrantsRevoked);
+        private readonly static Counter<long> GrantsRevokedCounter = Meter.CreateCounter<long>(Counters.GrantsRevoked);
 
         /// <summary>
         /// Helper method to increase the <see cref="Counters.GrantsRevoked"/> counter.
@@ -113,7 +113,7 @@ public static class Telemetry
         public static void GrantsRevoked(string? clientId)
             => GrantsRevokedCounter.Add(1, tag: new(Tags.Client, clientId));
 
-        private static Counter<long> UserLoginCounter = Meter.CreateCounter<long>(Counters.UserLogin);
+        private readonly static Counter<long> UserLoginCounter = Meter.CreateCounter<long>(Counters.UserLogin);
 
         /// <summary>
         /// Helper method to increase <see cref="Counters.UserLogin"/> counter.
@@ -123,7 +123,7 @@ public static class Telemetry
             => UserLoginCounter.Add(1, new(Tags.Client, clientId), new(Tags.Idp, idp));
 
         /// <summary>
-        /// Helper method to increase <see cref="Counters.UserLogin" counter on failure.
+        /// Helper method to increase <see cref="Counters.UserLogin" counter on failure. />
         /// </summary>
         /// <param name="clientId">Client Id, if available</param>
         /// <param name="error">Error message</param>
