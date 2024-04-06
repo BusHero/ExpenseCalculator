@@ -30,7 +30,7 @@ public class ApplicationService : IApplicationService
     {
         var user = context
             .DomainUsers
-            .First();
+            .First(x => x.ExternalId == externalUserId);
 
         user.AddExpense(expense);
         
@@ -43,7 +43,7 @@ public class ApplicationService : IApplicationService
             .Include(user => user.Expenses)
             .Single(x => x.ExternalId == externalUserId);
 
-        return user.Expenses ?? [];
+        return user.Expenses;
     }
     
     public async Task CreateNewUser(ExternalUserId id)

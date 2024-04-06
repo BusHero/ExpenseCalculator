@@ -54,7 +54,8 @@ public class Index : PageModel
             return Page();
         }
 
-        Input = new InputModel { 
+        Input = new InputModel
+        {
             UserCode = userCode,
         };
 
@@ -99,7 +100,13 @@ public class Index : PageModel
                 };
 
                 // emit event
-                await events.RaiseAsync(new ConsentGrantedEvent(User.GetSubjectId(), request.Client.ClientId, request.ValidatedResources.RawScopeValues, grantedConsent.ScopesValuesConsented, grantedConsent.RememberConsent));
+                await events.RaiseAsync(
+                    new ConsentGrantedEvent(
+                        User.GetSubjectId(),
+                        request.Client.ClientId,
+                        request.ValidatedResources.RawScopeValues,
+                        grantedConsent.ScopesValuesConsented,
+                        grantedConsent.RememberConsent));
                 Telemetry.Metrics.ConsentGranted(request.Client.ClientId, grantedConsent.ScopesValuesConsented, grantedConsent.RememberConsent);
                 var denied = request.ValidatedResources.ParsedScopes.Select(s => s.ParsedName).Except(grantedConsent.ScopesValuesConsented);
                 Telemetry.Metrics.ConsentDenied(request.Client.ClientId, denied);
@@ -130,7 +137,6 @@ public class Index : PageModel
         return Page();
     }
 
-
     private async Task<bool> SetViewModelAsync(string userCode)
     {
         var request = await interaction.GetAuthorizationContextAsync(userCode);
@@ -151,7 +157,7 @@ public class Index : PageModel
             ClientUrl = request.Client.ClientUri,
             ClientLogoUrl = request.Client.LogoUri,
             AllowRememberConsent = request.Client.AllowRememberConsent,
-            IdentityScopes = request.ValidatedResources.Resources.IdentityResources.Select(x => CreateScopeViewModel(x, Input == null || Input.ScopesConsented.Contains(x.Name))).ToArray(),
+            IdentityScopes = request.ValidatedResources.Resources.IdentityResources.Select(x => CreateScopeViewModel(x, Input.ScopesConsented.Contains(x.Name))).ToArray(),
         };
 
         var apiScopes = new List<ScopeViewModel>();
@@ -192,7 +198,7 @@ public class Index : PageModel
         Description = apiScope.Description,
         Emphasize = apiScope.Emphasize,
         Required = apiScope.Required,
-        Checked = check || apiScope.Required
+        Checked = check || apiScope.Required,
     };
 
     private static ScopeViewModel GetOfflineAccessScope(bool check) => new()
