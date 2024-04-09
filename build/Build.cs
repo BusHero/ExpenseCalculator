@@ -4,7 +4,7 @@ using Nuke.Common.IO;
 using Nuke.Common.Tools.DotNet;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
-partial class Build : NukeBuild
+sealed partial class Build : NukeBuild
 {
     public static int Main () 
         => Execute<Build>(x => x.Compile);
@@ -78,6 +78,7 @@ partial class Build : NukeBuild
     [
         "ExpenseManager.Api",
         "ExpenseManager",
+        "IdentityServer",
     ];
     
     [UsedImplicitly]

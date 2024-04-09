@@ -42,7 +42,7 @@ internal static class HostingExtensions
             .AddGoogle(options =>
             {
                 options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-
+        
                 options.ClientId = builder.Configuration["Authentication:Google:ClientId"]!;
                 options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
             });
@@ -53,6 +53,11 @@ internal static class HostingExtensions
     public static WebApplication ConfigurePipeline(this WebApplication app)
     {
         app.UseSerilogRequestLogging();
+        using (var scope = app.Services.CreateScope())
+        {
+            var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            context.Database.EnsureCreated();
+        }
 
         if (app.Environment.IsDevelopment())
         {

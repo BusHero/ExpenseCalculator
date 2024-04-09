@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# 
+#
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseManager", "ExpenseManager\ExpenseManager.csproj", "{51F86398-10D6-4A66-9394-7568CC2B7A9C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{6401E52A-69C7-4FEB-A40E-A15C04B3B666}"
@@ -23,6 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
 		.gitignore = .gitignore
+		script.ps1 = script.ps1
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpensesManager.DataAccess", "ExpensesManager.DataAccess\ExpensesManager.DataAccess.csproj", "{6D261FD7-DE48-438A-AF5A-221FED069E10}"

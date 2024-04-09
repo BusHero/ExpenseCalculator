@@ -5,7 +5,7 @@ using Nuke.Common;
 using Nuke.Common.IO;
 using Serilog;
 
-partial class Build
+sealed partial class Build
 {
     [Parameter("The id of the application to deploy to"), Secret]
     Guid? AzureApplicationId { get; set; }
@@ -28,7 +28,7 @@ partial class Build
         .Executes(() =>
         {
             Artifact = TemporaryDirectory / $"{Guid.NewGuid()}.zip";
-            ZipFile.CreateFromDirectory(RootDirectory / ArtifactsPath, Artifact); 
+            ZipFile.CreateFromDirectory(RootDirectory / ArtifactsPath, Artifact);
             Log.Information("Zip file created {Path}", Artifact);
         });
 
@@ -50,10 +50,12 @@ partial class Build
                 .WithStandardErrorPipe(PipeTarget.ToDelegate(x => Log.Debug("{Msg}", x)))
                 .ExecuteAsync();
         });
-    
+
     [UsedImplicitly]
     Target DeployToAzure => _ => _
-        .DependsOn(LoginToAzure, Compress)
+        .DependsOn(Compress)
+        .Requires(() => ResourceGroup)
+        .Requires(() => AppName)
         .Executes(async () =>
         {
             await Cli.Wrap("az")
