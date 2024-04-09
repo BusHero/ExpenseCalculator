@@ -5,7 +5,7 @@ namespace IdentityServer.Pages.Consent;
 
 public static class ConsentOptions
 {
-    public const bool EnableOfflineAccess = true;
+    public readonly static bool EnableOfflineAccess = true;
     public const string OfflineAccessDisplayName = "Offline Access";
     public const string OfflineAccessDescription = "Access to your applications and resources, even when you are offline";
 
