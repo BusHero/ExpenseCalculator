@@ -31,17 +31,20 @@ jobs:
         with:
           name: ExpenseManager.Api
           path: output/ExpenseManager.Api
-          
+      - name: 'Publish IdentityServer'
+        uses: actions/upload-artifact@v4
+        with:
+          name: IdentityServer
+          path: output/IdentityServer
           
   deploy-identity-server:
     runs-on: ubuntu-latest
     needs: build
     environment:
       name: 'Staging'
-      url: 'https://ExpenseManager2.azurewebsites.net'
+      url: 'https://bus1hero-IdentityServer.azurewebsites.net'
     permissions:
       id-token: write #This is required for requesting the JWT
-
     steps:
       - uses: actions/checkout@v4
       - name: 'Cache: .nuke/temp, ~/.nuget/packages'
@@ -54,7 +57,7 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: ExpenseManager
+          name: IdentityServer
           path: artifacts
       - name: Deploy to Azure Web App
         run: |

@@ -53,7 +53,7 @@ sealed partial class Build
 
     [UsedImplicitly]
     Target DeployToAzure => _ => _
-        .DependsOn(Compress)
+        .DependsOn(Compress, LoginToAzure)
         .Requires(() => ResourceGroup)
         .Requires(() => AppName)
         .Executes(async () =>
