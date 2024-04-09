@@ -2,11 +2,10 @@
 // See LICENSE in the project root for license information.
 
 using Duende.IdentityServer.Services;
-using IdentityServerAspNetIdentity.Pages.Error;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace IdentityServerAspNetIdentity.Pages.Home.Error;
+namespace IdentityServer.Pages.Home.Error;
 
 [AllowAnonymous]
 [SecurityHeaders]

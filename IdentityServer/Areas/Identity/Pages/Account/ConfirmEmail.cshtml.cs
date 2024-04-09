@@ -3,13 +3,13 @@
 #nullable disable
 
 using System.Text;
-using IdentityServerAspNetIdentity.Models;
+using IdentityServer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 
-namespace IdentityServerAspNetIdentity.Areas.Identity.Pages.Account
+namespace IdentityServer.Areas.Identity.Pages.Account
 {
     public class ConfirmEmailModel : PageModel
     {

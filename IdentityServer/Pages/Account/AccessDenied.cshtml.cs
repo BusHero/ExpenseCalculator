@@ -3,7 +3,7 @@
 
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace IdentityServerAspNetIdentity.Pages.Account;
+namespace IdentityServer.Pages.Account;
 
 public class AccessDeniedModel : PageModel
 {

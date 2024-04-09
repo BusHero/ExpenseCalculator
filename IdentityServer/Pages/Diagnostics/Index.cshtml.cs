@@ -2,11 +2,11 @@
 // See LICENSE in the project root for license information.
 
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Authorization;
 
-namespace IdentityServerAspNetIdentity.Pages.Diagnostics;
+namespace IdentityServer.Pages.Diagnostics;
 
 [SecurityHeaders]
 [Authorize]

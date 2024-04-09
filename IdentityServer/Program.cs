@@ -1,4 +1,4 @@
-using IdentityServerAspNetIdentity;
+using IdentityServer;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()

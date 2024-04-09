@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace IdentityServerAspNetIdentity.Pages.Consent;
+namespace IdentityServer.Pages.Consent;
 
 [Authorize]
 [SecurityHeaders]
@@ -109,7 +109,7 @@ public class Index : PageModel
             await interaction.GrantConsentAsync(request, grantedConsent);
 
             // redirect back to authorization endpoint
-            if (request.IsNativeClient() == true)
+            if (request.IsNativeClient())
             {
                 // The client is native, so this change in how to
                 // return the response is for better UX for the end user.
@@ -151,12 +151,11 @@ public class Index : PageModel
             ClientName = request.Client.ClientName ?? request.Client.ClientId,
             ClientUrl = request.Client.ClientUri,
             ClientLogoUrl = request.Client.LogoUri,
-            AllowRememberConsent = request.Client.AllowRememberConsent
+            AllowRememberConsent = request.Client.AllowRememberConsent,
+            IdentityScopes = request.ValidatedResources.Resources.IdentityResources
+                .Select(x => CreateScopeViewModel(x, Input.ScopesConsented.Contains(x.Name)))
+                .ToArray(),
         };
-
-        vm.IdentityScopes = request.ValidatedResources.Resources.IdentityResources
-            .Select(x => CreateScopeViewModel(x, Input == null || Input.ScopesConsented.Contains(x.Name)))
-            .ToArray();
 
         var resourceIndicators = request.Parameters.GetValues(OidcConstants.AuthorizeRequest.Resource) ?? Enumerable.Empty<string>();
         var apiResources = request.ValidatedResources.Resources.ApiResources.Where(x => resourceIndicators.Contains(x.Name));
@@ -170,7 +169,8 @@ public class Index : PageModel
                 continue;
             }
             var scopeVm = CreateScopeViewModel(parsedScope, apiScope, Input == null || Input.ScopesConsented.Contains(parsedScope.RawValue));
-            scopeVm.Resources = apiResources.Where(x => x.Scopes.Contains(parsedScope.ParsedName))
+            var enumerable = apiResources as ApiResource[] ?? apiResources.ToArray();
+            scopeVm.Resources = enumerable.Where(x => x.Scopes.Contains(parsedScope.ParsedName))
                 .Select(x => new ResourceViewModel
                 {
                     Name = x.Name,

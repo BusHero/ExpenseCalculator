@@ -2,7 +2,7 @@
 using Duende.IdentityServer.Models;
 using IdentityModel;
 
-namespace IdentityServerAspNetIdentity;
+namespace IdentityServer;
 
 public static class Config
 {
@@ -45,15 +45,26 @@ public static class Config
         new()
         {
             ClientId = "web",
-            ClientSecrets = { new Secret("secret".Sha256()) },
+            ClientSecrets =
+            {
+                new Secret("secret".Sha256()),
+            },
 
             AllowedGrantTypes = GrantTypes.Code,
 
             // where to redirect to after login
-            RedirectUris = { "https://localhost:5002/signin-oidc", },
+            RedirectUris =
+            {
+                "https://localhost:5002/signin-oidc",
+                "https://expensemanager2.azurewebsites.net/signin-oidc",
+            },
 
             // where to redirect to after logout
-            PostLogoutRedirectUris = { "https://localhost:5002/signout-callback-oidc", },
+            PostLogoutRedirectUris =
+            {
+                "https://localhost:5002/signout-callback-oidc",
+                "https://expensemanager2.azurewebsites.net/signout-callback-oidc",
+            },
 
             AllowOfflineAccess = true,
 

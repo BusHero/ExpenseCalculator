@@ -1,7 +1,7 @@
 // Copyright (c) Duende Software. All rights reserved.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerAspNetIdentity.Pages;
+namespace IdentityServer.Pages;
 
 internal static class Log
 {

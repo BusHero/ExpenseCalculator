@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace IdentityServerAspNetIdentity.Pages.ExternalLogin;
+namespace IdentityServer.Pages.ExternalLogin;
 
 [AllowAnonymous]
 [SecurityHeaders]
