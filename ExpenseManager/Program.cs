@@ -2,8 +2,17 @@ using ExpenseManager;
 using ExpensesManager.DataAccess;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging.AzureAppServices;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Logging.AddAzureWebAppDiagnostics();
+builder.Services.Configure<AzureFileLoggerOptions>(options =>
+{
+    options.FileName = "logs-";
+    options.FileSizeLimit = 50 * 1024;
+    options.RetainedFileCountLimit = 5;
+});
 
 builder.Services.AddRazorPages();
 
@@ -29,15 +38,15 @@ builder.Services.AddAuthentication(
         })
     .AddCookie("Cookies")
     .AddOpenIdConnect(
-        "oidc", 
+        "oidc",
         options =>
         {
             options.Authority = builder.Configuration["IdentityServer:Authority"];
-    
+
             options.ClientId = builder.Configuration["IdentityServer:ClientId"];
             options.ClientSecret = builder.Configuration["IdentityServer:ClientSecret"];
             options.ResponseType = "code";
-    
+
             options.Scope.Clear();
             options.Scope.Add("openid");
             options.Scope.Add("profile");
@@ -46,9 +55,9 @@ builder.Services.AddAuthentication(
             options.ClaimActions.MapJsonKey("email_verified", "email_verified");
             options.ClaimActions.MapUniqueJsonKey("favorite_color", "favorite_color");
             options.GetClaimsFromUserInfoEndpoint = true;
-    
+
             options.MapInboundClaims = false;// Don't rename claim types
-    
+
             options.SaveTokens = true;
         });
 
@@ -67,7 +76,8 @@ using (var scope = app.Services.CreateScope())
     await context.Database.EnsureCreatedAsync();
 }
 
-if (!app.Environment.IsDevelopment()){
+if (!app.Environment.IsDevelopment())
+{
     app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
