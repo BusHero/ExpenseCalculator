@@ -7,7 +7,7 @@ using Serilog;
 
 namespace IdentityServer;
 
-public class SeedData
+internal static class SeedData
 {
     public static void EnsureSeedData(WebApplication app)
     {

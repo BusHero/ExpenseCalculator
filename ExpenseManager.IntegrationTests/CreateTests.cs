@@ -1,4 +1,5 @@
 using System.Net;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Net.Http.Headers;
 
 namespace ExpenseManager.IntegrationTests;
@@ -13,7 +14,7 @@ public class CreateTests
     public CreateTests(MyWebFactory factory)
     {
         this.factory = factory;
-        client = factory.CreateClient(new()
+        client = factory.CreateClient(new WebApplicationFactoryClientOptions
         {
             AllowAutoRedirect = false,
         });
@@ -48,9 +49,9 @@ public class CreateTests
         var antiForgeryValues = await AntiForgeryTokenExtractor.ExtractAntiForgeryValues(initResponse);
         
         var content = new FormUrlEncodedContent([
-            new(AntiForgeryTokenExtractor.AntiForgeryFieldName, antiForgeryValues.fieldValue),
-            new("Expense", "bar"),
-            new("Amount", "123.123"),
+            new KeyValuePair<string, string>(AntiForgeryTokenExtractor.AntiForgeryFieldName, antiForgeryValues.fieldValue),
+            new KeyValuePair<string, string>("Expense", "bar"),
+            new KeyValuePair<string, string>("Amount", "123.123"),
         ]);
 
         var request = new HttpRequestMessage(HttpMethod.Post, "/Create");
@@ -71,8 +72,8 @@ public class CreateTests
         var antiForgeryValues = await AntiForgeryTokenExtractor.ExtractAntiForgeryValues(initResponse);
         
         var content = new FormUrlEncodedContent([
-            new("Expense", "bar"),
-            new("Amount", "123.123"),
+            new KeyValuePair<string, string>("Expense", "bar"),
+            new KeyValuePair<string, string>("Amount", "123.123"),
         ]);
 
         var request = new HttpRequestMessage(HttpMethod.Post, "/Create");
@@ -94,9 +95,9 @@ public class CreateTests
         var antiForgeryValues = await AntiForgeryTokenExtractor.ExtractAntiForgeryValues(initResponse);
         
         var content = new FormUrlEncodedContent([
-            new(AntiForgeryTokenExtractor.AntiForgeryFieldName, antiForgeryValues.fieldValue),
-            new("Expense", "bar"),
-            new("Amount", "123.123"),
+            new KeyValuePair<string, string>(AntiForgeryTokenExtractor.AntiForgeryFieldName, antiForgeryValues.fieldValue),
+            new KeyValuePair<string, string>("Expense", "bar"),
+            new KeyValuePair<string, string>("Amount", "123.123"),
         ]);
 
         var request = new HttpRequestMessage(HttpMethod.Post, "/Create");

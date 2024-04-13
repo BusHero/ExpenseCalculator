@@ -4,11 +4,11 @@ using Nuke.Common.Tooling;
 [TypeConverter(typeof(TypeConverter<Configuration>))]
 sealed class Configuration : Enumeration
 {
-    public readonly static Configuration Debug = new()
+    public static readonly Configuration Debug = new()
     {
         Value = nameof(Debug),
     };
-    public readonly static Configuration Release = new()
+    public static readonly Configuration Release = new()
     {
         Value = nameof(Release),
     };

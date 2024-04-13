@@ -33,7 +33,6 @@ public abstract class RelayContext<T>: DbContext
     // ReSharper disable once ClassNeverInstantiated.Local
     private sealed class NoCacheModelCacheKeyFactory : IModelCacheKeyFactory
     {
-        public object Create(DbContext context, bool designTime) 
-            => new object();
+        public object Create(DbContext context, bool designTime) => new();
     }
 }

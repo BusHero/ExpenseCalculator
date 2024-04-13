@@ -4,12 +4,12 @@ using Nuke.Common.Tooling;
 [TypeConverter(typeof(TypeConverter<Driver>))]
 sealed class Driver : Enumeration
 {
-    public readonly static Driver Api = new()
+    public static readonly Driver Api = new()
     {
         Value = nameof(Api),
     };
 
-    public readonly static Driver Web = new()
+    public static readonly Driver Web = new()
     {
         Value = nameof(Web),
     };

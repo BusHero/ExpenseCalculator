@@ -489,3 +489,5 @@ $RECYCLE.BIN/
 
 *.db
 *.db-*
+
+node_modules/

@@ -5,7 +5,7 @@ namespace ExpenseManager.IntegrationTests;
 
 public static class AntiForgeryTokenExtractor
 {
-    public async static Task<(string fieldValue, string cookieValue)> ExtractAntiForgeryValues(HttpResponseMessage response)
+    public static async Task<(string fieldValue, string cookieValue)> ExtractAntiForgeryValues(HttpResponseMessage response)
     {
         var cookie = ExtractAntiForgeryCookieValueFrom(response);
         var token = ExtractAntiForgeryToken(await response.Content.ReadAsStringAsync());
@@ -13,10 +13,10 @@ public static class AntiForgeryTokenExtractor
         return (fieldValue: token, cookieValue: cookie);
     }
     
-    public static string AntiForgeryFieldName { get; } = "AntiForgeryTokenField";
-    
-    public static string AntiForgeryCookieName { get; } = "AntiForgeryTokenCookie";
-    
+    public static string AntiForgeryFieldName => "AntiForgeryTokenField";
+
+    public static string AntiForgeryCookieName => "AntiForgeryTokenCookie";
+
     private static string ExtractAntiForgeryCookieValueFrom(HttpResponseMessage response)
     {
         var antiForgeryCookie = response.Headers.GetValues("Set-Cookie")
