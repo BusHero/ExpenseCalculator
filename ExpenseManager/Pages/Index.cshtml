@@ -4,28 +4,43 @@
     ViewData["Title"] = "Home page";
 }
 
-@* <h2>Claims</h2> *@
-@* *@
-@* <div> *@
-@*     Name is <span></span> *@
-@* </div> *@
-@* *@
-@* <dl> *@
-@*     @foreach (var claim in User.Claims) *@
-@*     { *@
-@*         <dt>@claim.Type</dt> *@
-@*         <dd>@claim.Value</dd> *@
-@*     } *@
-@* </dl> *@
+<form asp-action="" method="post">
+    <input asp-for="Data1.Expense"/>
+    <label asp-for="Data1.Expense">Expense</label>
+    <input asp-for="Data1.Amount"/>
+    <label asp-for="Data1.Amount">Amount</label>
+    <input asp-for="Data1.Date"/>
+    <label asp-for="Data1.Date">Date</label>
+    <button id="submit-expense" type="submit">Submit</button>
+</form>
+
 <div class="text-center">
-    <ul id="expenses">
+    <table style="text-align: left">
+        <thead>
+        <tr>
+            <th>Expense</th>
+            <th>Amount</th>
+            <th>Date</th>
+        </tr>
+        </thead>
+        <tbody>
         @foreach (var item in Model.Data?.Expenses ?? [])
         {
-            <li class="expense">
-                <span class="name">@item.Expense</span>
-                -
-                <span class="amount">@item.Amount</span>
-            </li>
+            <tr class="expense">
+                <td class="name">
+                    @item.Expense
+                </td>
+                <td class="amount">
+                    @Html.DisplayFor(_ => item.Amount)
+                </td>
+                <td class="date">
+                    @Html.DisplayFor(_ => item.Date)
+                </td>
+            </tr>
         }
+
+        </tbody>
+    </table>
+    <ul id="expenses">
     </ul>
 </div>
