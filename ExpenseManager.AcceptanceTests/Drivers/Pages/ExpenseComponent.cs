@@ -17,6 +17,6 @@ public sealed class ExpenseComponent(ILocator baseLocator)
 
         return new Expense(
             name, 
-            decimal.Parse(amount, new CultureInfo("en-US")));
+            decimal.Parse(amount[1..], new CultureInfo("en-US")));
     }
 }
