@@ -2,10 +2,8 @@ using Microsoft.Playwright;
 
 namespace AcceptanceTests.Drivers.Pages;
 
-public class NavBar : PageBase
+public sealed class NavBar(IPage page) : PageBase(page)
 {
-    public NavBar(IPage page): base(page) { }
-
     private ILocator Home => Base.Locator("#home");
 
     private ILocator Create => Base.Locator("#create");

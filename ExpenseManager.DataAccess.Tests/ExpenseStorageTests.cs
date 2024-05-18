@@ -7,13 +7,8 @@ namespace ExpenseManager.DataAccess.Tests;
 
 public class ExpenseStorageTests
 {
-    private readonly IExpenseStorage storage;
-    
-    public ExpenseStorageTests()
-    {
-        storage = new InMemoryExpensesStorage();
-    }
-    
+    private readonly IExpenseStorage storage = new InMemoryExpensesStorage();
+
     [Theory, AutoData]
     public void ExistingUserReturnsUser(User user)
     {

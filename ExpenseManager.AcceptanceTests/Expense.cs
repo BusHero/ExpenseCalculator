@@ -1,5 +1,5 @@
 ﻿namespace AcceptanceTests;
 
-public record Expense(
+public sealed record Expense(
     string Name, 
     decimal Amount);

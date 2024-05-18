@@ -1,6 +1,6 @@
 namespace AcceptanceTests.Drivers;
 
-public record ApiDriverOptions
+public sealed record ApiDriverOptions
 {
     public const string Section = "ApiDriver";
 

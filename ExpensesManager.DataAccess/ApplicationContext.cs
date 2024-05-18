@@ -3,13 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ExpensesManager.DataAccess;
 
-public sealed class ApplicationContext : DbContext
+public sealed class ApplicationContext(DbContextOptions<ApplicationContext> options) 
+    : DbContext(options)
 {
-    public ApplicationContext(DbContextOptions<ApplicationContext> options) 
-        : base(options)
-    {
-    }
-
     public DbSet<User> DomainUsers { get; init; } = null!;
 
     protected override void OnModelCreating(ModelBuilder builder)

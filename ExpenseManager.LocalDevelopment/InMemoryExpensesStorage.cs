@@ -2,7 +2,7 @@ using ExpenseManager.Domain;
 
 namespace ExpenseManager.LocalDevelopment;
 
-public class InMemoryExpensesStorage : IExpenseStorage 
+public sealed class InMemoryExpensesStorage : IExpenseStorage 
 {
     private readonly List<Expense> expenses = [];
     
@@ -16,7 +16,7 @@ public class InMemoryExpensesStorage : IExpenseStorage
     public IEnumerable<Expense> GetAll() 
         => expenses;
 
-    private List<User> users = new List<User>();
+    private readonly List<User> users = [];
     
     public void Save(User user)
     {

@@ -3,15 +3,10 @@ using Microsoft.AspNetCore.Mvc.Testing;
 namespace ExpenseManager.IntegrationTests;
 
 [Trait("Category", "Integration")]
-public class IndexTests
+public sealed class IndexTests(WebApplicationFactory<Program> factory) 
     : IClassFixture<WebApplicationFactory<Program>>
 {
-    private readonly HttpClient client;
-    
-    public IndexTests(WebApplicationFactory<Program> factory)
-    {
-        client = factory.CreateClient();
-    }
+    private readonly HttpClient client = factory.CreateClient();
 
     [Fact]
     public async Task Get_ShouldReturn200()

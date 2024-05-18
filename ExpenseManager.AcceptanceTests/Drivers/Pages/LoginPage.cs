@@ -2,11 +2,9 @@ using Microsoft.Playwright;
 
 namespace AcceptanceTests.Drivers.Pages;
 
-public class LoginPage : PageBase
+public sealed class LoginPage(IPage page) 
+    : PageBase(page)
 {
-    public LoginPage(IPage page) : base(page)
-    {}
-
     private ILocator Email => Base.Locator("#Input_Username");
 
     private ILocator Password => Base.Locator("#Input_Password");

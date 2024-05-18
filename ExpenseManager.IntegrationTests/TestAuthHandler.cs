@@ -6,24 +6,22 @@ using Microsoft.Extensions.Options;
 
 namespace ExpenseManager.IntegrationTests;
 
-public class TestAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions>
+public sealed class TestAuthHandler(
+    IOptionsMonitor<AuthenticationSchemeOptions> options,
+    ILoggerFactory logger,
+    UrlEncoder encoder)
+    : AuthenticationHandler<AuthenticationSchemeOptions>(options, logger, encoder)
 {
-    private static bool authStatus;
-    
-    public TestAuthHandler(
-        IOptionsMonitor<AuthenticationSchemeOptions> options, 
-        ILoggerFactory logger, 
-        UrlEncoder encoder) : base(options, logger, encoder)
-    { }
+    private static bool _authStatus;
 
     public static void SetAuthStatus(bool authStatus2)
     {
-        authStatus = authStatus2;
+        _authStatus = authStatus2;
     }
     
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {
-        if (!authStatus)
+        if (!_authStatus)
         {
             return AuthenticateResult.Fail(new Exception());
         }

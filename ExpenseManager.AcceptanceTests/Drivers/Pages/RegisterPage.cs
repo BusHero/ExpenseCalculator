@@ -2,10 +2,8 @@ using Microsoft.Playwright;
 
 namespace AcceptanceTests.Drivers.Pages;
 
-public class RegisterPage: PageBase
+public sealed class RegisterPage(IPage page) : PageBase(page)
 {
-    public RegisterPage(IPage page): base(page) { }
-
     private ILocator Email => Base.Locator("#Input_Email");
     
     private ILocator Name => Base.Locator("#Input_Name");

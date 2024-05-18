@@ -3,12 +3,10 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace ExpenseManager.DiscoveryTests;
 
-public abstract class RelayContext<T>: DbContext
-    where T: DbContext
+public abstract class RelayContext<T>(DbContextOptions<T> options) 
+    : DbContext(options)
+    where T : DbContext
 {
-    protected RelayContext(DbContextOptions<T> options) : base(options)
-    { }
-
     protected bool CacheModel { get; set; }
 
     public Action<ModelBuilder> ModelCreatingDelegate { get; set; } = _ => {};

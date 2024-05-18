@@ -1,6 +1,6 @@
 namespace AcceptanceTests.Drivers;
 
-public class DriverOptions
+public sealed class DriverOptions
 {
     public const string Section = "Drivers";
     

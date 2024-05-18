@@ -3,14 +3,8 @@ using Microsoft.Playwright;
 
 namespace AcceptanceTests.Drivers;
 
-public class EnsureUserLogInAction
+public sealed class EnsureUserLogInAction(IPage page)
 {
-    private readonly IPage page;
-    public EnsureUserLogInAction(IPage page)
-    {
-        this.page = page;
-    }
-
     public async Task LogInUser(User user)
     {
         var navBar = new NavBar(page);

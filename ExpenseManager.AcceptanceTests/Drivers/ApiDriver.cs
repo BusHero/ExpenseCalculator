@@ -3,18 +3,11 @@ using AutoFixture;
 
 namespace AcceptanceTests.Drivers;
 
-public class ApiDriver : IExpenses
+public sealed class ApiDriver(HttpClient client) : IExpenses
 {
-    private readonly HttpClient client;
-    private readonly Dictionary<string, Expense> expenses = new Dictionary<string, Expense>();
-    private readonly Fixture fixture;
+    private readonly Dictionary<string, Expense> expenses = new();
+    private readonly Fixture fixture = new();
 
-    public ApiDriver(HttpClient client)
-    {
-        this.client = client;
-        this.fixture = new Fixture();
-    }
-    
     public async Task AddExpense(Expense expense)
     {
         await client.PostAsJsonAsync(

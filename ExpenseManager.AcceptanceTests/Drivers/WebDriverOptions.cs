@@ -1,6 +1,6 @@
 namespace AcceptanceTests.Drivers;
 
-public record WebDriverOptions
+public sealed record WebDriverOptions
 {
     public const string Section = "WebDriver";
 

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseManager.IntegrationTests;
 
-public class ApplicationServiceTests
+public sealed class ApplicationServiceTests
 {
     private readonly ApplicationServiceFixtureBuilder builder = new();
     

@@ -2,10 +2,8 @@ using Microsoft.Playwright;
 
 namespace AcceptanceTests.Drivers.Pages;
 
-public class HomePage : PageBase
+public sealed class HomePage(IPage page) : PageBase(page)
 {
-    public HomePage(IPage page) : base(page) {}
-
     private ILocator Expense => Base.Locator("#expenses .expense");
     
     public async Task<Expense[]> GetExpenses()

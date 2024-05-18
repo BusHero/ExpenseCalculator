@@ -12,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace ExpenseManager.IntegrationTests;
 
-public class MyWebFactory : WebApplicationFactory<Program>
+public sealed class MyWebFactory : WebApplicationFactory<Program>
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -71,7 +71,7 @@ public class MyWebFactory : WebApplicationFactory<Program>
     }
 }
 
-public class FakeApplicationService : IApplicationService
+public sealed class FakeApplicationService : IApplicationService
 {
     public void AddExpenseToLoggedInUser(ExternalUserId externalUserId, Expense expense)
     {

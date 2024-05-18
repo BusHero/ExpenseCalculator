@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 
 namespace AcceptanceTests;
 
-public class RunConfiguration : IAsyncLifetime
+public sealed class RunConfiguration : IAsyncLifetime
 {
     private readonly ServiceProvider services;
 

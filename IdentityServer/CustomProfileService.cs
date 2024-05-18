@@ -6,15 +6,11 @@ using Microsoft.AspNetCore.Identity;
 
 namespace IdentityServer;
 
-public class CustomProfileService
-    : ProfileService<ApplicationUser>
+public sealed class CustomProfileService(
+    UserManager<ApplicationUser> userManager,
+    IUserClaimsPrincipalFactory<ApplicationUser> claimsFactory)
+    : ProfileService<ApplicationUser>(userManager, claimsFactory)
 {
-    public CustomProfileService(
-        UserManager<ApplicationUser> userManager, 
-        IUserClaimsPrincipalFactory<ApplicationUser> claimsFactory) 
-        : base(userManager, claimsFactory)
-    {}
-
     protected override async Task GetProfileDataAsync(
         ProfileDataRequestContext context,
         ApplicationUser user)

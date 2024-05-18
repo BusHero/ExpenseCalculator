@@ -5,20 +5,12 @@ using Microsoft.Net.Http.Headers;
 namespace ExpenseManager.IntegrationTests;
 
 [Trait("Category", "Integration")]
-public class CreateTests
-    : IClassFixture<MyWebFactory>
+public sealed class CreateTests(MyWebFactory factory) : IClassFixture<MyWebFactory>
 {
-    private readonly MyWebFactory factory;
-    private readonly HttpClient client;
-
-    public CreateTests(MyWebFactory factory)
+    private readonly HttpClient client = factory.CreateClient(new WebApplicationFactoryClientOptions
     {
-        this.factory = factory;
-        client = factory.CreateClient(new WebApplicationFactoryClientOptions
-        {
-            AllowAutoRedirect = false,
-        });
-    }
+        AllowAutoRedirect = false,
+    });
 
     [Fact]
     public async Task Get_Returns200()

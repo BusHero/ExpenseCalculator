@@ -2,20 +2,14 @@ using AutoFixture;
 
 namespace AcceptanceTests;
 
-public class FixtureBuilder
+public sealed class FixtureBuilder(
+    IFixture fixture, 
+    Func<IExpenses> expensesProvider)
 {
-    private readonly IFixture fixture;
+    private readonly IFixture fixture = fixture;
     private readonly HashSet<string> users = new HashSet<string>();
     private readonly Dictionary<string, HashSet<string>> expenses = new ();
-    
-    private readonly Func<IExpenses> expensesProvider;
 
-    public FixtureBuilder(IFixture fixture, Func<IExpenses> expensesProvider)
-    {
-        this.fixture = fixture;
-        this.expensesProvider = expensesProvider;
-    }
-    
     public FixtureBuilder WithUser(string userId)
     {
         users.Add(userId);

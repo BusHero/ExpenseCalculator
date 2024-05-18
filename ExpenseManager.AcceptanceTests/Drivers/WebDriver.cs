@@ -5,24 +5,16 @@ using Microsoft.Playwright;
 
 namespace AcceptanceTests.Drivers;
 
-public class WebDriver : IExpenses, IAsyncDisposable
+public sealed class WebDriver(IOptions<WebDriverOptions> options) : IExpenses, IAsyncDisposable
 {
     private IPlaywright playwright = null!;
     private IBrowser browser = null!;
     private IPage page = null!;
-    private readonly Uri websiteUrl;
-    private readonly bool headlessMode;
+    private readonly Uri websiteUrl = options.Value.Uri;
+    private readonly bool headlessMode = options.Value.Headless;
     private readonly Dictionary<string, User> users = new ();
     private readonly Dictionary<string, Expense> expenses = new ();
-    private readonly Fixture fixture;
-
-    public WebDriver(IOptions<WebDriverOptions> options)
-    {
-        websiteUrl = options.Value.Uri;
-        headlessMode = options.Value.Headless;
-
-        fixture = new Fixture();
-    }
+    private readonly Fixture fixture = new();
 
     public async Task InitializeAsync()
     {

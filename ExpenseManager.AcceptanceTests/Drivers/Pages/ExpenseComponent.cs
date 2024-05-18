@@ -3,11 +3,9 @@ using Microsoft.Playwright;
 
 namespace AcceptanceTests.Drivers.Pages;
 
-public class ExpenseComponent : PageBase
+public sealed class ExpenseComponent(ILocator baseLocator) 
+    : PageBase(baseLocator)
 {
-    public ExpenseComponent(ILocator baseLocator) : base(baseLocator)
-    { }
-
     private ILocator Name => Base.Locator(".name");
 
     private ILocator Amount => Base.Locator(".amount");

@@ -1,15 +1,9 @@
 namespace AcceptanceTests;
 
 [Trait("Category", "Acceptance")]
-public class ExpensesSpecifications : IClassFixture<RunConfiguration>
+public sealed class ExpensesSpecifications(
+    RunConfiguration runConfiguration) : IClassFixture<RunConfiguration>
 {
-    private readonly RunConfiguration runConfiguration;
-
-    public ExpensesSpecifications(RunConfiguration runConfiguration)
-    {
-        this.runConfiguration = runConfiguration;
-    }
-    
     [Fact]
     public async Task UserCanSeeHisExpenses()
     {

@@ -23,7 +23,7 @@
             <th>Date</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="expenses">
         @foreach (var item in Model.Data?.Expenses ?? [])
         {
             <tr class="expense">
@@ -41,6 +41,4 @@
 
         </tbody>
     </table>
-    <ul id="expenses">
-    </ul>
 </div>
