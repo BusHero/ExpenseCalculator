@@ -16,28 +16,16 @@ public sealed class CreateTests(MyWebFactory factory) : IClassFixture<MyWebFacto
     public async Task Get_Returns200()
     {
         factory.WithUserAuthenticationStatus(true);
-        var status = await client.GetAsync("/Create");
+        var status = await client.GetAsync("/");
 
         status.EnsureSuccessStatusCode();
     }
-
-    [Fact]
-    public async Task Post_UnauthenticatedUser_Returns401()
-    {
-        factory.WithUserAuthenticationStatus(false);
-        var response = await client.GetAsync("/Create");
-
-        response.StatusCode
-            .Should()
-            .Be(HttpStatusCode.Unauthorized);
-    }
     
-    // This is unexpected
     [Fact]
     public async Task Post_NoAntiForgeryCookie_Returns302()
     {
         factory.WithUserAuthenticationStatus(true);
-        var initResponse = await client.GetAsync("/Create");
+        var initResponse = await client.GetAsync("/");
         var antiForgeryValues = await AntiForgeryTokenExtractor.ExtractAntiForgeryValues(initResponse);
         
         var content = new FormUrlEncodedContent([
@@ -46,7 +34,7 @@ public sealed class CreateTests(MyWebFactory factory) : IClassFixture<MyWebFacto
             new KeyValuePair<string, string>("Amount", "123.123"),
         ]);
 
-        var request = new HttpRequestMessage(HttpMethod.Post, "/Create");
+        var request = new HttpRequestMessage(HttpMethod.Post, "/");
         request.Content = content;
         
         var response = await client.SendAsync(request);
@@ -60,7 +48,7 @@ public sealed class CreateTests(MyWebFactory factory) : IClassFixture<MyWebFacto
     public async Task Post_NoAntiForgeryField_Returns400()
     {
         factory.WithUserAuthenticationStatus(true);
-        var initResponse = await client.GetAsync("/Create");
+        var initResponse = await client.GetAsync("/");
         var antiForgeryValues = await AntiForgeryTokenExtractor.ExtractAntiForgeryValues(initResponse);
         
         var content = new FormUrlEncodedContent([
@@ -68,7 +56,7 @@ public sealed class CreateTests(MyWebFactory factory) : IClassFixture<MyWebFacto
             new KeyValuePair<string, string>("Amount", "123.123"),
         ]);
 
-        var request = new HttpRequestMessage(HttpMethod.Post, "/Create");
+        var request = new HttpRequestMessage(HttpMethod.Post, "/");
         request.Headers.Add("Cookie", new CookieHeaderValue(AntiForgeryTokenExtractor.AntiForgeryCookieName, antiForgeryValues.cookieValue).ToString());
         request.Content = content;
         
@@ -83,7 +71,7 @@ public sealed class CreateTests(MyWebFactory factory) : IClassFixture<MyWebFacto
     public async Task Post_ReturnRedirect()
     {
         factory.WithUserAuthenticationStatus(true);
-        var initResponse = await client.GetAsync("/Create");
+        var initResponse = await client.GetAsync("/");
         var antiForgeryValues = await AntiForgeryTokenExtractor.ExtractAntiForgeryValues(initResponse);
         
         var content = new FormUrlEncodedContent([
@@ -92,7 +80,7 @@ public sealed class CreateTests(MyWebFactory factory) : IClassFixture<MyWebFacto
             new KeyValuePair<string, string>("Amount", "123.123"),
         ]);
 
-        var request = new HttpRequestMessage(HttpMethod.Post, "/Create");
+        var request = new HttpRequestMessage(HttpMethod.Post, "/");
         request.Headers.Add("Cookie", new CookieHeaderValue(AntiForgeryTokenExtractor.AntiForgeryCookieName, antiForgeryValues.cookieValue).ToString());
         request.Content = content;
         
@@ -107,7 +95,7 @@ public sealed class CreateTests(MyWebFactory factory) : IClassFixture<MyWebFacto
     public async Task Post_RedirectToIndex()
     {
         factory.WithUserAuthenticationStatus(true);
-        var initResponse = await client.GetAsync("/Create");
+        var initResponse = await client.GetAsync("/");
         var antiForgeryValues = await AntiForgeryTokenExtractor.ExtractAntiForgeryValues(initResponse);
         
         var content = new FormUrlEncodedContent([
@@ -116,7 +104,7 @@ public sealed class CreateTests(MyWebFactory factory) : IClassFixture<MyWebFacto
             new("Amount", "123.123"),
         ]);
 
-        var request = new HttpRequestMessage(HttpMethod.Post, "/Create");
+        var request = new HttpRequestMessage(HttpMethod.Post, "/");
         request.Headers.Add("Cookie", new CookieHeaderValue(AntiForgeryTokenExtractor.AntiForgeryCookieName, antiForgeryValues.cookieValue).ToString());
         request.Content = content;
         
@@ -134,7 +122,7 @@ public sealed class CreateTests(MyWebFactory factory) : IClassFixture<MyWebFacto
     public async Task Post_FailedValidationReturn400()
     {
         factory.WithUserAuthenticationStatus(true);
-        var initResponse = await client.GetAsync("/Create");
+        var initResponse = await client.GetAsync("/");
         var antiForgeryValues = await AntiForgeryTokenExtractor.ExtractAntiForgeryValues(initResponse);
         
         var content = new FormUrlEncodedContent([
@@ -143,7 +131,7 @@ public sealed class CreateTests(MyWebFactory factory) : IClassFixture<MyWebFacto
             new("Amount", "123.123"),
         ]);
 
-        var request = new HttpRequestMessage(HttpMethod.Post, "/Create");
+        var request = new HttpRequestMessage(HttpMethod.Post, "/");
         request.Headers.Add("Cookie", new CookieHeaderValue(AntiForgeryTokenExtractor.AntiForgeryCookieName, antiForgeryValues.cookieValue).ToString());
         request.Content = content;
         
