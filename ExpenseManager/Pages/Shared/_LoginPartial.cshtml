@@ -15,10 +15,11 @@
     else
     {
         <li class="nav-item">
-            <form method="get" action="https://localhost:5001/Identity/Account/Register">
-                <input hidden="hidden" name="returnUrl" value="https://localhost:5002/Register">
-                <input id="register" type="submit" value="Register"/>
-            </form>
+            <a id="register" asp-page="Register">Register</a>
+            @* <form method="get" action="https://localhost:5001/Identity/Account/Register"> *@
+            @*     <input hidden="hidden" name="returnUrl" value="https://localhost:5002/Register"> *@
+            @*     <input id="register" type="submit" value="Register"/> *@
+            @* </form> *@
         </li>
         <li class="nav-item">
             <a id="login" class="nav-link text-dark" asp-page="Login">

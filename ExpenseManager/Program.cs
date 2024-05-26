@@ -1,4 +1,5 @@
 using ExpenseManager;
+using ExpenseManager.Pages;
 using ExpensesManager.DataAccess;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,10 @@ using Microsoft.Extensions.Logging.AzureAppServices;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.AddAzureWebAppDiagnostics();
+
+builder.Services.Configure<RegisterOptions>(
+    builder.Configuration.GetSection(RegisterOptions.Register));
+
 builder.Services.Configure<AzureFileLoggerOptions>(options =>
 {
     options.FileName = "logs-";
