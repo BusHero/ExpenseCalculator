@@ -1,7 +1,9 @@
+using CliWrap;
 using JetBrains.Annotations;
 using Nuke.Common;
 using Nuke.Common.IO;
 using Nuke.Common.Tools.DotNet;
+using Serilog;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
 sealed partial class Build : NukeBuild
@@ -105,5 +107,20 @@ sealed partial class Build : NukeBuild
             DotNetTest(_ => _
                 .SetConfiguration(Configuration)
                 .SetProjectFile(RootDirectory / "ExpenseManager.AcceptanceTests"));
+        });
+
+    Target InstallPlaywright => _ => _
+        .DependentFor(RunAcceptanceTests)
+        .OnlyWhenDynamic(() => Driver == Driver.Web)
+        .Executes(async () =>
+        {
+            await Cli
+                .Wrap("pwsh")
+                .WithArguments(args => args
+                    .Add((RootDirectory / "ExpenseManager.AcceptanceTests" / "bin" / "Release" / "net8.0" / "playwright.ps1").ToString())
+                    .Add("install"))
+                .WithStandardOutputPipe(PipeTarget.ToDelegate(x => Log.Information("{Msg}", x)))
+                .WithStandardErrorPipe(PipeTarget.ToDelegate(x => Log.Debug("{Msg}", x)))
+                .ExecuteAsync();
         });
 }
