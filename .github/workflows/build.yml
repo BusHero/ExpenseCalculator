@@ -166,7 +166,7 @@ jobs:
   run-acceptance-tests-api:
     name: Run api acceptance tests
     runs-on: ubuntu-latest
-    needs: deploy-api
+    needs: [deploy-api, deploy-identity-server]
     steps:
       - uses: actions/checkout@v4
       - name: 'Cache: .nuke/temp, ~/.nuget/packages'
