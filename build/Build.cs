@@ -108,19 +108,4 @@ sealed partial class Build : NukeBuild
                 .SetConfiguration(Configuration)
                 .SetProjectFile(RootDirectory / "ExpenseManager.AcceptanceTests"));
         });
-
-    Target InstallPlaywright => _ => _
-        .DependentFor(RunAcceptanceTests)
-        .OnlyWhenDynamic(() => Driver == Driver.Web)
-        .Executes(async () =>
-        {
-            await Cli
-                .Wrap("pwsh")
-                .WithArguments(args => args
-                    .Add((RootDirectory / "ExpenseManager.AcceptanceTests" / "bin" / "Release" / "net8.0" / "playwright.ps1").ToString())
-                    .Add("install"))
-                .WithStandardOutputPipe(PipeTarget.ToDelegate(x => Log.Information("{Msg}", x)))
-                .WithStandardErrorPipe(PipeTarget.ToDelegate(x => Log.Debug("{Msg}", x)))
-                .ExecuteAsync();
-        });
 }
