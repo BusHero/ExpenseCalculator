@@ -1,15 +1,15 @@
 @page
 @model IdentityServer.Pages.ServerSideSessions.IndexModel
 
-    <div class="users-page">
-        <div class="row">
-            <div class="col">
-                <div class="card">
-                    <div class="card-header">
-                        <h2>User Sessions</h2>
-                    </div>
-                
-                    <div class="card-body">
+<div class="users-page">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h2>User Sessions</h2>
+                </div>
+
+                <div class="card-body">
 
                     @if (Model.UserSessions != null)
                     {
@@ -18,12 +18,11 @@
                                 @if (Model.UserSessions.HasPrevResults)
                                 {
                                     <a class="btn btn-primary" asp-page="/ServerSideSessions/Index"
-                                         asp-route-prev="true" 
-                                         asp-route-token="@Model.UserSessions.ResultsToken"
-                                         asp-route-DisplayNameFilter="@Model.DisplayNameFilter"
-                                         asp-route-SubjectIdFilter="@Model.SubjectIdFilter"
-                                         asp-route-SessionIdFilter="@Model.SessionIdFilter"
-                                    >Prev</a>
+                                       asp-route-prev="true"
+                                       asp-route-token="@Model.UserSessions.ResultsToken"
+                                       asp-route-DisplayNameFilter="@Model.DisplayNameFilter"
+                                       asp-route-SubjectIdFilter="@Model.SubjectIdFilter"
+                                       asp-route-SessionIdFilter="@Model.SessionIdFilter">Prev</a>
                                 }
                             </div>
                             <div class="col">
@@ -49,11 +48,10 @@
                                 @if (Model.UserSessions.HasNextResults)
                                 {
                                     <a class="btn btn-primary" asp-page="/ServerSideSessions/Index"
-                                         asp-route-token="@Model.UserSessions.ResultsToken"
-                                         asp-route-DisplayNameFilter="@Model.DisplayNameFilter"
-                                         asp-route-SubjectIdFilter="@Model.SubjectIdFilter"
-                                         asp-route-SessionIdFilter="@Model.SessionIdFilter"
-                                    >Next</a>
+                                       asp-route-token="@Model.UserSessions.ResultsToken"
+                                       asp-route-DisplayNameFilter="@Model.DisplayNameFilter"
+                                       asp-route-SubjectIdFilter="@Model.SubjectIdFilter"
+                                       asp-route-SessionIdFilter="@Model.SessionIdFilter">Next</a>
                                 }
                             </div>
                         </div>
@@ -78,7 +76,7 @@
                         }
 
                         <br />
-                    
+
                         @if (Model.UserSessions.Results.Any())
                         {
                             <div>
@@ -109,17 +107,19 @@
                                                     </form>
                                                 </td>
                                             </tr>
-                                            <tr><td colspan="6">
-                                                <strong>Clients:</strong>
-                                                @if (session.ClientIds?.Any() == true)
-                                                {
-                                                    @(session.ClientIds.Aggregate((x, y) => $"{x}, {y}"))
-                                                }
-                                                else
-                                                {
-                                                    @("None")
-                                                }
-                                            </td></tr>
+                                            <tr>
+                                                <td colspan="6">
+                                                    <strong>Clients:</strong>
+                                                    @if (session.ClientIds?.Any() == true)
+                                                    {
+                                                        @(session.ClientIds.Aggregate((x, y) => $"{x}, {y}"))
+                                                    }
+                                                    else
+                                                    {
+                                                        @("None")
+                                                    }
+                                                </td>
+                                            </tr>
                                         }
                                     </tbody>
                                 </table>
@@ -131,7 +131,7 @@
                         }
                     }
                     else
-                    { 
+                    {
                         <div class="row">
                             <div class="col">
                                 You do not have server-side sessions enabled.
@@ -140,8 +140,8 @@
                             </div>
                         </div>
                     }
-                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
