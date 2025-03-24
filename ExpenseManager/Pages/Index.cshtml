@@ -5,11 +5,11 @@
 }
 
 <form asp-action="" method="post">
-    <input asp-for="Data1.Expense"/>
+    <input asp-for="Data1.Expense" />
     <label asp-for="Data1.Expense">Expense</label>
-    <input asp-for="Data1.Amount"/>
+    <input asp-for="Data1.Amount" />
     <label asp-for="Data1.Amount">Amount</label>
-    <input asp-for="Data1.Date"/>
+    <input asp-for="Data1.Date" />
     <label asp-for="Data1.Date">Date</label>
     <button id="submit-expense" type="submit">Submit</button>
 </form>
@@ -17,27 +17,27 @@
 <div class="text-center">
     <table style="text-align: left">
         <thead>
-        <tr>
-            <th>Expense</th>
-            <th>Amount</th>
-            <th>Date</th>
-        </tr>
+            <tr>
+                <th>Expense</th>
+                <th>Amount</th>
+                <th>Date</th>
+            </tr>
         </thead>
         <tbody id="expenses">
-        @foreach (var item in Model.Data?.Expenses ?? [])
-        {
-            <tr class="expense">
-                <td class="name">
-                    @item.Expense
-                </td>
-                <td class="amount">
-                    @Html.DisplayFor(_ => item.Amount)
-                </td>
-                <td class="date">
-                    @Html.DisplayFor(_ => item.Date)
-                </td>
-            </tr>
-        }
+            @foreach (var item in Model.Data?.Expenses ?? [])
+            {
+                <tr class="expense">
+                    <td class="name">
+                        @item.Expense
+                    </td>
+                    <td class="amount">
+                        @Html.DisplayFor(_ => item.Amount)
+                    </td>
+                    <td class="date">
+                        @Html.DisplayFor(_ => item.Date)
+                    </td>
+                </tr>
+            }
 
         </tbody>
     </table>
