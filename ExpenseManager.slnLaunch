@@ -1,0 +1,19 @@
+[
+  {
+    "Name": "launch",
+    "Projects": [
+      {
+        "Path": "ExpenseManager\\ExpenseManager.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "ExpenseManager.Api\\ExpenseManager.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "IdentityServer\\IdentityServer.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
