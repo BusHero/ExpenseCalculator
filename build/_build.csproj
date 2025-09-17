@@ -10,6 +10,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="CliWrap" />
+    <PackageReference Include="Microsoft.Build.Tasks.Core" />
     <PackageReference Include="Nuke.Common" />
+    <PackageReference Include="System.Net.Http" />
   </ItemGroup>
 </Project>

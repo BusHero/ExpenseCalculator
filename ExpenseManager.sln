@@ -26,7 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		.dockerignore = .dockerignore
 		.gitignore = .gitignore
 		Directory.Packages.props = Directory.Packages.props
-		ExpenseManager.slnLaunch.user = ExpenseManager.slnLaunch.user
+		ExpenseManager.slnLaunch = ExpenseManager.slnLaunch
 		script.ps1 = script.ps1
 	EndProjectSection
 EndProject
